@@ -1,5 +1,8 @@
-import {COLORS} from "@/app/theme";
+import Image from "next/image";
+import { COLORS } from "@/app/theme";
+import { SocialIcon } from "react-social-icons";
 import bandInfo from "@/app/config/fate-info";
+import {HeroAudio} from "@/app/components/hero-audio";
 
 type HeroSectionProps = {
     onScrollDown: () => void;
@@ -10,7 +13,7 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
         <section
             id="hero"
             data-reveal
-            className="relative flex min-h-[80vh] flex-col items-center justify-center overflow-hidden px-4 py-16 sm:px-8 lg:px-16"
+            className="relative flex min-h-[85vh] flex-col items-center justify-center overflow-hidden px-4 py-16 sm:px-8 lg:px-16"
         >
             {/* Background gradient */}
             <div
@@ -19,70 +22,99 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                     backgroundImage: `radial-gradient(circle at top, ${COLORS.accent} 0, #000 55%)`,
                 }}
             />
-            <div className="relative z-10 flex w-full max-w-5xl flex-col items-center gap-10 text-center sm:items-start sm:text-left">
-                {/* Socials */}
-                <div className="flex items-center gap-4">
-                    <button
-                        className="rounded-full border px-4 py-1 text-xs uppercase tracking-[0.18em] text-zinc-200 hover:bg-zinc-900"
-                        style={{ borderColor: COLORS.border }}
-                    >
-                        Facebook
-                    </button>
-                    <button
-                        className="rounded-full border px-4 py-1 text-xs uppercase tracking-[0.18em] text-zinc-200 hover:bg-zinc-900"
-                        style={{ borderColor: COLORS.border }}
-                    >
-                        Instagram
-                    </button>
+
+            <div className="relative z-10 flex w-full max-w-6xl flex-col gap-10 lg:flex-row lg:items-center">
+                {/* LEFT: text + socials */}
+                <div className="flex-1 space-y-8 text-center sm:text-left">
+                    {/* Socials */}
+                    <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
+                        {bandInfo.SOCIAL_LINKS.map((item) => (
+                            <SocialIcon
+                                key={item.url}
+                                url={item.url}
+                                network={item.network as any}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                {...(item.bgColor ? { bgColor: item.bgColor } : {})}
+                                fgColor="#ffffff"
+                                className="hover:scale-110 transition-transform duration-200"
+                                style={{ height: 40, width: 40 }}
+                            />
+                        ))}
+                    </div>
+
+                    {/* Band name + tagline */}
+                    <div className="space-y-4">
+                        <p className="text-xs uppercase tracking-[0.32em] text-zinc-200">
+                            Modern Rock · Anthems for the battles we all face
+                        </p>
+                        <h1
+                            className="font-logo text-4xl uppercase tracking-[0.25em] text-zinc-50 sm:text-5xl lg:text-6xl"
+                        >
+                            {bandInfo.band_name_full}
+                        </h1>
+                    </div>
+
+                    {/* CTAs */}
+                    <div className="mt-4 flex flex-wrap items-center justify-center gap-4 sm:justify-start">
+                        <button
+                            onClick={onScrollDown}
+                            className="rounded-full px-6 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-200 shadow-md hover:brightness-110 transition"
+                            style={{ backgroundColor: COLORS.accent }}
+                        >
+                            See Our Discography
+                        </button>
+                        <a
+                            href={bandInfo.MAIN_BAND_PAGE}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs uppercase tracking-[0.2em] text-zinc-200 hover:text-white"
+                        >
+                            Open artist page ↗
+                        </a>
+                    </div>
                 </div>
 
-                {/* Band name + tagline */}
-                <div className="flex flex-col gap-4">
-                    {/*<p className="text-xs uppercase tracking-[0.3em] text-zinc-300">*/}
-                    {/*    Rock shows*/}
-                    {/*</p>*/}
-                    <h1 className="text-4xl font-bold uppercase tracking-tight sm:text-5xl lg:text-6xl">
-                        {bandInfo.band_name_full}
-                    </h1>
-                </div>
+                {/* RIGHT: featured single card */}
+                <div className="mt-6 w-full max-w-md flex-1 self-center rounded-2xl border bg-black/60 p-4 shadow-xl backdrop-blur-md sm:p-5 lg:mt-0">
+                    <p className="text-xs uppercase tracking-[0.25em] text-zinc-400">
+                        {bandInfo.FEATURED_TRACK.subtitle}
+                    </p>
+                    <h2 className="mt-2 text-lg font-semibold text-zinc-50">
+                        {bandInfo.FEATURED_TRACK.title}
+                    </h2>
+                    <p className="text-xs text-zinc-400">
+                        Hit play and dive straight into the sound of&nbsp;
+                        {bandInfo.band_name ?? bandInfo.band_name_full}.
+                    </p>
 
-                {/* Next show card */}
-                {/*<div*/}
-                {/*    id="nextShow"*/}
-                {/*    className="w-full max-w-xl rounded-xl border p-5 backdrop-blur-md sm:flex sm:items-center sm:justify-between"*/}
-                {/*    style={{*/}
-                {/*        backgroundColor: COLORS.surface,*/}
-                {/*        borderColor: COLORS.border,*/}
-                {/*    }}*/}
-                {/*>*/}
-                {/*    <div>*/}
-                {/*        <p className="text-xs uppercase tracking-[0.25em] text-zinc-400">*/}
-                {/*            Next show*/}
-                {/*        </p>*/}
-                {/*        <p className="mt-2 text-lg font-semibold">*/}
-                {/*            29 / 11 — Madison Square Garden*/}
-                {/*        </p>*/}
-                {/*        <p className="text-sm text-zinc-400">Manhattan · 21:00</p>*/}
-                {/*    </div>*/}
-                {/*    <div className="mt-4 text-right sm:mt-0">*/}
-                {/*        <button*/}
-                {/*            className="text-xs font-semibold uppercase tracking-[0.2em]"*/}
-                {/*            style={{ color: COLORS.accent }}*/}
-                {/*        >*/}
-                {/*            Show all dates ➜*/}
-                {/*        </button>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
+                    <div className="mt-4 flex gap-3">
+                        {/*<HeroAudio />*/}
+                        <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl border border-zinc-700 sm:h-28 sm:w-28">
+                            <Image
+                                src={bandInfo.FEATURED_TRACK.coverSrc}
+                                alt={`${bandInfo.FEATURED_TRACK.title} cover`}
+                                fill
+                                style={{ objectFit: "cover" }}
+                                unoptimized
+                            />
+                        </div>
+
+                        <div className="flex flex-1 flex-col justify-between">
+                            <audio
+                                controls
+                                src={bandInfo.FEATURED_TRACK.audioSrc}
+                                className="w-full"
+                            >
+                                Your browser does not support the audio element.
+                            </audio>
+                            <p className="mt-2 text-[0.7rem] uppercase tracking-[0.18em] text-zinc-400">
+                                Available soon on Spotify · Apple Music · TikTok · Instagram
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            {/* Scroll down tag */}
-            {/*<button*/}
-            {/*    onClick={onScrollDown}*/}
-            {/*    className="relative z-10 mt-16 flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-zinc-300"*/}
-            {/*>*/}
-            {/*    <span className="h-px w-8 bg-zinc-500" />*/}
-            {/*    Scroll*/}
-            {/*</button>*/}
         </section>
     );
 }

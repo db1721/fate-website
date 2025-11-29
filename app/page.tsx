@@ -10,12 +10,12 @@ import {HeroSection} from "@/app/components/hero";
 // navigation sections
 const SECTIONS = [
     { id: "hero", label: "Home" },
+    { id: "albums", label: "Discography" },
     { id: "about", label: "About" },
-    { id: "band", label: "Band" },
-    { id: "albums", label: "Albums" },
-    { id: "shows", label: "Shows" },
-    { id: "discover", label: "Discover" },
-    { id: "contact", label: "Contact" },
+    // { id: "band", label: "Band" },
+    // { id: "shows", label: "Shows" },
+    // { id: "discover", label: "Discover" },
+    // { id: "contact", label: "Contact" },
 ];
 
 export default function Home() {
@@ -147,9 +147,9 @@ export default function Home() {
 
             {/* MAIN CONTENT */}
             <main className="pt-20">
-                <HeroSection onScrollDown={() => scrollToSection("about")} />
-                <AlbumsSection />
+                <HeroSection onScrollDown={() => scrollToSection("albums")} />
                 <AboutSection />
+                <AlbumsSection />
             </main>
 
             {/* FOOTER */}

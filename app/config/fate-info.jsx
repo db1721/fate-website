@@ -9,6 +9,24 @@ const bandInfo = {
     band_description: 'logo',
     band_seo_description: 'logo',
 
+    FEATURED_TRACK: {
+        title: "New Beginning",
+        subtitle: "Featured Single",
+        coverSrc: new_beginnings,
+        audioSrc: "/audio/new-beginnings/new-beginning-demo.mp3",
+    },
+
+    MAIN_BAND_PAGE: "https://open.spotify.com/",
+    SOCIAL_LINKS: [
+        { url: "https://tiktok.com/", network: "tiktok" },
+        { url: "https://instagram.com/yourband", network: "instagram", bgColor: "#ee2a7b" },
+        { url: "https://facebook.com/yourband", network: "facebook" },
+        { url: "https://open.spotify.com/artist/your-band-id", network: "spotify" },
+        { url: "https://music.apple.com/", network: "apple" },
+        { url: "https://soundcloud.com/", network: "soundcloud" },
+        { url: "https://youtube.com/", network: "youtube" },
+    ],
+
     ALBUMS: [
         {
             id: "new-beginnings",
@@ -17,7 +35,7 @@ const bandInfo = {
             description: "Heavy, melodic metalcore with big choruses.",
             coverSrc: new_beginnings,
             tracks: [
-                {title: "New Beginning", audioSrc: "/audio/new-beginning.mp3", releaseDate: "11/20/2025"},
+                {title: "New Beginning", audioSrc: "/audio/new-beginnings/new-beginning-demo.mp3", releaseDate: "11/20/2025"},
                 {title: "Angels", audioSrc: "/audio/barbie.mp3", releaseDate: "1/23/2026"},
                 {title: "Blown Away", audioSrc: "/audio/chase-your-dreams.mp3", releaseDate: "1/2/2026"},
                 {title: "Lost and Afraid", audioSrc: "/audio/new-beginning.mp3", releaseDate: ""},

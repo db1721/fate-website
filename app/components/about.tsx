@@ -1,6 +1,25 @@
 import {COLORS} from "@/app/theme";
 import bandInfo from "@/app/config/fate-info";
 
+export function getYearsSince(dateInput: string | Date): number {
+    const date = new Date(dateInput);
+    const now = new Date();
+
+    let years = now.getFullYear() - date.getFullYear();
+
+    // adjust if the month/day hasn't been reached yet this year
+    const hasNotHadAnniversaryThisYear =
+        now.getMonth() < date.getMonth() ||
+        (now.getMonth() === date.getMonth() && now.getDate() < date.getDate());
+
+    if (hasNotHadAnniversaryThisYear) {
+        years--;
+    }
+
+    return years;
+}
+
+
 export function AboutSection() {
     return (
         <section
@@ -13,35 +32,39 @@ export function AboutSection() {
         >
             <div className="mx-auto flex max-w-5xl flex-col gap-8">
                 <div className="max-w-xl">
-                    <h2 className="text-sm uppercase tracking-[0.28em] text-zinc-400">
-                        &lt; {bandInfo.band_name} &gt;
-                    </h2>
+                    {/*<h2 className="text-sm uppercase tracking-[0.28em] text-zinc-400">*/}
+                    {/*    &lt; {bandInfo.band_name} &gt;*/}
+                    {/*</h2>*/}
                     <p className="mt-4 text-xl font-semibold text-zinc-50">
-                        &quot;Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                        Provident..&quot;
+                        &quot;F.A.T.E. (Fight Against The Enemy) is more than a music project&quot;
                     </p>
                 </div>
                 <div className="space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-base">
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam,
-                        vel quia modi obcaecati quas velit nam illo itaque autem porro
-                        repellat, animi magni enim est ullam quaerat nobis aspernatur id?
-                        Aut provident officia autem expedita doloremque tenetur natus
-                        laborum dolorum mollitia quisquam tempore molestiae.
+                        It’s the culmination of a
+                        lifelong obsession with heavy, emotionally driven rock. For over {getYearsSince("2001-12-02")} years, I’ve been writing
+                        music, shaping melodies, and building stories through sound. Music has always been the place
+                        where my thoughts get loud, my emotions make sense, and the battles I’ve faced find a voice.
                     </p>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum
-                        pariatur eum rem inventore error, nobis ea aperiam, tenetur saepe
-                        iure ipsa reiciendis! Animi aliquid numquam aliquam eos quisquam
-                        ducimus quam sequi dolorum unde sint voluptatem, quae corrupti modi
-                        nisi! Omnis amet, distinctio sapiente expedita quod possimus cum
-                        fugit similique, architecto.
+                        What started as riffs and notebook lyrics back in my teens has evolved into something bigger
+                        than I ever imagined. Thanks to modern production tools and the power of AI-assisted creation,
+                        I can finally bring these songs to life the way they always sounded in my head—massive,
+                        detailed, cinematic, and unapologetically honest. AI doesn’t replace the heart behind the music;
+                        it amplifies it. It lets me take ideas I’ve carried for decades and turn them into fully produced
+                        tracks with the intensity, clarity, and depth they deserve.
                     </p>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste
-                        dicta, cupiditate, deleniti adipisci dolorum nesciunt cumque qui!
-                        Iusto dicta ab perspiciatis, deserunt autem tempora fuga eligendi
-                        sint aliquid?
+                        F.A.T.E. blends influences from the bands that shaped me and pushes them into a modern,
+                        expressive direction. Every song is built on real experience, real emotion, and a
+                        relentless drive to create something meaningful.
+                    </p>
+                    <p>
+                        This isn’t just a hobby. This is my story finally being told the way I always wanted: loud, raw, and real.
+                    </p>
+                    <p>
+                        Welcome to F.A.T.E.
+                        The fight starts here.
                     </p>
                 </div>
             </div>

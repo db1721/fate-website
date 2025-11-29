@@ -4,6 +4,7 @@ import "./globals.css";
 import {Analytics} from "@vercel/analytics/react";
 import {ColorModeProvider} from "@/app/config/color-mode-context";
 import ThemeWrapper from "@/app/config/theme-wrapper";
+import localFont from "next/font/local";
 
 export const metadata = {
     title: "Fight Against the Enemy (F.A.T.E.)",
@@ -24,6 +25,18 @@ const geistMono = Geist_Mono({
     subsets: ["latin"],
 });
 
+const altarGothic = localFont({
+    src: "./config/fonts/altar-gothic.otf",
+    variable: "--font-altar-gothic",
+    display: "swap",
+});
+
+const callingAngels = localFont({
+    src: "./config/fonts/calling-angels.ttf",
+    variable: "--font-calling-angels",
+    display: "swap",
+});
+
 export default function RootLayout({
                                        children,
                                    }: Readonly<{
@@ -32,7 +45,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
         <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            className={`${geistSans.variable} ${geistMono.variable} ${callingAngels.variable} ${altarGothic.variable} antialiased`}
             suppressHydrationWarning
         >
         <ColorModeProvider>
