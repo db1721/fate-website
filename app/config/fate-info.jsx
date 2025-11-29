@@ -1,10 +1,48 @@
 import e2 from './../assets/evolve_and_elevate_120.png';
+import new_beginnings from './../assets/albums/new-beginnings-cover.png';
+import wake_of_determination from './../assets/albums/wake-of-determination.png';
 
 const bandInfo = {
     band_logo: e2,
     band_name: 'F.A.T.E',
+    band_name_full: 'Fight Against the Enemy',
     band_description: 'logo',
     band_seo_description: 'logo',
+
+    ALBUMS: [
+        {
+            id: "new-beginnings",
+            title: "New Beginnings",
+            year: 2025,
+            description: "Heavy, melodic metalcore with big choruses.",
+            coverSrc: new_beginnings,
+            tracks: [
+                {title: "New Beginning", audioSrc: "/audio/new-beginning.mp3", releaseDate: "11/20/2025"},
+                {title: "Angels", audioSrc: "/audio/barbie.mp3", releaseDate: "1/23/2026"},
+                {title: "Blown Away", audioSrc: "/audio/chase-your-dreams.mp3", releaseDate: "1/2/2026"},
+                {title: "Lost and Afraid", audioSrc: "/audio/new-beginning.mp3", releaseDate: ""},
+                {title: "Tell Me", audioSrc: "/audio/barbie.mp3", releaseDate: "1/2/2026"},
+                {title: "Running Away", audioSrc: "/audio/chase-your-dreams.mp3", releaseDate: ""},
+                {title: "Friends", audioSrc: "/audio/new-beginning.mp3", releaseDate: "1/23/2026"},
+                {title: "Fully Alive", audioSrc: "/audio/barbie.mp3", releaseDate: ""},
+                {title: "No More Games", audioSrc: "/audio/chase-your-dreams.mp3", releaseDate: ""},
+                {title: "Passion", audioSrc: "/audio/new-beginning.mp3", releaseDate: ""},
+                {title: "Hold My Hand", audioSrc: "/audio/barbie.mp3", releaseDate: "1/2/2026"},
+                {title: "Ugly", audioSrc: "/audio/barbie.mp3", releaseDate: "1/23/2026"},
+            ]
+        },
+        {
+            id: "wake-of-determination",
+            title: "Wake of Determination",
+            year: 2025,
+            description: "Dark, emotional riffs and breakdowns.",
+            coverSrc: wake_of_determination,
+            tracks: [
+                { title: "Had It All", audioSrc: "/audio/had-it-all.mp3", releaseDate: ""  },
+                { title: "Losing My Grip", audioSrc: "/audio/losing-my-grip.mp3", releaseDate: ""  },
+            ],
+        },
+        ],
 
     // Header
     header_logo_image_alt_text: "Round logo",
