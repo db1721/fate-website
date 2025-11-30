@@ -335,3 +335,20 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes fate-eq {
+    0%, 100% {
+        transform: scaleY(0.35);
+    }
+    50% {
+        transform: scaleY(1);
+    }
+}
+
+.fate-bar {
+    height: 10px;
+    width: 2px;
+    border-radius: 9999px;
+    background-color: #6EACDA;
+    animation: fate-eq 0.7s ease-in-out infinite;
+}

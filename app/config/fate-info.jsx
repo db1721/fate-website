@@ -18,13 +18,13 @@ const bandInfo = {
 
     MAIN_BAND_PAGE: "https://open.spotify.com/",
     SOCIAL_LINKS: [
-        { url: "https://tiktok.com/", network: "tiktok" },
-        { url: "https://instagram.com/yourband", network: "instagram", bgColor: "#ee2a7b" },
-        { url: "https://facebook.com/yourband", network: "facebook" },
-        { url: "https://open.spotify.com/artist/your-band-id", network: "spotify" },
         { url: "https://music.apple.com/", network: "apple" },
-        { url: "https://soundcloud.com/", network: "soundcloud" },
+        { url: "https://open.spotify.com/artist/your-band-id", network: "spotify" },
+        { url: "https://instagram.com/yourband", network: "instagram", bgColor: "#ee2a7b" },
+        // { url: "https://facebook.com/yourband", network: "facebook" },
+        // { url: "https://soundcloud.com/", network: "soundcloud" },
         { url: "https://youtube.com/", network: "youtube" },
+        { url: "https://tiktok.com/", network: "tiktok" },
     ],
 
     ALBUMS: [

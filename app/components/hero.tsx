@@ -2,7 +2,6 @@ import Image from "next/image";
 import { COLORS } from "@/app/theme";
 import { SocialIcon } from "react-social-icons";
 import bandInfo from "@/app/config/fate-info";
-import {HeroAudio} from "@/app/components/hero-audio";
 import {AudioTrack} from "@/app/components/audio-track";
 
 type HeroSectionProps = {
@@ -89,7 +88,7 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                         {bandInfo.band_name ?? bandInfo.band_name_full}.
                     </p>
 
-                    <div className="mt-4 flex gap-3">
+                    <div className="mt-4 flex gap-3 min-w-0">
                         <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl border border-zinc-700 sm:h-28 sm:w-28">
                             <Image
                                 src={bandInfo.FEATURED_TRACK.coverSrc}
@@ -100,15 +99,12 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                             />
                         </div>
 
-                        <div className="flex flex-1 flex-col justify-between">
-                            {/*<audio*/}
-                            {/*    controls*/}
-                            {/*    src={bandInfo.FEATURED_TRACK.audioSrc}*/}
-                            {/*    className="w-full"*/}
-                            {/*>*/}
-                            {/*    Your browser does not support the audio element.*/}
-                            {/*</audio>*/}
-                            <AudioTrack id={bandInfo.FEATURED_TRACK.title} src={bandInfo.FEATURED_TRACK.audioSrc}></AudioTrack>
+                        <div className="flex flex-1 flex-col justify-between min-w-0">
+                            <AudioTrack
+                                id={bandInfo.FEATURED_TRACK.title}
+                                src={bandInfo.FEATURED_TRACK.audioSrc}
+                                className="w-full"
+                            />
                             <p className="mt-2 text-[0.7rem] uppercase tracking-[0.18em] text-zinc-400">
                                 Available soon on Spotify · Apple Music · TikTok · Instagram
                             </p>

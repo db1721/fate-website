@@ -11,8 +11,8 @@ import {CurrentYear} from "@/app/config/utils";
 // navigation sections
 const SECTIONS = [
     { id: "hero", label: "Home" },
-    { id: "albums", label: "Discography" },
     { id: "about", label: "About" },
+    { id: "albums", label: "Discography" },
     // { id: "band", label: "Band" },
     // { id: "shows", label: "Shows" },
     // { id: "discover", label: "Discover" },

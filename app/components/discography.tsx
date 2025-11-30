@@ -70,23 +70,23 @@ export function AlbumsSection() {
                 <div className="flex items-center justify-between gap-4">
                     <div>
                         <h2 className="text-sm uppercase tracking-[0.28em] text-zinc-400">
-                            Albums
+                            &lt; Albums &gt;
                         </h2>
-                        <p className="mt-3 text-lg font-semibold text-zinc-50">
-                            Explore the discography
-                        </p>
+                        {/*<p className="mt-3 text-lg font-semibold text-zinc-50">*/}
+                        {/*    Explore the discography*/}
+                        {/*</p>*/}
                     </div>
                     <div className="hidden items-center gap-2 sm:flex">
                         <button
                             onClick={prevAlbum}
-                            className="h-8 w-8 rounded-full text-sm"
+                            className="h-12 w-12 rounded-full text-3xl"
                             style={{ backgroundColor: COLORS.surface }}
                         >
                             ‹
                         </button>
                         <button
                             onClick={nextAlbum}
-                            className="h-8 w-8 rounded-full text-sm"
+                            className="h-12 w-12 rounded-full text-3xl"
                             style={{ backgroundColor: COLORS.surface }}
                         >
                             ›
@@ -117,15 +117,15 @@ export function AlbumsSection() {
                     {/* Album info + tracks */}
                     <div className="flex flex-1 flex-col gap-4">
                         <div>
-                            <p className="text-xs uppercase tracking-[0.25em] text-zinc-400">
-                                {activeAlbum.year}
-                            </p>
                             <h3 className="mt-1 text-xl font-semibold">
                                 {activeAlbum.title}
+                                <p className="text-xs uppercase tracking-[0.25em] text-zinc-400">
+                                    {activeAlbum.year}
+                                </p>
                             </h3>
-                            <p className="mt-2 text-sm text-zinc-300">
-                                {activeAlbum.description}
-                            </p>
+                            {/*<p className="mt-2 text-sm text-zinc-300">*/}
+                            {/*    {activeAlbum.description}*/}
+                            {/*</p>*/}
                         </div>
 
                         <div className="space-y-3">
@@ -135,7 +135,7 @@ export function AlbumsSection() {
                                 return (
                                     <div
                                         key={track.title}
-                                        className="flex flex-col gap-1 rounded-md border px-3 py-2 text-sm sm:flex-row sm:items-center sm:justify-between"
+                                        className="flex flex-wrap items-center justify-between gap-2 rounded-md border px-3 py-2 text-sm"
                                         style={{ borderColor: COLORS.border }}
                                     >
                     <span className="font-medium text-zinc-100">
@@ -143,14 +143,12 @@ export function AlbumsSection() {
                     </span>
 
                                         {status === "released" ? (
-                                            // <audio
-                                            //     controls
-                                            //     src={track.audioSrc}
-                                            //     className="mt-1 w-full sm:mt-0 sm:w-64"
-                                            // >
-                                            //     Your browser does not support the audio element.
-                                            // </audio>
-                                            <AudioTrack id={track.title} src={track.audioSrc}></AudioTrack>
+                                            <AudioTrack
+                                                id={track.title}
+                                                src={track.audioSrc}
+                                                maxWidth="270px"
+                                                maxHeight="38px"
+                                            />
                                         ) : (
                                             <span className="mt-1 text-xs text-zinc-300 sm:mt-0 sm:w-64">
                         {status === "future"
