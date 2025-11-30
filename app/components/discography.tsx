@@ -1,24 +1,13 @@
 import { COLORS } from "@/app/theme";
 import { useState } from "react";
 import bandInfo from "@/app/config/fate-info";
-import {StaticImageData} from "next/image";
 import Image from 'next/image';
+import {AudioTrack} from "@/app/components/audio-track";
 
 type Track = {
     title: string;
     audioSrc: string;
     releaseDate: string;
-};
-
-// If you still want this type, make coverSrc match what bandInfo uses
-// (from your error, it's StaticImageData)
-type Album = {
-    id: string;
-    title: string;
-    year: number;
-    description: string;
-    coverSrc: string | StaticImageData;
-    tracks: Track[];
 };
 
 function getReleaseStatus(
@@ -154,13 +143,14 @@ export function AlbumsSection() {
                     </span>
 
                                         {status === "released" ? (
-                                            <audio
-                                                controls
-                                                src={track.audioSrc}
-                                                className="mt-1 w-full sm:mt-0 sm:w-64"
-                                            >
-                                                Your browser does not support the audio element.
-                                            </audio>
+                                            // <audio
+                                            //     controls
+                                            //     src={track.audioSrc}
+                                            //     className="mt-1 w-full sm:mt-0 sm:w-64"
+                                            // >
+                                            //     Your browser does not support the audio element.
+                                            // </audio>
+                                            <AudioTrack id={track.title} src={track.audioSrc}></AudioTrack>
                                         ) : (
                                             <span className="mt-1 text-xs text-zinc-300 sm:mt-0 sm:w-64">
                         {status === "future"

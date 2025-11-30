@@ -5,6 +5,7 @@ import {Analytics} from "@vercel/analytics/react";
 import {ColorModeProvider} from "@/app/config/color-mode-context";
 import ThemeWrapper from "@/app/config/theme-wrapper";
 import localFont from "next/font/local";
+import { AudioManagerProvider } from "./context/audio-manager";
 
 export const metadata = {
     title: "Fight Against the Enemy (F.A.T.E.)",
@@ -52,7 +53,9 @@ export default function RootLayout({
             <CssBaseline/>
             <ThemeWrapper>
                 <Analytics/>
+                <AudioManagerProvider>
                 {children}
+                </AudioManagerProvider>
             </ThemeWrapper>
         </ColorModeProvider>
         </body>
