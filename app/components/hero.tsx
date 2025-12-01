@@ -76,19 +76,10 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                 </div>
 
                 {/* RIGHT: featured single card */}
-                <div className="mt-6 w-full max-w-md flex-1 self-center rounded-2xl border bg-black/60 p-4 shadow-xl backdrop-blur-md sm:p-5 lg:mt-0">
-                    <p className="text-xs uppercase tracking-[0.25em] text-zinc-400">
-                        {bandInfo.FEATURED_TRACK.subtitle}
-                    </p>
-                    <h2 className="mt-2 text-lg font-semibold text-zinc-50">
-                        {bandInfo.FEATURED_TRACK.title}
-                    </h2>
-                    <p className="text-xs text-zinc-400">
-                        Hit play and dive straight into the sound of&nbsp;
-                        {bandInfo.band_name ?? bandInfo.band_name_full}.
-                    </p>
-
-                    <div className="mt-4 flex gap-3 min-w-0">
+                <div className="w-full max-w-md flex-1 self-center rounded-2xl border bg-black/60 p-4 shadow-xl backdrop-blur-md sm:p-5 lg:mt-0">
+                    {/* Cover + text side-by-side */}
+                    <div className="flex gap-3 min-w-0">
+                        {/* Cover */}
                         <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl border border-zinc-700 sm:h-28 sm:w-28">
                             <Image
                                 src={bandInfo.FEATURED_TRACK.coverSrc}
@@ -99,16 +90,31 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                             />
                         </div>
 
-                        <div className="flex flex-1 flex-col justify-between min-w-0">
-                            <AudioTrack
-                                id={bandInfo.FEATURED_TRACK.title}
-                                src={bandInfo.FEATURED_TRACK.audioSrc}
-                                className="w-full"
-                            />
+                        {/* Text to the right of the cover */}
+                        <div className="flex-1 flex-col justify-center min-w-0">
+                            <p className="text-xs uppercase tracking-[0.25em] text-zinc-400">
+                                {bandInfo.FEATURED_TRACK.subtitle}
+                            </p>
+                            <h2 className="mt-1 text-lg font-semibold text-zinc-50">
+                                {bandInfo.FEATURED_TRACK.title}
+                            </h2>
+                            {/*<p className="mt-1 text-xs text-zinc-400">*/}
+                            {/*    Hit play and dive straight into the sound of{" "}*/}
+                            {/*    {bandInfo.band_name ?? bandInfo.band_name_full}.*/}
+                            {/*</p>*/}
                             <p className="mt-2 text-[0.7rem] uppercase tracking-[0.18em] text-zinc-400">
                                 Available soon on Spotify · Apple Music · TikTok · Instagram
                             </p>
                         </div>
+                    </div>
+
+                    {/* Player below everything */}
+                    <div className="mt-4 w-full flex justify-center">
+                        <AudioTrack
+                            id={bandInfo.FEATURED_TRACK.title}
+                            src={bandInfo.FEATURED_TRACK.audioSrc}
+                            className="max-w-xs"
+                        />
                     </div>
                 </div>
             </div>

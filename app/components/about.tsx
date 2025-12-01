@@ -1,5 +1,4 @@
 import {COLORS} from "@/app/theme";
-import bandInfo from "@/app/config/fate-info";
 
 export function getYearsSince(dateInput: string | Date): number {
     const date = new Date(dateInput);
@@ -41,7 +40,7 @@ export function AboutSection() {
                 </div>
                 <div className="space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-base">
                     <p>
-                        it’s the culmination of a lifelong obsession with heavy, emotionally driven rock. For
+                        It’s the culmination of a lifelong obsession with heavy, emotionally driven rock. For
                         over {getYearsSince("2001-12-02")} years, I’ve been writing music, shaping melodies, and
                         building stories through sound. Music has always been the place where my thoughts get
                         loud, my emotions make sense, and the battles I’ve faced find a voice.
@@ -56,7 +55,7 @@ export function AboutSection() {
                     <p>
                         What started as riffs and notebook lyrics back in my teens has evolved into something bigger
                         than I ever imagined. Thanks to modern production tools and the power of AI-assisted creation,
-                        I can finally bring these songs to life the way they always sounded in my head—massive,
+                        I can finally bring these songs to life the way they always sounded in my head; massive,
                         detailed, cinematic, and unapologetically honest. AI doesn’t replace the heart behind the
                         music; it amplifies it. It lets me take ideas I’ve carried for decades and turn them into
                         fully produced tracks with the intensity, clarity, and depth they deserve.
@@ -68,7 +67,7 @@ export function AboutSection() {
                     </p>
                     <p>
                         This isn’t just a hobby. This is my story finally being told the way I always wanted:
-                        loud, raw, real—and meant to lift others up along the way.
+                        loud, raw, real; and meant to lift others up along the way.
                     </p>
                     <p>
                         Welcome to F.A.T.E.
