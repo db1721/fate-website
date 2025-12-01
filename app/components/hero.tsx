@@ -3,7 +3,6 @@ import { COLORS } from "@/app/theme";
 import { SocialIcon } from "react-social-icons";
 import bandInfo from "@/app/config/fate-info";
 import {AudioTrack} from "@/app/components/audio-track";
-import { Apple } from "lucide-react";
 import {AppleMusicIcon} from "@/app/components/logos/apple";
 
 type HeroSectionProps = {
