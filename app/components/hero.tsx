@@ -3,6 +3,8 @@ import { COLORS } from "@/app/theme";
 import { SocialIcon } from "react-social-icons";
 import bandInfo from "@/app/config/fate-info";
 import {AudioTrack} from "@/app/components/audio-track";
+import { Apple } from "lucide-react";
+import {AppleMusicIcon} from "@/app/components/logos/apple";
 
 type HeroSectionProps = {
     onScrollDown: () => void;
@@ -28,19 +30,32 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                 <div className="flex-1 space-y-8 text-center sm:text-left">
                     {/* Socials */}
                     <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
-                        {bandInfo.SOCIAL_LINKS.map((item) => (
-                            <SocialIcon
-                                key={item.url}
-                                url={item.url}
-                                network={item.network as any}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                {...(item.bgColor ? { bgColor: item.bgColor } : {})}
-                                fgColor="#ffffff"
-                                className="hover:scale-110 transition-transform duration-200"
-                                style={{ height: 40, width: 40 }}
-                            />
-                        ))}
+                        {bandInfo.SOCIAL_LINKS.map((item) =>
+                            item.network === "apple" ? (
+                                <a
+                                    key={item.url}
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-700 hover:border-zinc-400 hover:bg-white/5 transition"
+                                    aria-label="Listen on Apple Music"
+                                >
+                                    <AppleMusicIcon className="h-10 w-10" />
+                                </a>
+                            ) : (
+                                <SocialIcon
+                                    key={item.url}
+                                    url={item.url}
+                                    network={item.network as any}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    {...(item.bgColor ? { bgColor: item.bgColor } : {})}
+                                    fgColor="#ffffff"
+                                    className="hover:scale-110 transition-transform duration-200"
+                                    style={{ height: 40, width: 40 }}
+                                />
+                            )
+                        )}
                     </div>
 
                     {/* Band name + tagline */}
