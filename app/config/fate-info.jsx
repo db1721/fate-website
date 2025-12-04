@@ -13,7 +13,7 @@ const bandInfo = {
         title: "New Beginning",
         subtitle: "Featured Single",
         coverSrc: new_beginnings,
-        audioSrc: "/audio/new-beginnings/new-beginning-demo.mp3",
+        audioSrc: "/audio/new-beginnings/new-beginning.mp3",
     },
 
     MAIN_BAND_PAGE: "https://open.spotify.com/",
@@ -35,7 +35,7 @@ const bandInfo = {
             description: "Heavy, melodic metalcore with big choruses.",
             coverSrc: new_beginnings,
             tracks: [
-                {title: "New Beginning", audioSrc: "/audio/new-beginnings/new-beginning-demo.mp3", releaseDate: "11/20/2025"},
+                {title: "New Beginning", audioSrc: "/audio/new-beginnings/new-beginning.mp3", releaseDate: "11/20/2025"},
                 {title: "Angels", audioSrc: "/audio/barbie.mp3", releaseDate: "1/23/2026"},
                 {title: "Blown Away", audioSrc: "/audio/chase-your-dreams.mp3", releaseDate: "1/2/2026"},
                 {title: "Lost and Afraid", audioSrc: "/audio/new-beginning.mp3", releaseDate: ""},
