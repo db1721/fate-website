@@ -47,7 +47,7 @@ export function AboutSection() {
                     </p>
                     <p>
                         But it’s not just about the struggles. It’s about the strength that comes from them.
-                        Through every song, I aim to inspire, to give listeners something real to hold onto—whether
+                        Through every song, I aim to inspire, to give listeners something real to hold onto; whether
                         they’re fighting their own battles or chasing something bigger in their lives. If my music
                         can make someone feel understood, motivated, or unshakably alive for even a moment, then
                         I’ve done what I set out to do.
