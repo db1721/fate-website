@@ -40,8 +40,8 @@ export function AboutSection() {
                 </div>
                 <div className="space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-base">
                     <p>
-                        It’s the culmination of a lifelong obsession with heavy, emotionally driven rock. For
-                        over {getYearsSince("2001-12-02")} years, I’ve been writing music, shaping melodies, and
+                        It’s the culmination of a lifelong obsession with music that has shaped me and saved me. For
+                        over {getYearsSince("2001-12-02")} years, I’ve been writing music, forming melodies, and
                         building stories through sound. Music has always been the place where my thoughts get
                         loud, my emotions make sense, and the battles I’ve faced find a voice.
                     </p>
@@ -53,7 +53,7 @@ export function AboutSection() {
                         I’ve done what I set out to do.
                     </p>
                     <p>
-                        What started as riffs and notebook lyrics back in my teens has evolved into something bigger
+                        What started as riffs, raw vocal recordings and notebook lyrics back in my teens has evolved into something bigger
                         than I ever imagined. Thanks to modern production tools and the power of AI-assisted creation,
                         I can finally bring these songs to life the way they always sounded in my head; massive,
                         detailed, cinematic, and unapologetically honest. AI doesn’t replace the heart behind the
@@ -61,13 +61,17 @@ export function AboutSection() {
                         fully produced tracks with the intensity, clarity, and depth they deserve.
                     </p>
                     <p>
-                        F.A.T.E. blends influences from the bands that shaped me and pushes them into a modern,
-                        expressive direction. Every song is built on real experience, real emotion, and a relentless
+                        F.A.T.E. blends influences from the bands that have inspired me and pushes them into a modern,
+                        expressive direction. Every song is built on real experiences, real emotion, and a relentless
                         drive to create something meaningful.
                     </p>
                     <p>
-                        This isn’t just a hobby. This is my story finally being told the way I always wanted:
+                        This is my story finally being told the way I always wanted:
                         loud, raw, real; and meant to lift others up along the way.
+                    </p>
+                    <p>
+                        This is my dream — the one I’ve had since I was a kid — and this time, I’m not letting it stay
+                        unfinished.
                     </p>
                     <p>
                         Welcome to F.A.T.E.
