@@ -4,7 +4,6 @@ import { SocialIcon } from "react-social-icons";
 import bandInfo from "@/app/config/fate-info";
 import {AudioTrack} from "@/app/components/audio-track";
 import {AppleMusicIcon} from "@/app/components/logos/apple";
-import {AmazonMusicIcon} from "@/app/components/logos/amazon-music";
 
 type HeroSectionProps = {
     onScrollDown: () => void;
@@ -37,11 +36,36 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                                     href={item.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-700 hover:border-zinc-400 hover:bg-white/5 transition"
+                                    className="flex h-11 w-11 items-center justify-center rounded-full border border-zinc-700 hover:border-zinc-400 hover:bg-white/5 hover:scale-110 transition-transform duration-200"
                                     aria-label="Listen on Apple Music"
                                 >
                                     <AppleMusicIcon className="h-10 w-10" />
                                 </a>
+                            ) : item.network === "amazon" ? (
+                                <a
+                                    key={item.url}
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Listen on Amazon Music"
+                                    className="
+                                        relative
+                                        flex h-11 w-11
+                                        items-center justify-center
+                                        rounded-full border border-zinc-700
+                                        hover:scale-110 transition-transform duration-200
+                                        overflow-hidden
+                                      "
+                                >
+                                    <Image
+                                        src="/icons/amazon-music.png"
+                                        alt="Amazon Music"
+                                        fill
+                                        unoptimized
+                                        className="object-cover"
+                                    />
+                                </a>
+
                             ) : (
                                 <SocialIcon
                                     key={item.url}
@@ -52,7 +76,7 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                                     {...(item.bgColor ? { bgColor: item.bgColor } : {})}
                                     fgColor="#ffffff"
                                     className="hover:scale-110 transition-transform duration-200"
-                                    style={{ height: 40, width: 40 }}
+                                    style={{ height: 42, width: 42 }}
                                 />
                             )
                         )}

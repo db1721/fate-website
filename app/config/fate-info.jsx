@@ -20,7 +20,7 @@ const bandInfo = {
     SOCIAL_LINKS: [
         { url: "https://music.apple.com/us/artist/fight-against-the-enemy/1857463372", network: "apple" },
         { url: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL", network: "spotify" },
-        // { url: "https://music.amazon.com/artists/B0G5GVX5KJ/fight-against-the-enemy", network: "amazon" },
+        { url: "https://music.amazon.com/artists/B0G5GVX5KJ/fight-against-the-enemy", network: "amazon" },
         // { url: "https://instagram.com/yourband", network: "instagram", bgColor: "#ee2a7b" },
         // { url: "https://facebook.com/yourband", network: "facebook" },
         // { url: "https://soundcloud.com/", network: "soundcloud" },
