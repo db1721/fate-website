@@ -24,11 +24,16 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                 }}
             />
 
-            <div className="relative z-10 flex w-full max-w-6xl flex-col gap-10 lg:flex-row lg:items-center">
-                {/* LEFT: text + socials */}
-                <div className="flex-1 space-y-8 text-center sm:text-left">
+            <div
+                className="
+                relative z-10
+                flex w-full max-w-6xl flex-col items-center gap-10
+                lg:flex-row lg:items-center lg:justify-between"
+            >
+            {/* LEFT: text + socials */}
+                <div className="flex-1 space-y-8 text-center lg:text-left">
                     {/* Socials */}
-                    <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-start">
+                    <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
                         {bandInfo.SOCIAL_LINKS.map((item) =>
                             item.network === "apple" ? (
                                 <a
@@ -36,7 +41,9 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                                     href={item.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="flex h-11 w-11 items-center justify-center rounded-full border border-zinc-700 hover:border-zinc-400 hover:bg-white/5 hover:scale-110 transition-transform duration-200"
+                                    className="flex h-10 w-10 items-center justify-center
+                                    rounded-full border border-zinc-700 hover:border-zinc-400
+                                    hover:bg-white/5 hover:scale-110 transition-transform duration-200"
                                     aria-label="Listen on Apple Music"
                                 >
                                     <AppleMusicIcon className="h-10 w-10" />
@@ -50,7 +57,7 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                                     aria-label="Listen on Amazon Music"
                                     className="
                                         relative
-                                        flex h-11 w-11
+                                        flex h-10 w-10
                                         items-center justify-center
                                         rounded-full border border-zinc-700
                                         hover:scale-110 transition-transform duration-200
@@ -60,6 +67,81 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                                     <Image
                                         src="/icons/amazon-music.png"
                                         alt="Amazon Music"
+                                        fill
+                                        unoptimized
+                                        className="object-cover"
+                                    />
+                                </a>
+
+                            ) : item.network === "shazam" ? (
+                                <a
+                                    key={item.url}
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Listen on Shazam"
+                                    className="
+                                        relative
+                                        flex h-10 w-10
+                                        items-center justify-center
+                                        rounded-full border border-zinc-700
+                                        hover:scale-110 transition-transform duration-200
+                                        overflow-hidden
+                                      "
+                                >
+                                    <Image
+                                        src="/icons/shazam.png"
+                                        alt="Shazam"
+                                        fill
+                                        unoptimized
+                                        className="object-cover"
+                                    />
+                                </a>
+
+                            ) : item.network === "youtube-music" ? (
+                                <a
+                                    key={item.url}
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Listen on YouTube Music"
+                                    className="
+                                        relative
+                                        flex h-10 w-10
+                                        items-center justify-center
+                                        rounded-full border border-zinc-700
+                                        hover:scale-110 transition-transform duration-200
+                                        overflow-hidden
+                                      "
+                                >
+                                    <Image
+                                        src="/icons/youtube-music.png"
+                                        alt="YouTube Music"
+                                        fill
+                                        unoptimized
+                                        className="object-cover"
+                                    />
+                                </a>
+
+                            ): item.network === "instagram" ? (
+                                <a
+                                    key={item.url}
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Find us on Instagram"
+                                    className="
+                                        relative
+                                        flex h-10 w-10
+                                        items-center justify-center
+                                        rounded-full border border-zinc-700
+                                        hover:scale-110 transition-transform duration-200
+                                        overflow-hidden
+                                      "
+                                >
+                                    <Image
+                                        src="/icons/instagram.png"
+                                        alt="Instagram"
                                         fill
                                         unoptimized
                                         className="object-cover"
@@ -76,7 +158,7 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                                     {...(item.bgColor ? { bgColor: item.bgColor } : {})}
                                     fgColor="#ffffff"
                                     className="hover:scale-110 transition-transform duration-200"
-                                    style={{ height: 42, width: 42 }}
+                                    style={{ height: 40, width: 40 }}
                                 />
                             )
                         )}
@@ -85,17 +167,23 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                     {/* Band name + tagline */}
                     <div className="space-y-4">
                         <p className="text-xs uppercase tracking-[0.32em] text-zinc-200">
-                            Modern Rock · Anthems for the battles we all face
-                        </p>
-                        <h1
-                            className="font-logo text-4xl uppercase tracking-[0.25em] text-zinc-50 sm:text-5xl lg:text-6xl"
-                        >
                             {bandInfo.band_name_full}
-                        </h1>
+                        </p>
+
+                        <img
+                            src="/icons/fate-white-short.png"
+                            alt="F.A.T.E. Logo"
+                            className="
+                            mx-auto lg:mx-0
+                            w-48 sm:w-64 lg:w-80
+                            h-auto
+                          "
+                        />
                     </div>
 
+
                     {/* CTAs */}
-                    <div className="mt-4 flex flex-wrap items-center justify-center gap-4 sm:justify-start">
+                    <div className="mt-4 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
                         <button
                             onClick={onScrollDown}
                             className="rounded-full px-6 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-200 shadow-md hover:brightness-110 transition"
@@ -103,14 +191,14 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                         >
                             See Our Discography
                         </button>
-                        <a
-                            href={bandInfo.MAIN_BAND_PAGE}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs uppercase tracking-[0.2em] text-zinc-200 hover:text-white"
-                        >
-                            Open artist page ↗
-                        </a>
+                        {/*<a*/}
+                        {/*    href={bandInfo.MAIN_BAND_PAGE}*/}
+                        {/*    target="_blank"*/}
+                        {/*    rel="noopener noreferrer"*/}
+                        {/*    className="text-xs uppercase tracking-[0.2em] text-zinc-200 hover:text-white"*/}
+                        {/*>*/}
+                        {/*    Open artist page ↗*/}
+                        {/*</a>*/}
                     </div>
                 </div>
 
@@ -141,9 +229,9 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                             {/*    Hit play and dive straight into the sound of{" "}*/}
                             {/*    {bandInfo.band_name ?? bandInfo.band_name_full}.*/}
                             {/*</p>*/}
-                            <p className="mt-2 text-[0.7rem] uppercase tracking-[0.18em] text-zinc-400">
-                                Available soon on Spotify · Apple Music · TikTok · Instagram
-                            </p>
+                            {/*<p className="mt-2 text-[0.7rem] uppercase tracking-[0.18em] text-zinc-400">*/}
+                            {/*    Available soon on Amazon Music · Apple Music · Spotify · Shazam */}
+                            {/*</p>*/}
                         </div>
                     </div>
 

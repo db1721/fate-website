@@ -1,5 +1,6 @@
 import e2 from './../assets/evolve_and_elevate_120.png';
 import new_beginnings from './../assets/albums/new-beginnings-cover.png';
+import new_beginning from './../assets/albums/new-beginning-cover.png';
 import wake_of_determination from './../assets/albums/wake-of-determination.png';
 
 const bandInfo = {
@@ -12,7 +13,7 @@ const bandInfo = {
     FEATURED_TRACK: {
         title: "New Beginning",
         subtitle: "Featured Single",
-        coverSrc: new_beginnings,
+        coverSrc: new_beginning,
         audioSrc: "/audio/new-beginnings/new-beginning.mp3",
     },
 
@@ -21,11 +22,13 @@ const bandInfo = {
         { url: "https://music.apple.com/us/artist/fight-against-the-enemy/1857463372", network: "apple" },
         { url: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL", network: "spotify" },
         { url: "https://music.amazon.com/artists/B0G5GVX5KJ/fight-against-the-enemy", network: "amazon" },
-        // { url: "https://instagram.com/yourband", network: "instagram", bgColor: "#ee2a7b" },
-        // { url: "https://facebook.com/yourband", network: "facebook" },
-        // { url: "https://soundcloud.com/", network: "soundcloud" },
-        // { url: "https://youtube.com/", network: "youtube" },
+        { url: "https://music.youtube.com/playlist?list=OLAK5uy_kbAD8QrgldHGBRk34wbgeMLE8aFuvC5RE", network: "youtube-music" },
+        // { url: "https://www.youtube.com/channel/UC9PTm1qdoSu_lt2eJ4cvDKg", network: "youtube" },
+        { url: "https://www.shazam.com/artist/-/1857463372", network: "shazam" },
         { url: "https://www.tiktok.com/@fight_against_the_enemy", network: "tiktok" },
+        // { url: "https://instagram.com/yourband", network: "instagram"},
+        { url: "https://www.facebook.com/profile.php?id=61584405977665", network: "facebook" },
+        // { url: "https://soundcloud.com/", network: "soundcloud" },
     ],
 
     ALBUMS: [

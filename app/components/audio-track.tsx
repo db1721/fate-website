@@ -166,9 +166,17 @@ export function AudioTrack({
 
                 {/* time + playing indicator */}
                 <div className="flex items-center gap-1">
-    <span className="whitespace-nowrap text-[0.65rem] text-zinc-300">
-      {formatTime(currentTime)} / {formatTime(duration)}
-    </span>
+                    <span
+                        className="whitespace-nowrap text-[0.65rem] text-zinc-300"
+                        style={{
+                            fontVariantNumeric: "tabular-nums", // all digits same width
+                            minWidth: "11ch",                   // enough space for "00:00 / 00:00"
+                            textAlign: "right",
+                        }}
+                    >
+                        {formatTime(currentTime)} / {formatTime(duration)}
+                    </span>
+
 
                     {/* F.A.T.E mini equalizer */}
                     <div className="flex items-end gap-[2px] w-4 justify-end">
