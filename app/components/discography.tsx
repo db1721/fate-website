@@ -1,5 +1,5 @@
-import { COLORS } from "@/app/theme";
-import { useState } from "react";
+import {COLORS} from "@/app/theme";
+import {useState} from "react";
 import bandInfo from "@/app/config/fate-info";
 import Image from 'next/image';
 import {AudioTrack} from "@/app/components/audio-track";
@@ -80,14 +80,14 @@ export function AlbumsSection() {
                         <button
                             onClick={prevAlbum}
                             className="h-12 w-12 rounded-full text-3xl"
-                            style={{ backgroundColor: COLORS.surface }}
+                            style={{backgroundColor: COLORS.surface}}
                         >
                             ‹
                         </button>
                         <button
                             onClick={nextAlbum}
                             className="h-12 w-12 rounded-full text-3xl"
-                            style={{ backgroundColor: COLORS.surface }}
+                            style={{backgroundColor: COLORS.surface}}
                         >
                             ›
                         </button>
@@ -108,7 +108,7 @@ export function AlbumsSection() {
                             src={activeAlbum.coverSrc}
                             alt={`${activeAlbum.title} cover`}
                             fill
-                            style={{ objectFit: "cover" }}
+                            style={{objectFit: "cover"}}
                             unoptimized
                         />
                     </div>
@@ -131,34 +131,37 @@ export function AlbumsSection() {
                         <div className="space-y-3">
                             {activeAlbum.tracks.map((track) => {
                                 const status = getReleaseStatus(track.releaseDate);
-
                                 return (
                                     <div
                                         key={track.title}
-                                        className="flex flex-wrap items-center justify-between gap-2 rounded-md border px-3 py-2 text-sm"
-                                        style={{ borderColor: COLORS.border }}
+                                        className="
+                                            flex flex-col gap-2
+                                            rounded-md border px-3 py-2 text-sm
+                                            sm:flex-row sm:items-center sm:justify-between
+                                          "
+                                        style={{borderColor: COLORS.border}}
                                     >
-                    <span className="font-medium text-zinc-100">
-                      {track.title}
-                    </span>
+                                      <span className="font-medium text-zinc-100">
+                                        {track.title}
+                                      </span>
 
                                         {status === "released" ? (
-                                            <AudioTrack
-                                                id={track.title}
-                                                src={track.audioSrc}
-                                                maxWidth="270px"
-                                                maxHeight="38px"
-                                            />
+                                            <div className="w-full sm:w-auto sm:max-w-xs">
+                                                <AudioTrack
+                                                    id={track.title}
+                                                    src={track.audioSrc}
+                                                    className="w-full"
+                                                />
+                                            </div>
                                         ) : (
                                             <span className="mt-1 text-xs text-zinc-300 sm:mt-0 sm:w-64">
-                        {status === "future"
-                            ? `Set to be released on ${formatReleaseDate(
-                                track.releaseDate
-                            )}`
-                            : "Release date TBD"}
-                      </span>
+                                              {status === "future"
+                                                  ? `Set to be released on ${formatReleaseDate(track.releaseDate)}`
+                                                  : "Release date TBD"}
+                                            </span>
                                         )}
                                     </div>
+
                                 );
                             })}
                         </div>
@@ -168,7 +171,7 @@ export function AlbumsSection() {
                             <button
                                 onClick={prevAlbum}
                                 className="rounded-full px-3 py-1 text-xs uppercase tracking-[0.16em]"
-                                style={{ backgroundColor: COLORS.surface }}
+                                style={{backgroundColor: COLORS.surface}}
                             >
                                 Previous
                             </button>
@@ -192,7 +195,7 @@ export function AlbumsSection() {
                             <button
                                 onClick={nextAlbum}
                                 className="rounded-full px-3 py-1 text-xs uppercase tracking-[0.16em]"
-                                style={{ backgroundColor: COLORS.surface }}
+                                style={{backgroundColor: COLORS.surface}}
                             >
                                 Next
                             </button>
