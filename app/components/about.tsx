@@ -40,7 +40,7 @@ export function AboutSection() {
                 </div>
                 <div className="space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-base">
                     <p>
-                        It’s the culmination of a lifelong obsession with music that has shaped me and saved me. For
+                        It’s the culmination of a lifelong obsession with songwriting that has shaped me and saved me. For
                         over {getYearsSince("2001-12-02")} years, I’ve been writing music, forming melodies, and
                         building stories through sound. Music has always been the place where my thoughts get
                         loud, my emotions make sense, and the battles I’ve faced find a voice.
