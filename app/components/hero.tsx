@@ -4,6 +4,7 @@ import { SocialIcon } from "react-social-icons";
 import bandInfo from "@/app/config/fate-info";
 import {AudioTrack} from "@/app/components/audio-track";
 import {AppleMusicIcon} from "@/app/components/logos/apple";
+import {AmazonMusicIcon} from "@/app/components/logos/amazon-music";
 
 type HeroSectionProps = {
     onScrollDown: () => void;
