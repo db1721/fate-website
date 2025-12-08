@@ -242,7 +242,7 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                     {/* Player below everything */}
                     <div className="mt-4 w-full flex justify-center">
                         <AudioTrack
-                            id={bandInfo.FEATURED_TRACK.title}
+                            id={`${bandInfo.FEATURED_TRACK.title}-feature`}
                             src={bandInfo.FEATURED_TRACK.audioSrc}
                             className="max-w-xs"
                         />
