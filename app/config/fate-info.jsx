@@ -14,7 +14,8 @@ const bandInfo = {
         title: "New Beginning",
         subtitle: "Featured Single",
         coverSrc: new_beginning,
-        audioSrc: "/audio/new-beginnings/new-beginning.mp3",
+        audioSrc: "/audio/new-beginnings/new-beginning-feature.mp3",
+        link: "https://social.tunecore.com/linkShare?linkid=QD4oNbERKt8QDIS0qlCTOQ",
     },
 
     MAIN_BAND_PAGE: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL",

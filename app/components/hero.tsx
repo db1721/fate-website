@@ -229,9 +229,13 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                             {/*    Hit play and dive straight into the sound of{" "}*/}
                             {/*    {bandInfo.band_name ?? bandInfo.band_name_full}.*/}
                             {/*</p>*/}
-                            {/*<p className="mt-2 text-[0.7rem] uppercase tracking-[0.18em] text-zinc-400">*/}
-                            {/*    Available soon on Amazon Music · Apple Music · Spotify · Shazam */}
-                            {/*</p>*/}
+                            <button
+                                onClick={() => window.open(bandInfo.FEATURED_TRACK.link, "_blank")}
+                                className="rounded-full mt-3 px-6 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-200 shadow-md hover:brightness-110 transition"
+                                style={{ backgroundColor: COLORS.accent }}
+                            >
+                                Stream Here →
+                            </button>
                         </div>
                     </div>
 
