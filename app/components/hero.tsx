@@ -231,7 +231,7 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                             {/*</p>*/}
                             <button
                                 onClick={() => window.open(bandInfo.FEATURED_TRACK.link, "_blank")}
-                                className="rounded-full mt-3 px-6 py-4 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-200 shadow-md hover:brightness-110 transition"
+                                className="rounded-full mt-3 px-6 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-200 shadow-md hover:brightness-110 transition"
                                 style={{ backgroundColor: COLORS.accent }}
                             >
                                 Stream Here →
