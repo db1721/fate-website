@@ -55,7 +55,13 @@ const bandInfo = {
                 {title: "Friends", audioSrc: "/audio/new-beginnings/friends.mp3", releaseDate: ""},
                 {title: "Fully Alive", audioSrc: "/audio/new-beginnings/fully-alive.mp3", releaseDate: ""},
                 {title: "No More Games", audioSrc: "/audio/new-beginnings/no-more-games.mp3", releaseDate: ""},
-                {title: "Passion", audioSrc: "/audio/new-beginnings/passion.mp3", releaseDate: ""},
+                {
+                    title: "Passion",
+                    audioSrc: "/audio/new-beginnings/passion.mp3",
+                    songImg: "",
+                    storyBehindTheLyrics: "",
+                    releaseDate: "12/22/2025"
+                },
                 {title: "Hold My Hand", audioSrc: "/audio/new-beginnings/hold-my-hand.mp3", releaseDate: ""},
                 {title: "Ugly", audioSrc: "/audio/new-beginnings/ugly.mp3", releaseDate: ""},
             ]
