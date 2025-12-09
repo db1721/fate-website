@@ -20,16 +20,16 @@ const bandInfo = {
 
     MAIN_BAND_PAGE: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL",
     SOCIAL_LINKS: [
-        { url: "https://music.apple.com/us/artist/fight-against-the-enemy/1857463372", network: "apple" },
-        { url: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL", network: "spotify" },
-        { url: "https://music.amazon.com/artists/B0G5GVX5KJ/fight-against-the-enemy", network: "amazon" },
-        { url: "https://music.youtube.com/playlist?list=OLAK5uy_kbAD8QrgldHGBRk34wbgeMLE8aFuvC5RE", network: "youtube-music" },
-        // { url: "https://www.youtube.com/channel/UC9PTm1qdoSu_lt2eJ4cvDKg", network: "youtube" },
-        { url: "https://www.shazam.com/artist/-/1857463372", network: "shazam" },
-        { url: "https://www.tiktok.com/@fight_against_the_enemy", network: "tiktok" },
-        // { url: "https://instagram.com/yourband", network: "instagram"},
-        { url: "https://www.facebook.com/profile.php?id=61584405977665", network: "facebook" },
-        // { url: "https://soundcloud.com/", network: "soundcloud" },
+        { url: "https://music.apple.com/us/artist/fight-against-the-enemy/1857463372", network: "apple", tooltip: 'Apple' },
+        { url: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL", network: "spotify", tooltip: 'Spotify' },
+        { url: "https://music.amazon.com/artists/B0G5GVX5KJ/fight-against-the-enemy", network: "amazon", tooltip: 'Amazon' },
+        { url: "https://music.youtube.com/playlist?list=OLAK5uy_kbAD8QrgldHGBRk34wbgeMLE8aFuvC5RE", network: "youtube-music", tooltip: 'YouTube Music' },
+        { url: "https://www.youtube.com/@FightAgainstTheEnemyBand", network: "youtube", tooltip: 'YouTube' },
+        { url: "https://www.shazam.com/artist/-/1857463372", network: "shazam", tooltip: 'Shazam' },
+        { url: "https://www.tiktok.com/@fight_against_the_enemy", network: "tiktok", tooltip: 'TikTok' },
+        // { url: "https://instagram.com/yourband", network: "instagram", tooltip: 'Instagram'},
+        { url: "https://www.facebook.com/profile.php?id=61584405977665", network: "facebook", tooltip: 'Facebook' },
+        // { url: "https://soundcloud.com/", network: "soundcloud", tooltip: 'SoundCloud' },
     ],
 
     ALBUMS: [
