@@ -131,7 +131,7 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                                     rel="noopener noreferrer"
                                     aria-label="Find us on Instagram"
                                     className="
-                                        relative
+                                        relative bg-white
                                         flex h-10 w-10
                                         items-center justify-center
                                         rounded-full border border-zinc-700
@@ -147,7 +147,6 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                                         className="object-cover"
                                     />
                                 </a>
-
                             ) : (
                                 <SocialIcon
                                     key={item.url}

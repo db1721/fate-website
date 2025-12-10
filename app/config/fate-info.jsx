@@ -27,7 +27,7 @@ const bandInfo = {
         { url: "https://www.youtube.com/@FightAgainstTheEnemyBand", network: "youtube", tooltip: 'YouTube' },
         { url: "https://www.shazam.com/artist/-/1857463372", network: "shazam", tooltip: 'Shazam' },
         { url: "https://www.tiktok.com/@fight_against_the_enemy", network: "tiktok", tooltip: 'TikTok' },
-        // { url: "https://instagram.com/yourband", network: "instagram", tooltip: 'Instagram'},
+        { url: "https://www.instagram.com/fight_against_the_enemy", network: "instagram", tooltip: 'Instagram'},
         { url: "https://www.facebook.com/profile.php?id=61584405977665", network: "facebook", tooltip: 'Facebook' },
         // { url: "https://soundcloud.com/", network: "soundcloud", tooltip: 'SoundCloud' },
     ],

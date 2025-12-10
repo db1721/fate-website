@@ -156,7 +156,7 @@ export function AlbumsSection() {
                                         ) : (
                                             <span className="mt-1 text-xs text-zinc-300 sm:mt-0 sm:w-64">
                                               {status === "future"
-                                                  ? `Set to be released on ${formatReleaseDate(track.releaseDate)}`
+                                                  ? `Planned release date ${formatReleaseDate(track.releaseDate)}`
                                                   : "Release date TBD"}
                                             </span>
                                         )}
