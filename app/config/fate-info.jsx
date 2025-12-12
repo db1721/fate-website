@@ -48,7 +48,13 @@ const bandInfo = {
                     releaseDate: "12/05/2025"
                 },
                 {title: "Angels", audioSrc: "/audio/new-beginnings/angels.mp3", releaseDate: ""},
-                {title: "Blown Away", audioSrc: "/audio/new-beginnings/blown-away.mp3", releaseDate: ""},
+                {
+                    title: "Blown Away",
+                    audioSrc: "/audio/new-beginnings/blown-away.mp3",
+                    songImg: "",
+                    storyBehindTheLyrics: "",
+                    releaseDate: "12/23/2025"
+                },
                 {title: "Lost and Afraid", audioSrc: "/audio/new-beginnings/lost-and-afraid.mp3", releaseDate: ""},
                 {title: "Tell Me", audioSrc: "/audio/new-beginnings/tell-me.mp3", releaseDate: ""},
                 {title: "Running Away", audioSrc: "/audio/new-beginnings/running-away.mp3", releaseDate: ""},
