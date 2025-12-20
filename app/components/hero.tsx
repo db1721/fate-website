@@ -1,9 +1,11 @@
 import Image from "next/image";
 import { COLORS } from "@/app/theme";
 import { SocialIcon } from "react-social-icons";
-import bandInfo from "@/app/config/fate-info";
 import {AudioTrack} from "@/app/components/audio-track";
 import {AppleMusicIcon} from "@/app/components/logos/apple";
+import {getBandInfo} from "@/app/config/bands";
+
+const bandInfo = getBandInfo(process.env.NEXT_PUBLIC_BAND);
 
 type HeroSectionProps = {
     onScrollDown: () => void;
@@ -170,13 +172,9 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                         </p>
 
                         <img
-                            src="/icons/fate-white-short.png"
-                            alt="F.A.T.E. Logo"
-                            className="
-                            mx-auto lg:mx-0
-                            w-48 sm:w-64 lg:w-80
-                            h-auto
-                          "
+                            src={bandInfo.band_logo_src}
+                            alt={`${bandInfo.band_name} Logo`}
+                            className="mx-auto lg:mx-0 w-48 sm:w-64 lg:w-80 h-auto"
                         />
                     </div>
 
