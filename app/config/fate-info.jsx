@@ -1,6 +1,7 @@
 import e2 from './../assets/evolve_and_elevate_120.png';
 import new_beginnings from './../assets/albums/new-beginnings-cover.png';
 import new_beginning from './../assets/albums/new-beginning-cover.png';
+import passion_single from './../assets/albums/passion-single-cover.png';
 import wake_of_determination from './../assets/albums/wake-of-determination.png';
 
 const bandInfo = {
@@ -11,11 +12,11 @@ const bandInfo = {
     band_seo_description: 'logo',
 
     FEATURED_TRACK: {
-        title: "New Beginning",
+        title: "Passion",
         subtitle: "Featured Single",
-        coverSrc: new_beginning,
-        audioSrc: "/audio/new-beginnings/new-beginning-feature.mp3",
-        link: "https://social.tunecore.com/linkShare?linkid=QD4oNbERKt8QDIS0qlCTOQ",
+        coverSrc: passion_single,
+        audioSrc: "/audio/new-beginnings/passion-feature.mp3",
+        link: "https://social.tunecore.com/linkShare?linkid=sH2KInrt63j517J6AtNVhA",
     },
 
     MAIN_BAND_PAGE: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL",
@@ -25,11 +26,13 @@ const bandInfo = {
         { url: "https://music.amazon.com/artists/B0G5GVX5KJ/fight-against-the-enemy", network: "amazon", tooltip: 'Amazon' },
         { url: "https://music.youtube.com/playlist?list=OLAK5uy_kbAD8QrgldHGBRk34wbgeMLE8aFuvC5RE", network: "youtube-music", tooltip: 'YouTube Music' },
         { url: "https://www.youtube.com/@FightAgainstTheEnemyBand", network: "youtube", tooltip: 'YouTube' },
-        { url: "https://www.shazam.com/artist/-/1857463372", network: "shazam", tooltip: 'Shazam' },
+        // { url: "https://www.shazam.com/artist/-/1857463372", network: "shazam", tooltip: 'Shazam' },
         { url: "https://www.tiktok.com/@fight_against_the_enemy", network: "tiktok", tooltip: 'TikTok' },
         { url: "https://www.instagram.com/fight_against_the_enemy", network: "instagram", tooltip: 'Instagram'},
         { url: "https://www.facebook.com/profile.php?id=61584405977665", network: "facebook", tooltip: 'Facebook' },
         // { url: "https://soundcloud.com/", network: "soundcloud", tooltip: 'SoundCloud' },
+        // { url: "https://tidal.com/", network: "tidal", tooltip: 'Tidal' },
+        // { url: "https://deezer.com/", network: "deezer", tooltip: 'Deezer' },
     ],
 
     ALBUMS: [
@@ -45,6 +48,7 @@ const bandInfo = {
                     audioSrc: "/audio/new-beginnings/new-beginning.mp3",
                     songImg: "",
                     storyBehindTheLyrics: "",
+                    single_link_share: "https://social.tunecore.com/linkShare?linkid=QD4oNbERKt8QDIS0qlCTOQ",
                     releaseDate: "12/05/2025"
                 },
                 {title: "Angels", audioSrc: "/audio/new-beginnings/angels.mp3", releaseDate: ""},
@@ -66,6 +70,7 @@ const bandInfo = {
                     audioSrc: "/audio/new-beginnings/passion.mp3",
                     songImg: "",
                     storyBehindTheLyrics: "",
+                    single_link_share: "https://social.tunecore.com/linkShare?linkid=sH2KInrt63j517J6AtNVhA",
                     releaseDate: "12/22/2025"
                 },
                 {title: "Hold My Hand", audioSrc: "/audio/new-beginnings/hold-my-hand.mp3", releaseDate: ""},

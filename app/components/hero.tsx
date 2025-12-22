@@ -188,7 +188,7 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                             className="rounded-full px-6 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-200 shadow-md hover:brightness-110 transition"
                             style={{ backgroundColor: COLORS.accent }}
                         >
-                            See Our Discography
+                            See Discography
                         </button>
                         {/*<a*/}
                         {/*    href={bandInfo.MAIN_BAND_PAGE}*/}
