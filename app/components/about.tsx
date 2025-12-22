@@ -56,9 +56,7 @@ export function AboutSection() {
                         What started as riffs, raw vocal recordings and notebook lyrics back in my teens has evolved into something bigger
                         than I ever imagined. Thanks to modern production tools and the power of AI-assisted creation,
                         I can finally bring these songs to life the way they always sounded in my head; massive,
-                        detailed, cinematic, and unapologetically honest. AI doesn’t replace the heart behind the
-                        music; it amplifies it. It lets me take ideas I’ve carried for decades and turn them into
-                        fully produced tracks with the intensity, clarity, and depth they deserve.
+                        detailed, cinematic, and unapologetically honest.
                     </p>
                     <p>
                         F.A.T.E. blends influences from the bands that have inspired me and pushes them into a modern,
@@ -70,7 +68,7 @@ export function AboutSection() {
                         loud, raw, real; and meant to lift others up along the way.
                     </p>
                     <p>
-                        This is my dream — the one I’ve had since I was a kid — and this time, I’m not letting it stay
+                        This is my dream — the one I’ve had since I was a kid — and this time, I’m not letting it go
                         unfinished.
                     </p>
                     <p>
