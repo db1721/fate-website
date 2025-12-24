@@ -98,6 +98,78 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                                     />
                                 </a>
 
+                            ) : item.network === "tidal" ? (
+                                <a
+                                    key={item.url}
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Listen on Tidal"
+                                    className="
+                                        relative
+                                        flex h-10 w-10
+                                        items-center justify-center
+                                        rounded-full border border-zinc-700
+                                        hover:scale-110 transition-transform duration-200
+                                        overflow-hidden
+                                      "
+                                >
+                                    <Image
+                                        src="/icons/tidal.jpg"
+                                        alt="Tidal"
+                                        fill
+                                        unoptimized
+                                        className="object-cover"
+                                    />
+                                </a>
+                            ) : item.network === "pandora" ? (
+                                <a
+                                    key={item.url}
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Listen on Pandora"
+                                    className="
+                                        relative
+                                        flex h-10 w-10
+                                        items-center justify-center
+                                        rounded-full border border-zinc-700
+                                        hover:scale-110 transition-transform duration-200
+                                        overflow-hidden
+                                      "
+                                >
+                                    <Image
+                                        src="/icons/pandora.png"
+                                        alt="Pandora"
+                                        fill
+                                        unoptimized
+                                        className="object-cover"
+                                    />
+                                </a>
+                            ): item.network === "deezer" ? (
+                                <a
+                                    key={item.url}
+                                    href={item.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Listen on Deezer"
+                                    className="
+                                        relative
+                                        flex h-10 w-10
+                                        items-center justify-center
+                                        rounded-full border border-zinc-700
+                                        hover:scale-110 transition-transform duration-200
+                                        overflow-hidden
+                                      "
+                                >
+                                    <Image
+                                        src="/icons/deezer.png"
+                                        alt="Deezer"
+                                        fill
+                                        unoptimized
+                                        className="object-cover scale-85"
+                                    />
+                                </a>
                             ) : item.network === "youtube-music" ? (
                                 <a
                                     key={item.url}
