@@ -1,7 +1,7 @@
 import e2 from './../assets/evolve_and_elevate_120.png';
 import new_beginnings from './../assets/albums/new-beginnings-cover.png';
 import new_beginning from './../assets/albums/new-beginning-cover.png';
-import blown_away_single from './../assets/albums/nblown-away-cover.png';
+import blown_away_single from './../assets/albums/blown-away-cover.png';
 import passion_single from './../assets/albums/passion-single-cover.png';
 import wake_of_determination from './../assets/albums/wake-of-determination.png';
 
