@@ -1,6 +1,7 @@
 import e2 from './../assets/evolve_and_elevate_120.png';
 import new_beginnings from './../assets/albums/new-beginnings-cover.png';
 import new_beginning from './../assets/albums/new-beginning-cover.png';
+import blown_away_single from './../assets/albums/nblown-away-cover.png';
 import passion_single from './../assets/albums/passion-single-cover.png';
 import wake_of_determination from './../assets/albums/wake-of-determination.png';
 
@@ -12,11 +13,11 @@ const bandInfo = {
     band_seo_description: 'logo',
 
     FEATURED_TRACK: {
-        title: "Passion",
+        title: "Blown Away",
         subtitle: "Featured Single",
-        coverSrc: passion_single,
-        audioSrc: "/audio/new-beginnings/passion-feature.mp3",
-        link: "https://social.tunecore.com/linkShare?linkid=sH2KInrt63j517J6AtNVhA",
+        coverSrc: blown_away_single,
+        audioSrc: "/audio/new-beginnings/blown-away-feature.mp3",
+        link: "https://social.tunecore.com/linkShare?linkid=ovJ1G2ylupbvjscfciA2hQ",
     },
 
     MAIN_BAND_PAGE: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL",
@@ -29,7 +30,7 @@ const bandInfo = {
         // { url: "https://www.shazam.com/artist/-/1857463372", network: "shazam", tooltip: 'Shazam' },
         { url: "https://www.tiktok.com/@fight_against_the_enemy", network: "tiktok", tooltip: 'TikTok' },
         { url: "https://www.instagram.com/fight_against_the_enemy", network: "instagram", tooltip: 'Instagram'},
-        { url: "https://www.facebook.com/profile.php?id=61584405977665", network: "facebook", tooltip: 'Facebook' },
+        { url: "https://www.facebook.com/61584405977665", network: "facebook", tooltip: 'Facebook' },
         // { url: "https://soundcloud.com/", network: "soundcloud", tooltip: 'SoundCloud' },
         // { url: "https://tidal.com/", network: "tidal", tooltip: 'Tidal' },
         // { url: "https://deezer.com/", network: "deezer", tooltip: 'Deezer' },
@@ -57,6 +58,7 @@ const bandInfo = {
                     audioSrc: "/audio/new-beginnings/blown-away.mp3",
                     songImg: "",
                     storyBehindTheLyrics: "",
+                    single_link_share: "https://social.tunecore.com/linkShare?linkid=ovJ1G2ylupbvjscfciA2hQ",
                     releaseDate: "12/23/2025"
                 },
                 {title: "Lost and Afraid", audioSrc: "/audio/new-beginnings/lost-and-afraid.mp3", releaseDate: ""},
