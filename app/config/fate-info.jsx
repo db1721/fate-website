@@ -4,6 +4,11 @@ import new_beginning from './../assets/albums/new-beginning-cover.png';
 import blown_away_single from './../assets/albums/blown-away-cover.png';
 import passion_single from './../assets/albums/passion-single-cover.png';
 import wake_of_determination from './../assets/albums/wake-of-determination.png';
+import monster_you_created from './../assets/albums/silent-chaos-moster-you-created.png';
+import collapse_rebuild from './../assets/albums/collapse-rebuild-cover.png';
+import you_deserve_better from './../assets/albums/you-deserve-better-cover.png';
+import addicted_to_the_pain from './../assets/albums/addicted-to-the-pain-cover.png';
+import kill_count_chron from './../assets/albums/eye-in-forest.jpeg';
 
 const bandInfo = {
     band_logo: e2,
@@ -16,7 +21,7 @@ const bandInfo = {
         title: "Blown Away",
         subtitle: "Featured Single",
         coverSrc: blown_away_single,
-        audioSrc: "/audio/new-beginnings/blown-away-feature.mp3",
+        audioSrc: "/audio/blown-away-feature.mp3",
         link: "https://social.tunecore.com/linkShare?linkid=ovJ1G2ylupbvjscfciA2hQ",
     },
 
@@ -48,48 +53,100 @@ const bandInfo = {
             tracks: [
                 {
                     title: "New Beginning",
-                    audioSrc: "/audio/new-beginnings/new-beginning.mp3",
+                    audioSrc: "/audio/new-beginning.mp3",
                     songImg: "",
                     storyBehindTheLyrics: "",
                     single_link_share: "https://social.tunecore.com/linkShare?linkid=QD4oNbERKt8QDIS0qlCTOQ",
                     releaseDate: "12/05/2025"
                 },
-                {title: "Angels", audioSrc: "/audio/new-beginnings/angels.mp3", releaseDate: ""},
+                {title: "Angels", audioSrc: "/audio/angels.mp3", releaseDate: ""},
                 {
                     title: "Blown Away",
-                    audioSrc: "/audio/new-beginnings/blown-away.mp3",
+                    audioSrc: "/audio/blown-away.mp3",
                     songImg: "",
                     storyBehindTheLyrics: "",
                     single_link_share: "https://social.tunecore.com/linkShare?linkid=ovJ1G2ylupbvjscfciA2hQ",
                     releaseDate: "12/23/2025"
                 },
-                {title: "Lost and Afraid", audioSrc: "/audio/new-beginnings/lost-and-afraid.mp3", releaseDate: ""},
-                {title: "Tell Me", audioSrc: "/audio/new-beginnings/tell-me.mp3", releaseDate: ""},
-                {title: "Running Away", audioSrc: "/audio/new-beginnings/running-away.mp3", releaseDate: ""},
-                {title: "Friends", audioSrc: "/audio/new-beginnings/friends.mp3", releaseDate: ""},
-                {title: "Fully Alive", audioSrc: "/audio/new-beginnings/fully-alive.mp3", releaseDate: ""},
-                {title: "No More Games", audioSrc: "/audio/new-beginnings/no-more-games.mp3", releaseDate: ""},
+                {title: "Lost and Afraid", audioSrc: "/audio/lost-and-afraid.mp3", releaseDate: ""},
+                {title: "Tell Me", audioSrc: "/audio/tell-me.mp3", releaseDate: ""},
+                {title: "Running Away", audioSrc: "/audio/running-away.mp3", releaseDate: ""},
+                {title: "Friends", audioSrc: "/audio/friends.mp3", releaseDate: ""},
+                {title: "Fully Alive", audioSrc: "/audio/fully-alive.mp3", releaseDate: ""},
+                {title: "No More Games", audioSrc: "/audio/no-more-games.mp3", releaseDate: ""},
                 {
                     title: "Passion",
-                    audioSrc: "/audio/new-beginnings/passion.mp3",
+                    audioSrc: "/audio/passion.mp3",
                     songImg: "",
                     storyBehindTheLyrics: "",
                     single_link_share: "https://social.tunecore.com/linkShare?linkid=sH2KInrt63j517J6AtNVhA",
                     releaseDate: "12/22/2025"
                 },
-                {title: "Hold My Hand", audioSrc: "/audio/new-beginnings/hold-my-hand.mp3", releaseDate: ""},
-                {title: "Ugly", audioSrc: "/audio/new-beginnings/ugly.mp3", releaseDate: ""},
+                {title: "Hold My Hand", audioSrc: "/audio/hold-my-hand.mp3", releaseDate: ""},
+                {title: "Ugly", audioSrc: "/audio/ugly.mp3", releaseDate: ""},
             ]
         },
         {
             id: "wake-of-determination",
             title: "Wake of Determination",
-            year: 2025,
+            year: 2026,
             description: "Dark, emotional riffs and breakdowns.",
             coverSrc: wake_of_determination,
             tracks: [
-                { title: "Brand New Day", audioSrc: "/audio/wake-of-determination/brand-new-day.mp3", releaseDate: ""  },
-                { title: "Wake of Determination", audioSrc: "/audio/wake-of-determination/wake-of-determination.mp3", releaseDate: ""  },
+                { title: "Brand New Day", audioSrc: "/audio/brand-new-day.mp3", releaseDate: ""  },
+                // { title: "Wake of Determination", audioSrc: "/audio.mp3", releaseDate: ""  },
+            ],
+        },
+        {
+            id: "monster-you-created",
+            title: "Monster You Created",
+            year: 2025,
+            description: "Dark, emotional riffs and breakdowns.",
+            coverSrc: monster_you_created,
+            tracks: [
+                { title: "Created A Monster", audioSrc: "/audio/brand-new-day.mp3", releaseDate: ""  },
+                { title: "Wake of Determination", audioSrc: "/audio.mp3", releaseDate: ""  },
+            ],
+        },
+        {
+            id: "collapse_rebuild",
+            title: "Collapse // Rebuild",
+            year: 2025,
+            description: "Dark, emotional riffs and breakdowns.",
+            coverSrc: collapse_rebuild,
+            tracks: [
+                { title: "Created A Monster", audioSrc: "/audio/brand-new-day.mp3", releaseDate: ""  },
+            ],
+        },
+        {
+            id: "you_deserve_better",
+            title: "You Deserve Better",
+            year: 2025,
+            description: "Dark, emotional riffs and breakdowns.",
+            coverSrc: you_deserve_better,
+            tracks: [
+                { title: "Created A Monster", audioSrc: "/audio/brand-new-day.mp3", releaseDate: ""  },
+            ],
+        },
+        {
+            id: "addicted_to_the_pain",
+            title: "Addicted to the Pain",
+            year: 2025,
+            description: "Dark, emotional riffs and breakdowns.",
+            coverSrc: addicted_to_the_pain,
+            tracks: [
+                { title: "Created A Monster", audioSrc: "/audio/brand-new-day.mp3", releaseDate: ""  },
+            ],
+        },
+        {
+            id: "kill_count_chron",
+            title: "Kill Count Chronicles",
+            year: 2025,
+            description: "Dark, emotional riffs and breakdowns.",
+            coverSrc: kill_count_chron,
+            tracks: [
+                { title: "Eat You Alive", audioSrc: "/audio/eat-you-alive.mp3", releaseDate: ""  },
+                { title: "Duality of Identity", audioSrc: "/audio/duality-of-identity.mp3", releaseDate: ""  },
             ],
         },
         ],
