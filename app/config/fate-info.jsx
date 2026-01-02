@@ -87,6 +87,16 @@ const bandInfo = {
             ]
         },
         {
+            id: "monster-you-created",
+            title: "Monster You Created",
+            year: 2025,
+            description: "Dark, emotional riffs and breakdowns.",
+            coverSrc: monster_you_created,
+            tracks: [
+                { title: "Created A Monster", audioSrc: "/audio/brand-new-day.mp3", releaseDate: ""  },
+            ],
+        },
+        {
             id: "wake-of-determination",
             title: "Wake of Determination",
             year: 2026,
@@ -98,50 +108,50 @@ const bandInfo = {
             ],
         },
         {
-            id: "monster-you-created",
-            title: "Monster You Created",
-            year: 2025,
-            description: "Dark, emotional riffs and breakdowns.",
-            coverSrc: monster_you_created,
-            tracks: [
-                { title: "Created A Monster", audioSrc: "/audio/brand-new-day.mp3", releaseDate: ""  },
-                { title: "Wake of Determination", audioSrc: "/audio.mp3", releaseDate: ""  },
-            ],
-        },
-        {
             id: "collapse_rebuild",
             title: "Collapse // Rebuild",
             year: 2025,
             description: "Dark, emotional riffs and breakdowns.",
             coverSrc: collapse_rebuild,
             tracks: [
-                { title: "Created A Monster", audioSrc: "/audio/brand-new-day.mp3", releaseDate: ""  },
-            ],
-        },
-        {
-            id: "you_deserve_better",
-            title: "You Deserve Better",
-            year: 2025,
-            description: "Dark, emotional riffs and breakdowns.",
-            coverSrc: you_deserve_better,
-            tracks: [
-                { title: "Created A Monster", audioSrc: "/audio/brand-new-day.mp3", releaseDate: ""  },
+                { title: "Collapse", audioSrc: "/audio/collapse.mp3", releaseDate: ""  },
+                { title: "Get Away From Me", audioSrc: "/audio/get-away-from-me.mp3", releaseDate: ""  },
+                { title: "Get Out of My Head", audioSrc: "/audio/get-out-of-my-head.mp3", releaseDate: ""  },
+                { title: "Give It All", audioSrc: "/audio/give-it-all.mp3", releaseDate: ""  },
+                { title: "Help Me", audioSrc: "/audio/help-me.mp3", releaseDate: ""  },
+                { title: "Influencing", audioSrc: "/audio/influencing.mp3", releaseDate: ""  },
+                { title: "Shut Me Out", audioSrc: "/audio/shut-me-out.mp3", releaseDate: ""  },
+                { title: "So What", audioSrc: "/audio/so-what.mp3", releaseDate: ""  },
+                { title: "We Are", audioSrc: "/audio/we-are.mp3", releaseDate: ""  },
             ],
         },
         {
             id: "addicted_to_the_pain",
             title: "Addicted to the Pain",
-            year: 2025,
+            year: 2026,
             description: "Dark, emotional riffs and breakdowns.",
             coverSrc: addicted_to_the_pain,
             tracks: [
-                { title: "Created A Monster", audioSrc: "/audio/brand-new-day.mp3", releaseDate: ""  },
+                { title: "Addicted to the Pain", audioSrc: "/audio/addicted-to-the-pain.mp3", releaseDate: ""  },
+                { title: "Breathless", audioSrc: "/audio/breathless.mp3", releaseDate: ""  },
+                { title: "I Swear", audioSrc: "/audio/i-swear.mp3", releaseDate: ""  },
+                { title: "Setting Myself Free", audioSrc: "/audio/setting-myself-free.mp3", releaseDate: ""  },
+            ],
+        },
+        {
+            id: "you_deserve_better",
+            title: "You Deserve Better",
+            year: 2027,
+            description: "Dark, emotional riffs and breakdowns.",
+            coverSrc: you_deserve_better,
+            tracks: [
+                { title: "Afraid", audioSrc: "/audio/afraid.mp3", releaseDate: ""  },
             ],
         },
         {
             id: "kill_count_chron",
             title: "Kill Count Chronicles",
-            year: 2025,
+            year: 2027,
             description: "Dark, emotional riffs and breakdowns.",
             coverSrc: kill_count_chron,
             tracks: [
