@@ -35,6 +35,7 @@ const bandInfo = {
         { url: "https://www.tiktok.com/@fight_against_the_enemy", network: "tiktok", tooltip: 'TikTok' },
         { url: "https://www.instagram.com/fight_against_the_enemy", network: "instagram", tooltip: 'Instagram'},
         { url: "https://www.facebook.com/61584405977665", network: "facebook", tooltip: 'Facebook' },
+        { url: "https://x.com/F_A_T_E_music", network: "x", tooltip: 'X' },
     ],
 
     ALBUMS: [
