@@ -93,39 +93,6 @@ export function AlbumsSection() {
                         </button>
                     </div>
                 </div>
-                {/* Album bubble stepper (minimal) */}
-                <div className="flex items-center justify-center gap-3">
-                    {bandInfo.ALBUMS.map((album, index) => {
-                        const isActive = index === activeIndex;
-
-                        return (
-                            <button
-                                key={album.id}
-                                onClick={() => setActiveIndex(index)}
-                                aria-label={`Go to album ${index + 1}`}
-                                aria-current={isActive ? "true" : "false"}
-                                className={[
-                                    "flex items-center justify-center rounded-full",
-                                    "transition-all duration-200 ease-out",
-                                    "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-black",
-                                    isActive ? "scale-110" : "opacity-60 hover:opacity-90",
-                                ].join(" ")}
-                                style={{
-                                    width: isActive ? 42 : 32,
-                                    height: isActive ? 42 : 32,
-                                    backgroundColor: isActive ? COLORS.accent : COLORS.surface,
-                                    border: `1px solid ${
-                                        isActive ? COLORS.accent : COLORS.border
-                                    }`,
-                                    color: isActive ? "#000" : "#fff",
-                                    fontWeight: isActive ? 600 : 500,
-                                }}
-                            >
-                                {index + 1}
-                            </button>
-                        );
-                    })}
-                </div>
 
                 {/* Album bubble stepper (minimal) */}
                 <div className="flex items-center justify-center gap-3">
