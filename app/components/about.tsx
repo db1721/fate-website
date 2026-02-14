@@ -40,36 +40,36 @@ export function AboutSection() {
                 </div>
                 <div className="space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-base">
                     <p>
-                        It’s the culmination of a lifelong obsession with songwriting that has shaped me and saved me. For
-                        over {getYearsSince("2001-12-02")} years, I’ve been writing music, forming melodies, and
-                        building stories through sound. Music has always been the place where my thoughts get
-                        loud, my emotions make sense, and the battles I’ve faced find a voice.
+                        It’s the culmination of a lifelong obsession with songwriting that has shaped me and, at times,
+                        saved me. For over {getYearsSince("2001-12-02")} years, I’ve been writing melodies,
+                        building hooks, and turning real experiences into songs. Music has always been where my
+                        thoughts get loud enough to understand and where the battles I’ve faced find structure
+                        instead of chaos.
                     </p>
                     <p>
-                        But it’s not just about the struggles. It’s about the strength that comes from them.
-                        Through every song, I aim to inspire, to give listeners something real to hold onto; whether
-                        they’re fighting their own battles or chasing something bigger in their lives. If my music
-                        can make someone feel understood, motivated, or unshakably alive for even a moment, then
-                        I’ve done what I set out to do.
+                        Songwriting is the craft. Everything else is the vehicle.
                     </p>
                     <p>
-                        What started as riffs, raw vocal recordings and notebook lyrics back in my teens has evolved into something bigger
-                        than I ever imagined. Thanks to modern production tools and the power of AI-assisted creation,
-                        I can finally bring these songs to life the way they always sounded in my head; massive,
-                        detailed, cinematic, and unapologetically honest.
+                        I write heavy, melodic rock rooted in tension, release, and emotional honesty. Every
+                        lyric starts as something lived. Every chorus is built to hit hard enough to mean something.
+                        Every melody crafted for long-term resonance.
                     </p>
                     <p>
-                        F.A.T.E. blends influences from the bands that have inspired me and pushes them into a modern,
-                        expressive direction. Every song is built on real experiences, real emotion, and a relentless
-                        drive to create something meaningful.
+                        What began as riffs, raw demos, and notebook lyrics has evolved with modern production tools
+                        into something far more expansive — cinematic, detailed, unapologetic.
                     </p>
                     <p>
-                        This is my story finally being told the way I always wanted:
-                        loud, raw, real; and meant to lift others up along the way.
+                        The vocal identity is built from my original recordings and developed into a custom AI vocal
+                        profile that carries my phrasing and emotion. I shape the drum programming and experiment with
+                        tone and impact myself, building each track with intention from the rhythm up. Modern tools
+                        allow the songs to reach the scale and depth I’ve always envisioned.
                     </p>
                     <p>
-                        This is my dream — the one I’ve had since I was a kid — and this time, I’m not letting it go
-                        unfinished.
+                        The long-term goal is simple: write songs that bands want to perform and that crowds want to scream back.
+                        It’s a dream I’ve carried since I was a kid — and I’m building it song by song.
+                    </p>
+                    <p>
+                        F.A.T.E. is the proving ground — a body of work built on real experience, real emotion, and a relentless commitment to the craft.
                     </p>
                     <p>
                         Welcome to F.A.T.E.

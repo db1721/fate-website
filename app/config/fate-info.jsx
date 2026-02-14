@@ -2,6 +2,8 @@ import e2 from './../assets/evolve_and_elevate_120.png';
 import new_beginnings from './../assets/albums/new-beginnings-cover.png';
 import new_beginning from './../assets/albums/new-beginning-cover.png';
 import blown_away_single from './../assets/albums/blown-away-cover.png';
+import running_away_single from './../assets/albums/running-away-cover.png';
+import tell_me_single from './../assets/albums/tell-me-cover.jpg';
 import passion_single from './../assets/albums/passion-single-cover.png';
 import wake_of_determination from './../assets/albums/wake-of-determination.png';
 
@@ -19,6 +21,24 @@ const bandInfo = {
         audioSrc: "/audio/new-beginnings/blown-away-feature.mp3",
         link: "https://social.tunecore.com/linkShare?linkid=ovJ1G2ylupbvjscfciA2hQ",
     },
+
+    // // Placeholder
+    // FEATURED_TRACK: {
+    //     title: "Running Away",
+    //     subtitle: "Featured Single",
+    //     coverSrc: running_away_single,
+    //     audioSrc: "/audio/new-beginnings/running-away-feature.mp3",
+    //     link: "",
+    // },
+
+    // Placeholder
+    // FEATURED_TRACK: {
+    //     title: "Tell Me",
+    //     subtitle: "Featured Single",
+    //     coverSrc: tell_me_single,
+    //     audioSrc: "/audio/new-beginnings/tell-me-feature.mp3",
+    //     link: "",
+    // },
 
     MAIN_BAND_PAGE: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL",
     SOCIAL_LINKS: [
@@ -64,8 +84,22 @@ const bandInfo = {
                     releaseDate: "12/23/2025"
                 },
                 {title: "Lost and Afraid", audioSrc: "/audio/new-beginnings/lost-and-afraid.mp3", releaseDate: ""},
-                {title: "Tell Me", audioSrc: "/audio/new-beginnings/tell-me.mp3", releaseDate: ""},
-                {title: "Running Away", audioSrc: "/audio/new-beginnings/running-away.mp3", releaseDate: ""},
+                {
+                    title: "Tell Me",
+                    audioSrc: "/audio/new-beginnings/tell-me.mp3",
+                    songImg: "",
+                    storyBehindTheLyrics: "",
+                    single_link_share: "",
+                    releaseDate: "02/28/2026"
+                },
+                {title: "Running Away", audioSrc: "/audio/new-beginnings/running-away.mp3", releaseDate: ""},{
+                    title: "Running Away",
+                    audioSrc: "/audio/new-beginnings/running-away.mp3",
+                    songImg: "",
+                    storyBehindTheLyrics: "",
+                    single_link_share: "",
+                    releaseDate: "02/16/2026"
+                },
                 {title: "Friends", audioSrc: "/audio/new-beginnings/friends.mp3", releaseDate: ""},
                 {title: "Fully Alive", audioSrc: "/audio/new-beginnings/fully-alive.mp3", releaseDate: ""},
                 {title: "No More Games", audioSrc: "/audio/new-beginnings/no-more-games.mp3", releaseDate: ""},
