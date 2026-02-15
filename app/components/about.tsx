@@ -69,9 +69,6 @@ export function AboutSection() {
                         It’s a dream I’ve carried since I was a kid — and I’m building it song by song.
                     </p>
                     <p>
-                        F.A.T.E. is the proving ground — a body of work built on real experience, real emotion, and a relentless commitment to the craft.
-                    </p>
-                    <p>
                         Welcome to F.A.T.E.
                         The fight starts here.
                     </p>
