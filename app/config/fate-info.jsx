@@ -14,22 +14,14 @@ const bandInfo = {
     band_description: 'logo',
     band_seo_description: 'logo',
 
+    // Placeholder
     FEATURED_TRACK: {
-        title: "Blown Away",
+        title: "Running Away",
         subtitle: "Featured Single",
-        coverSrc: blown_away_single,
-        audioSrc: "/audio/new-beginnings/blown-away-feature.mp3",
-        link: "https://social.tunecore.com/linkShare?linkid=ovJ1G2ylupbvjscfciA2hQ",
+        coverSrc: running_away_single,
+        audioSrc: "/audio/new-beginnings/running-away-feature.mp3",
+        link: "https://social.tunecore.com/linkShare?linkid=aFv3L4Cd1AF7c58qsTnm-g",
     },
-
-    // // Placeholder
-    // FEATURED_TRACK: {
-    //     title: "Running Away",
-    //     subtitle: "Featured Single",
-    //     coverSrc: running_away_single,
-    //     audioSrc: "/audio/new-beginnings/running-away-feature.mp3",
-    //     link: "",
-    // },
 
     // Placeholder
     // FEATURED_TRACK: {
@@ -97,7 +89,7 @@ const bandInfo = {
                     audioSrc: "/audio/new-beginnings/running-away.mp3",
                     songImg: "",
                     storyBehindTheLyrics: "",
-                    single_link_share: "",
+                    single_link_share: "https://social.tunecore.com/linkShare?linkid=aFv3L4Cd1AF7c58qsTnm-g",
                     releaseDate: "02/16/2026"
                 },
                 {title: "Friends", audioSrc: "/audio/new-beginnings/friends.mp3", releaseDate: ""},
