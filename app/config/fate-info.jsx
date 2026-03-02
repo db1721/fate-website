@@ -15,22 +15,22 @@ const bandInfo = {
     band_seo_description: 'logo',
 
     // Placeholder
-    FEATURED_TRACK: {
-        title: "Running Away",
-        subtitle: "Featured Single",
-        coverSrc: running_away_single,
-        audioSrc: "/audio/new-beginnings/running-away-feature.mp3",
-        link: "https://social.tunecore.com/linkShare?linkid=aFv3L4Cd1AF7c58qsTnm-g",
-    },
+    // FEATURED_TRACK: {
+    //     title: "Ugly",
+    //     subtitle: "Featured Single",
+    //     coverSrc: running_away_single,
+    //     audioSrc: "/audio/new-beginnings/ugly-feature.mp3",
+    //     link: "https://social.tunecore.com/linkShare?linkid=aFv3L4Cd1AF7c58qsTnm-g",
+    // },
 
     // Placeholder
-    // FEATURED_TRACK: {
-    //     title: "Tell Me",
-    //     subtitle: "Featured Single",
-    //     coverSrc: tell_me_single,
-    //     audioSrc: "/audio/new-beginnings/tell-me-feature.mp3",
-    //     link: "",
-    // },
+    FEATURED_TRACK: {
+        title: "Tell Me",
+        subtitle: "Featured Single",
+        coverSrc: tell_me_single,
+        audioSrc: "/audio/new-beginnings/tell-me-feature.mp3",
+        link: "https://social.tunecore.com/linkShare?linkid=rpGJwGb7PD-khd10zPofZQ",
+    },
 
     MAIN_BAND_PAGE: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL",
     SOCIAL_LINKS: [
@@ -81,7 +81,7 @@ const bandInfo = {
                     audioSrc: "/audio/new-beginnings/tell-me.mp3",
                     songImg: "",
                     storyBehindTheLyrics: "",
-                    single_link_share: "",
+                    single_link_share: "https://social.tunecore.com/linkShare?linkid=rpGJwGb7PD-khd10zPofZQ",
                     releaseDate: "02/28/2026"
                 },
                 {title: "Running Away", audioSrc: "/audio/new-beginnings/running-away.mp3", releaseDate: ""},{
@@ -104,7 +104,14 @@ const bandInfo = {
                     releaseDate: "12/22/2025"
                 },
                 {title: "Hold My Hand", audioSrc: "/audio/new-beginnings/hold-my-hand.mp3", releaseDate: ""},
-                {title: "Ugly", audioSrc: "/audio/new-beginnings/ugly.mp3", releaseDate: ""},
+                {
+                    title: "Ugly",
+                    audioSrc: "/audio/new-beginnings/ugly.mp3",
+                    songImg: "",
+                    storyBehindTheLyrics: "",
+                    single_link_share: "",
+                    releaseDate: "3/29/2025"
+                },
             ]
         },
         {
