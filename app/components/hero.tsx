@@ -278,7 +278,7 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                     {/* Cover + text side-by-side */}
                     <div className="flex gap-3 min-w-0">
                         {/* Cover */}
-                        <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl border border-zinc-700 sm:h-28 sm:w-28">
+                        <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-zinc-700 sm:h-28 sm:w-28">
                             <Image
                                 src={bandInfo.FEATURED_TRACK.coverSrc}
                                 alt={`${bandInfo.FEATURED_TRACK.title} cover`}

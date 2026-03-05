@@ -35,7 +35,6 @@ const nextConfig = {
         // ignoreBuildErrors: isDev,
         ignoreBuildErrors: true, // Ignore TypeScript errors during builds
     },
-    output: 'export',
 };
 
 export default nextConfig;

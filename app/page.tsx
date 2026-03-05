@@ -7,12 +7,14 @@ import {AlbumsSection} from "@/app/components/discography";
 import {AboutSection} from "@/app/components/about";
 import {HeroSection} from "@/app/components/hero";
 import {CurrentYear} from "@/app/config/utils";
+import BlogSection from "@/app/components/blog";
 
 // navigation sections
 const SECTIONS = [
     { id: "hero", label: "Home" },
     { id: "about", label: "About" },
     { id: "albums", label: "Discography" },
+    { id: "blogs", label: "Blogs" },
     // { id: "band", label: "Band" },
     // { id: "shows", label: "Shows" },
     // { id: "discover", label: "Discover" },
@@ -155,6 +157,7 @@ export default function Home() {
                 <HeroSection onScrollDown={() => scrollToSection("albums")} />
                 <AboutSection />
                 <AlbumsSection />
+                <BlogSection posts={bandInfo.BLOGS} />
             </main>
 
             {/* FOOTER */}

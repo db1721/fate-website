@@ -6,6 +6,8 @@ import running_away_single from './../assets/albums/running-away-cover.png';
 import tell_me_single from './../assets/albums/tell-me-cover.jpg';
 import passion_single from './../assets/albums/passion-single-cover.png';
 import wake_of_determination from './../assets/albums/wake-of-determination.png';
+import music_for_all from './../assets/blogs/music-for-all-logo-site.png';
+import roadie_music from './../assets/blogs/roadie-music.jpg';
 
 const bandInfo = {
     band_logo: e2,
@@ -54,7 +56,7 @@ const bandInfo = {
         {
             id: "new-beginnings",
             title: "New Beginnings",
-            year: 2025,
+            year: 2026,
             description: "Planned Release TBD",
             coverSrc: new_beginnings,
             tracks: [
@@ -66,7 +68,14 @@ const bandInfo = {
                     single_link_share: "https://social.tunecore.com/linkShare?linkid=QD4oNbERKt8QDIS0qlCTOQ",
                     releaseDate: "12/05/2025"
                 },
-                {title: "Angels", audioSrc: "/audio/new-beginnings/angels.mp3", releaseDate: ""},
+                {
+                    title: "Angels",
+                    audioSrc: "/audio/new-beginnings/angels.mp3",
+                    songImg: "",
+                    storyBehindTheLyrics: "",
+                    single_link_share: "",
+                    releaseDate: "3/15/2026"
+                },
                 {
                     title: "Blown Away",
                     audioSrc: "/audio/new-beginnings/blown-away.mp3",
@@ -84,7 +93,7 @@ const bandInfo = {
                     single_link_share: "https://social.tunecore.com/linkShare?linkid=rpGJwGb7PD-khd10zPofZQ",
                     releaseDate: "02/28/2026"
                 },
-                {title: "Running Away", audioSrc: "/audio/new-beginnings/running-away.mp3", releaseDate: ""},{
+                {
                     title: "Running Away",
                     audioSrc: "/audio/new-beginnings/running-away.mp3",
                     songImg: "",
@@ -110,14 +119,14 @@ const bandInfo = {
                     songImg: "",
                     storyBehindTheLyrics: "",
                     single_link_share: "",
-                    releaseDate: "3/29/2025"
+                    releaseDate: "3/29/2026"
                 },
             ]
         },
         {
             id: "wake-of-determination",
             title: "Wake of Determination",
-            year: 2025,
+            year: 2026,
             description: "Dark, emotional riffs and breakdowns.",
             coverSrc: wake_of_determination,
             tracks: [
@@ -126,6 +135,28 @@ const bandInfo = {
             ],
         },
         ],
+
+
+    BLOGS: [
+        {
+            title: "Roadie Music",
+            excerpt:
+                "Fight Against the Enemy's \"New Beginning\" showcases instrumental strength and emotion right from the band's debut.",
+            href: "https://roadie-music.com/new-beginning-da-fight-against-the-enemy-mostra-forca-instrumental-e-emocao-logo-na-estreia-da-banda/",
+            date: "2025-12-15",
+            coverSrc: roadie_music,
+            tag: "New Beginning",
+        },
+        {
+            title: "Music For All",
+            excerpt:
+                "Fight Against The Enemy delivers a positive message amidst aggressive and dark music",
+            href: "https://musicforall.com.br/fight-against-the-enemy-traz-mensagem-positiva-em-meio-a-musica-agressiva-e-sombria/",
+            date: "2025-12-15",
+            coverSrc: music_for_all,
+            tag: "New Beginning",
+        },
+    ],
 
     // Colors
     colors:
