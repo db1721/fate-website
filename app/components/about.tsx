@@ -43,14 +43,10 @@ export function AboutSection() {
                         It’s the culmination of a lifelong obsession with songwriting that has shaped me and, at times,
                         saved me. For over {getYearsSince("2001-12-02")} years, I’ve been writing melodies,
                         building hooks, and turning real experiences into songs. Music has always been where my
-                        thoughts get loud enough to understand and where the battles I’ve faced find structure
-                        instead of chaos.
+                        mind can escape when I can't escape reality and where I can comfortably express my emotions.
                     </p>
                     <p>
-                        Songwriting is the craft. Everything else is the vehicle.
-                    </p>
-                    <p>
-                        I write heavy, melodic rock rooted in tension, release, and emotional honesty. Every
+                        I write heavy, melodic rock rooted in tension, release, and emotional strength (or breakdown). Every
                         lyric starts as something lived. Every chorus is built to hit hard enough to mean something.
                         Every melody crafted for long-term resonance.
                     </p>

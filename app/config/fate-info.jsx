@@ -4,6 +4,8 @@ import new_beginning from './../assets/albums/new-beginning-cover.png';
 import blown_away_single from './../assets/albums/blown-away-cover.png';
 import running_away_single from './../assets/albums/running-away-cover.png';
 import tell_me_single from './../assets/albums/tell-me-cover.jpg';
+import angels from './../assets/albums/angels-single-cover.jpg';
+import ugly from './../assets/albums/ugly-single-cover.png';
 import passion_single from './../assets/albums/passion-single-cover.png';
 import wake_of_determination from './../assets/albums/wake-of-determination.png';
 import music_for_all from './../assets/blogs/music-for-all-logo-site.png';
@@ -20,18 +22,18 @@ const bandInfo = {
     // FEATURED_TRACK: {
     //     title: "Ugly",
     //     subtitle: "Featured Single",
-    //     coverSrc: running_away_single,
+    //     coverSrc: ugly,
     //     audioSrc: "/audio/new-beginnings/ugly-feature.mp3",
-    //     link: "https://social.tunecore.com/linkShare?linkid=aFv3L4Cd1AF7c58qsTnm-g",
+    //     link: "",
     // },
 
     // Placeholder
     FEATURED_TRACK: {
-        title: "Tell Me",
+        title: "Angels",
         subtitle: "Featured Single",
-        coverSrc: tell_me_single,
-        audioSrc: "/audio/new-beginnings/tell-me-feature.mp3",
-        link: "https://social.tunecore.com/linkShare?linkid=rpGJwGb7PD-khd10zPofZQ",
+        coverSrc: angels,
+        audioSrc: "/audio/new-beginnings/angels-feature.mp3",
+        link: "https://social.tunecore.com/linkShare?linkid=RDGxC-f50Nxfuhwx9xsxwg",
     },
 
     MAIN_BAND_PAGE: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL",
@@ -63,7 +65,7 @@ const bandInfo = {
                 {
                     title: "New Beginning",
                     audioSrc: "/audio/new-beginnings/new-beginning.mp3",
-                    songImg: "",
+                    songImg: new_beginning,
                     storyBehindTheLyrics: "",
                     single_link_share: "https://social.tunecore.com/linkShare?linkid=QD4oNbERKt8QDIS0qlCTOQ",
                     releaseDate: "12/05/2025"
@@ -71,15 +73,15 @@ const bandInfo = {
                 {
                     title: "Angels",
                     audioSrc: "/audio/new-beginnings/angels.mp3",
-                    songImg: "",
+                    songImg: angels,
                     storyBehindTheLyrics: "",
-                    single_link_share: "",
+                    single_link_share: "https://social.tunecore.com/linkShare?linkid=RDGxC-f50Nxfuhwx9xsxwg",
                     releaseDate: "3/15/2026"
                 },
                 {
                     title: "Blown Away",
                     audioSrc: "/audio/new-beginnings/blown-away.mp3",
-                    songImg: "",
+                    songImg: blown_away_single,
                     storyBehindTheLyrics: "",
                     single_link_share: "https://social.tunecore.com/linkShare?linkid=ovJ1G2ylupbvjscfciA2hQ",
                     releaseDate: "12/23/2025"
@@ -88,7 +90,7 @@ const bandInfo = {
                 {
                     title: "Tell Me",
                     audioSrc: "/audio/new-beginnings/tell-me.mp3",
-                    songImg: "",
+                    songImg: tell_me_single,
                     storyBehindTheLyrics: "",
                     single_link_share: "https://social.tunecore.com/linkShare?linkid=rpGJwGb7PD-khd10zPofZQ",
                     releaseDate: "02/28/2026"
@@ -96,7 +98,7 @@ const bandInfo = {
                 {
                     title: "Running Away",
                     audioSrc: "/audio/new-beginnings/running-away.mp3",
-                    songImg: "",
+                    songImg: running_away_single,
                     storyBehindTheLyrics: "",
                     single_link_share: "https://social.tunecore.com/linkShare?linkid=aFv3L4Cd1AF7c58qsTnm-g",
                     releaseDate: "02/16/2026"
@@ -107,7 +109,7 @@ const bandInfo = {
                 {
                     title: "Passion",
                     audioSrc: "/audio/new-beginnings/passion.mp3",
-                    songImg: "",
+                    songImg: passion_single,
                     storyBehindTheLyrics: "",
                     single_link_share: "https://social.tunecore.com/linkShare?linkid=sH2KInrt63j517J6AtNVhA",
                     releaseDate: "12/22/2025"
@@ -116,7 +118,7 @@ const bandInfo = {
                 {
                     title: "Ugly",
                     audioSrc: "/audio/new-beginnings/ugly.mp3",
-                    songImg: "",
+                    songImg: ugly,
                     storyBehindTheLyrics: "",
                     single_link_share: "",
                     releaseDate: "3/29/2026"
@@ -131,6 +133,7 @@ const bandInfo = {
             coverSrc: wake_of_determination,
             tracks: [
                 { title: "Brand New Day", audioSrc: "/audio/wake-of-determination/brand-new-day.mp3", releaseDate: ""  },
+                { title: "Encompassing Defeat", audioSrc: "/audio/wake-of-determination/encompassing-defeat.mp3", releaseDate: ""  },
                 { title: "Wake of Determination", audioSrc: "/audio/wake-of-determination/wake-of-determination.mp3", releaseDate: ""  },
             ],
         },
