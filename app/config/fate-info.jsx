@@ -33,7 +33,7 @@ const bandInfo = {
         subtitle: "Featured Single",
         coverSrc: angels,
         audioSrc: "/audio/new-beginnings/angels-feature.mp3",
-        link: "https://social.tunecore.com/linkShare?linkid=RDGxC-f50Nxfuhwx9xsxwg",
+        link: "https://ffm.to/fate-angels",
     },
 
     MAIN_BAND_PAGE: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL",
@@ -67,7 +67,7 @@ const bandInfo = {
                     audioSrc: "/audio/new-beginnings/new-beginning.mp3",
                     songImg: new_beginning,
                     storyBehindTheLyrics: "",
-                    single_link_share: "https://social.tunecore.com/linkShare?linkid=QD4oNbERKt8QDIS0qlCTOQ",
+                    single_link_share: "https://ffm.to/fate-new-beginning",
                     releaseDate: "12/05/2025"
                 },
                 {
@@ -75,7 +75,7 @@ const bandInfo = {
                     audioSrc: "/audio/new-beginnings/angels.mp3",
                     songImg: angels,
                     storyBehindTheLyrics: "",
-                    single_link_share: "https://social.tunecore.com/linkShare?linkid=RDGxC-f50Nxfuhwx9xsxwg",
+                    single_link_share: "https://ffm.to/fate-angels",
                     releaseDate: "3/15/2026"
                 },
                 {
@@ -83,7 +83,7 @@ const bandInfo = {
                     audioSrc: "/audio/new-beginnings/blown-away.mp3",
                     songImg: blown_away_single,
                     storyBehindTheLyrics: "",
-                    single_link_share: "https://social.tunecore.com/linkShare?linkid=ovJ1G2ylupbvjscfciA2hQ",
+                    single_link_share: "https://ffm.to/fate-blown-away",
                     releaseDate: "12/23/2025"
                 },
                 {title: "Lost and Afraid", audioSrc: "/audio/new-beginnings/lost-and-afraid.mp3", releaseDate: ""},
@@ -92,7 +92,7 @@ const bandInfo = {
                     audioSrc: "/audio/new-beginnings/tell-me.mp3",
                     songImg: tell_me_single,
                     storyBehindTheLyrics: "",
-                    single_link_share: "https://social.tunecore.com/linkShare?linkid=rpGJwGb7PD-khd10zPofZQ",
+                    single_link_share: "https://ffm.to/fate-tell-me",
                     releaseDate: "02/28/2026"
                 },
                 {
@@ -100,7 +100,7 @@ const bandInfo = {
                     audioSrc: "/audio/new-beginnings/running-away.mp3",
                     songImg: running_away_single,
                     storyBehindTheLyrics: "",
-                    single_link_share: "https://social.tunecore.com/linkShare?linkid=aFv3L4Cd1AF7c58qsTnm-g",
+                    single_link_share: "https://ffm.to/fate-running-away",
                     releaseDate: "02/16/2026"
                 },
                 {title: "Friends", audioSrc: "/audio/new-beginnings/friends.mp3", releaseDate: ""},
@@ -111,7 +111,7 @@ const bandInfo = {
                     audioSrc: "/audio/new-beginnings/passion.mp3",
                     songImg: passion_single,
                     storyBehindTheLyrics: "",
-                    single_link_share: "https://social.tunecore.com/linkShare?linkid=sH2KInrt63j517J6AtNVhA",
+                    single_link_share: "https://ffm.to/fate-passion",
                     releaseDate: "12/22/2025"
                 },
                 {title: "Hold My Hand", audioSrc: "/audio/new-beginnings/hold-my-hand.mp3", releaseDate: ""},
