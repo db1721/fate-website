@@ -19,22 +19,22 @@ const bandInfo = {
     band_seo_description: 'logo',
 
     // Placeholder
-    // FEATURED_TRACK: {
-    //     title: "Ugly",
-    //     subtitle: "Featured Single",
-    //     coverSrc: ugly,
-    //     audioSrc: "/audio/new-beginnings/ugly-feature.mp3",
-    //     link: "",
-    // },
+    FEATURED_TRACK: {
+        title: "Ugly",
+        subtitle: "Featured Single",
+        coverSrc: ugly,
+        audioSrc: "/audio/new-beginnings/ugly-feature.mp3",
+        link: "https://ffm.to/fate-ugly",
+    },
 
     // Placeholder
-    FEATURED_TRACK: {
-        title: "Angels",
-        subtitle: "Featured Single",
-        coverSrc: angels,
-        audioSrc: "/audio/new-beginnings/angels-feature.mp3",
-        link: "https://ffm.to/fate-angels",
-    },
+    // FEATURED_TRACK: {
+    //     title: "Friends",
+    //     subtitle: "Featured Single",
+    //     coverSrc: friends,
+    //     audioSrc: "/audio/new-beginnings/friends-feature.mp3",
+    //     link: "https://ffm.to/fate-friends",
+    // },
 
     MAIN_BAND_PAGE: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL",
     SOCIAL_LINKS: [
@@ -120,7 +120,7 @@ const bandInfo = {
                     audioSrc: "/audio/new-beginnings/ugly.mp3",
                     songImg: ugly,
                     storyBehindTheLyrics: "",
-                    single_link_share: "",
+                    single_link_share: "https://ffm.to/fate-ugly",
                     releaseDate: "3/29/2026"
                 },
             ]
