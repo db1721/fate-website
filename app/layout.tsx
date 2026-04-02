@@ -9,8 +9,8 @@ import { AudioManagerProvider } from "./context/audio-manager";
 
 export const metadata = {
     title: "Fight Against the Enemy (F.A.T.E.)",
-    description: "F.A.T.E (Fight Against the Enemy) is a modern rock band known for blending powerful melodies, " +
-        "emotional storytelling, and anthemic hooks. Our music explores the battles we all face—each one different, " +
+    description: "F.A.T.E (Fight Against the Enemy) is a modern rock project known for blending powerful melodies, " +
+        "emotional storytelling, and anthemic hooks. My music explores the battles we all face—each one different, " +
         "each one real—and aims to inspire strength, resilience, and connection through sound. With driving guitars, " +
         "heartfelt vocals, and lyrics that cut deep, F.A.T.E delivers a bold reminder that no matter what fight you’re " +
         "in, you’re never fighting alone",
