@@ -2,6 +2,7 @@ import { AppleMusicIcon } from "@/app/components/logos/apple";
 import Image from "next/image";
 import { SocialIcon } from "react-social-icons";
 import { track } from "@vercel/analytics";
+import {trackInteraction} from "@/lib/trackInteraction";
 
 export type SocialLink = {
     url: string;
@@ -47,10 +48,11 @@ export function SocialIcons({
                     className="flex items-center justify-center rounded-full border border-zinc-700 hover:border-zinc-400 hover:bg-white/5 hover:scale-110 transition-transform duration-200"
                     style={{ width: size, height: size }}
                     onClick={() =>
-                        track("service_click", {
-                            song: SongSlug,
-                            service: "apple",
-                        })
+                        trackInteraction({
+                        song: SongSlug,
+                        action: "service_click",
+                        service: "apple",
+                    })
                 }
                 >
                     <AppleMusicIcon
@@ -72,10 +74,11 @@ export function SocialIcons({
                     className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
                     style={{ width: size, height: size }}
                     onClick={() =>
-                        track("service_click", {
-                            song: SongSlug,
-                            service: "amazon_music",
-                        })
+                        trackInteraction({
+                        song: SongSlug,
+                        action: "service_click",
+                        service: "amazon_music",
+                    })
                 }
                 >
                     <Image
@@ -100,8 +103,9 @@ export function SocialIcons({
                     className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
                     style={{ width: size, height: size }}
                     onClick={() =>
-                        track("service_click", {
+                            trackInteraction({
                             song: SongSlug,
+                            action: "service_click",
                             service: "pandora_music",
                         })
                     }
@@ -128,8 +132,9 @@ export function SocialIcons({
                     className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
                     style={{ width: size, height: size }}
                     onClick={() =>
-                        track("service_click", {
+                            trackInteraction({
                             song: SongSlug,
+                            action: "service_click",
                             service: "tidal",
                         })
                     }
@@ -154,8 +159,9 @@ export function SocialIcons({
                     rel="noopener noreferrer"
                     aria-label="Listen on Deezer"
                     onClick={() =>
-                        track("service_click", {
+                            trackInteraction({
                             song: SongSlug,
+                            action: "service_click",
                             service: "deezer",
                         })
                     }
@@ -182,8 +188,9 @@ export function SocialIcons({
                     className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
                     style={{width: size, height: size}}
                     onClick={() =>
-                        track("service_click", {
+                            trackInteraction({
                             song: SongSlug,
+                            action: "service_click",
                             service: "youtube",
                         })
                     }
@@ -210,8 +217,9 @@ export function SocialIcons({
                     className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
                     style={{width: size, height: size}}
                     onClick={() =>
-                        track("service_click", {
+                        trackInteraction({
                             song: SongSlug,
+                            action: "service_click",
                             service: "youtube_music",
                         })
                     }
@@ -237,8 +245,9 @@ export function SocialIcons({
                     aria-label="Find us on Instagram"
                     style={{width: size, height: size}}
                     onClick={() =>
-                    track("service_click", {
+                    trackInteraction({
                         song: SongSlug,
+                        action: "service_click",
                         service: "instagram",
                     })
                 }
@@ -274,10 +283,12 @@ export function SocialIcons({
                 className="hover:scale-110 transition-transform duration-200"
                 style={{ width: size, height: size }}
                 onClick={() =>
-                    track("service_click", {
-                        song: SongSlug,
-                        service: item.network,
-                    })
+                    trackInteraction({
+                    song: SongSlug,
+                    action: "service_click",
+                    service: item.network,
+                })
+
                 }
             />
         );

@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import {SocialIcons, SocialIconsProps} from "@/app/components/shared/socials";
 import {track} from "@vercel/analytics";
+import {trackInteraction} from "@/lib/trackInteraction";
 
 export type SocialLink = {
     url: string;
@@ -233,6 +234,7 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
     const [lyricsExpanded, setLyricsExpanded] = useState(false);
     const [lyricsMaxHeight, setLyricsMaxHeight] = useState("14rem");
     const lyricsContentRef = useRef<HTMLDivElement | null>(null);
+    const hasTrackedLyricsRef = useRef(false);
 
     useEffect(() => {
         if (!lyricsContentRef.current) return;
@@ -243,6 +245,17 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
             setLyricsMaxHeight("14rem");
         }
     }, [lyricsExpanded, lyrics]);
+
+    useEffect(() => {
+        if (lyricsExpanded && !hasTrackedLyricsRef.current) {
+            hasTrackedLyricsRef.current = true;
+
+            trackInteraction({
+                song: song.slug,
+                action: "lyrics_review",
+            });
+        }
+    }, [lyricsExpanded, song.slug]);
 
     useEffect(() => {
         async function loadLyrics() {
@@ -367,10 +380,9 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                 setIsPlaying(true);
 
                 if (!hasTrackedPlayRef.current) {
-                    track("song_preview_play", {
+                    await trackInteraction({
                         song: song.slug,
-                        title: song.title,
-                        start_time: song.previewStartTime ?? 0,
+                        action: "preview_play",
                     });
                     hasTrackedPlayRef.current = true;
                 }

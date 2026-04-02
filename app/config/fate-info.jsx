@@ -24,7 +24,7 @@ const bandInfo = {
         subtitle: "Featured Single",
         coverSrc: ugly,
         audioSrc: "/audio/new-beginnings/ugly-feature.mp3",
-        link: "https://ffm.to/fate-ugly",
+        link: "https://fatemusicofficial.com/music/ugly",
     },
 
     // Placeholder
