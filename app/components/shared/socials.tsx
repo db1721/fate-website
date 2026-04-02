@@ -46,6 +46,12 @@ export function SocialIcons({
                     aria-label="Listen on Apple Music"
                     className="flex items-center justify-center rounded-full border border-zinc-700 hover:border-zinc-400 hover:bg-white/5 hover:scale-110 transition-transform duration-200"
                     style={{ width: size, height: size }}
+                    onClick={() =>
+                        track("service_click", {
+                            song: SongSlug,
+                            service: "apple",
+                        })
+                }
                 >
                     <AppleMusicIcon
                         className="h-full w-full"
@@ -65,6 +71,12 @@ export function SocialIcons({
                     aria-label="Listen on Amazon Music"
                     className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
                     style={{ width: size, height: size }}
+                    onClick={() =>
+                        track("service_click", {
+                            song: SongSlug,
+                            service: "amazon_music",
+                        })
+                }
                 >
                     <Image
                         src="/icons/amazon-music.png"
@@ -87,6 +99,12 @@ export function SocialIcons({
                     aria-label="Listen on Pandora"
                     className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
                     style={{ width: size, height: size }}
+                    onClick={() =>
+                        track("service_click", {
+                            song: SongSlug,
+                            service: "pandora_music",
+                        })
+                    }
                 >
                     <Image
                         src="/icons/pandora.png"
@@ -109,6 +127,12 @@ export function SocialIcons({
                     aria-label="Listen on Tidal"
                     className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
                     style={{ width: size, height: size }}
+                    onClick={() =>
+                        track("service_click", {
+                            song: SongSlug,
+                            service: "tidal",
+                        })
+                    }
                 >
                     <Image
                         src="/icons/tidal.jpg"
@@ -129,6 +153,12 @@ export function SocialIcons({
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Listen on Deezer"
+                    onClick={() =>
+                        track("service_click", {
+                            song: SongSlug,
+                            service: "deezer",
+                        })
+                    }
                     className="relative flex h-10 w-10 items-center justify-center rounded-full border border-zinc-700 bg-black hover:scale-110 transition-transform duration-200 overflow-hidden">
                     <Image
                         src="/icons/deezer.png"
@@ -151,6 +181,12 @@ export function SocialIcons({
                     aria-label="Listen on YouTube"
                     className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
                     style={{width: size, height: size}}
+                    onClick={() =>
+                        track("service_click", {
+                            song: SongSlug,
+                            service: "youtube",
+                        })
+                    }
                 >
                     <Image
                         src="/icons/youtube.jpg"
@@ -173,6 +209,12 @@ export function SocialIcons({
                     aria-label="Listen on YouTube"
                     className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
                     style={{width: size, height: size}}
+                    onClick={() =>
+                        track("service_click", {
+                            song: SongSlug,
+                            service: "youtube_music",
+                        })
+                    }
                 >
                     <Image
                         src="/icons/youtube-music.png"
@@ -194,6 +236,12 @@ export function SocialIcons({
                     rel="noopener noreferrer"
                     aria-label="Find us on Instagram"
                     style={{width: size, height: size}}
+                    onClick={() =>
+                    track("service_click", {
+                        song: SongSlug,
+                        service: "instagram",
+                    })
+                }
                     className="
                                         relative bg-white
                                         flex h-10 w-10
@@ -225,6 +273,12 @@ export function SocialIcons({
                 fgColor="#ffffff"
                 className="hover:scale-110 transition-transform duration-200"
                 style={{ width: size, height: size }}
+                onClick={() =>
+                    track("service_click", {
+                        song: SongSlug,
+                        service: item.network,
+                    })
+                }
             />
         );
     }
