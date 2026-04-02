@@ -19,12 +19,15 @@ function getSongPageDataFromSlug(slug: string): SongPageData | null {
                 return {
                     slug: trackSlug,
                     title: track.title,
+                    lyricsFile: track.lyricsFile,
                     artist: bandInfo.band_name,
                     subtitle: album.title ? `${track.title} from ${album.title}` : undefined,
                     coverImage: track.songImg ?? album.coverSrc,
                     previewUrl: track.audioSrc,
                     spotifyUrl: track.single_link_share ?? bandInfo.MAIN_BAND_PAGE,
                     releaseLabel: track.releaseDate ? `Released ${track.releaseDate}` : undefined,
+                    songServiceLinks: track.songServiceLinks ?? undefined,
+                    previewStartTime: track.previewStartTime ?? 0,
                 };
             }
         }

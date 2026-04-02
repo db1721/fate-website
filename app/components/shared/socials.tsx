@@ -1,188 +1,200 @@
-import {AppleMusicIcon} from "@/app/components/logos/apple";
+import { AppleMusicIcon } from "@/app/components/logos/apple";
 import Image from "next/image";
-import {SocialIcon} from "react-social-icons";
-import bandInfo from "@/app/config/fate-info";
+import { SocialIcon } from "react-social-icons";
+import { track } from "@vercel/analytics";
 
-interface SocialIconsProps {
-    SocialLinkData: { url: string; network: string; tooltip: string }[];
+export type SocialLink = {
+    url: string;
+    network: string;
+    tooltip: string;
+    bgColor?: string;
+};
+
+export interface SocialIconsProps {
+    SocialLinkData?: SocialLink[];
+    SongSlug: string;
+    palette?: {
+        border: string;
+        primary: string;
+        secondary: string;
+    };
 }
 
-export function SocialIcons({ SocialLinkData }: SocialIconsProps) {
-    return (
-        <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-            {SocialLinkData?.map((item: {
-                url: string
-                network: string
-                tooltip: string
-            }) =>
-                item.network === "apple" ? (
-                    <a
-                        key={item.url}
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex h-10 w-10 items-center justify-center
-                                    rounded-full border border-zinc-700 hover:border-zinc-400
-                                    hover:bg-white/5 hover:scale-110 transition-transform duration-200"
-                        aria-label="Listen on Apple Music"
-                    >
-                        <AppleMusicIcon className="h-10 w-10"/>
-                    </a>
-                ) : item.network === "amazon" ? (
-                    <a
-                        key={item.url}
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Listen on Amazon Music"
-                        className="
-                                        relative
-                                        flex h-10 w-10
-                                        items-center justify-center
-                                        rounded-full border border-zinc-700
-                                        hover:scale-110 transition-transform duration-200
-                                        overflow-hidden
-                                      "
-                    >
-                        <Image
-                            src="/icons/amazon-music.png"
-                            alt="Amazon Music"
-                            fill
-                            unoptimized
-                            className="object-cover"
-                        />
-                    </a>
+export function SocialIcons({
+                                SocialLinkData = [],
+                                SongSlug,
+                            }: SocialIconsProps) {
+    const primaryNetworks: any[] = [];
+    const primary = primaryNetworks
+        .map((network) => SocialLinkData.find((item) => item.network === network))
+        .filter(Boolean);
 
-                ) : item.network === "shazam" ? (
-                    <a
-                        key={item.url}
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Listen on Shazam"
-                        className="
-                                        relative
-                                        flex h-10 w-10
-                                        items-center justify-center
-                                        rounded-full border border-zinc-700
-                                        hover:scale-110 transition-transform duration-200
-                                        overflow-hidden
-                                      "
-                    >
-                        <Image
-                            src="/icons/shazam.png"
-                            alt="Shazam"
-                            fill
-                            unoptimized
-                            className="object-cover"
-                        />
-                    </a>
+    const secondary = SocialLinkData.filter(
+        (item) => !primaryNetworks.includes(item.network)
+    );
 
-                ) : item.network === "tidal" ? (
-                    <a
-                        key={item.url}
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Listen on Tidal"
-                        className="
-                                        relative
-                                        flex h-10 w-10
-                                        items-center justify-center
-                                        rounded-full border border-zinc-700
-                                        hover:scale-110 transition-transform duration-200
-                                        overflow-hidden
-                                      "
-                    >
-                        <Image
-                            src="/icons/tidal.jpg"
-                            alt="Tidal"
-                            fill
-                            unoptimized
-                            className="object-cover"
-                        />
-                    </a>
-                ) : item.network === "pandora" ? (
-                    <a
-                        key={item.url}
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Listen on Pandora"
-                        className="
-                                        relative
-                                        flex h-10 w-10
-                                        items-center justify-center
-                                        rounded-full border border-zinc-700
-                                        hover:scale-110 transition-transform duration-200
-                                        overflow-hidden
-                                      "
-                    >
-                        <Image
-                            src="/icons/pandora.png"
-                            alt="Pandora"
-                            fill
-                            unoptimized
-                            className="object-cover"
-                        />
-                    </a>
-                ) : item.network === "deezer" ? (
-                    <a
-                        key={item.url}
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Listen on Deezer"
-                        className="
-                                        relative
-                                        flex h-10 w-10
-                                        items-center justify-center
-                                        rounded-full border border-zinc-700
-                                        hover:scale-110 transition-transform duration-200
-                                        overflow-hidden
-                                      "
-                    >
-                        <Image
-                            src="/icons/deezer.png"
-                            alt="Deezer"
-                            fill
-                            unoptimized
-                            className="object-cover scale-85"
-                        />
-                    </a>
-                ) : item.network === "youtube-music" ? (
-                    <a
-                        key={item.url}
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Listen on YouTube Music"
-                        className="
-                                        relative
-                                        flex h-10 w-10
-                                        items-center justify-center
-                                        rounded-full border border-zinc-700
-                                        hover:scale-110 transition-transform duration-200
-                                        overflow-hidden
-                                      "
-                    >
-                        <Image
-                            src="/icons/youtube-music.png"
-                            alt="YouTube Music"
-                            fill
-                            unoptimized
-                            className="object-cover"
-                        />
-                    </a>
+    function renderIcon(item: any, isPrimary = false) {
+        const size = isPrimary ? 35 : 40;
 
-                ) : item.network === "instagram" ? (
-                    <a
-                        key={item.url}
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label="Find us on Instagram"
-                        className="
+        if (item.network === "apple") {
+            return (
+                <a
+                    key={item.url}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Listen on Apple Music"
+                    className="flex items-center justify-center rounded-full border border-zinc-700 hover:border-zinc-400 hover:bg-white/5 hover:scale-110 transition-transform duration-200"
+                    style={{ width: size, height: size }}
+                >
+                    <AppleMusicIcon
+                        className="h-full w-full"
+                        style={{ color: "#fc3c44" }}
+                    />
+                </a>
+            );
+        }
+
+        if (item.network === "amazon") {
+            return (
+                <a
+                    key={item.url}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Listen on Amazon Music"
+                    className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
+                    style={{ width: size, height: size }}
+                >
+                    <Image
+                        src="/icons/amazon-music.png"
+                        alt="Amazon Music"
+                        fill
+                        unoptimized
+                        className="object-cover"
+                    />
+                </a>
+            );
+        }
+
+        if (item.network === "pandora") {
+            return (
+                <a
+                    key={item.url}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Listen on Pandora"
+                    className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
+                    style={{ width: size, height: size }}
+                >
+                    <Image
+                        src="/icons/pandora.png"
+                        alt="Pandora"
+                        fill
+                        unoptimized
+                        className="object-cover"
+                    />
+                </a>
+            );
+        }
+
+        if (item.network === "tidal") {
+            return (
+                <a
+                    key={item.url}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Listen on Tidal"
+                    className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
+                    style={{ width: size, height: size }}
+                >
+                    <Image
+                        src="/icons/tidal.jpg"
+                        alt="Tidal"
+                        fill
+                        unoptimized
+                        className="object-cover"
+                    />
+                </a>
+            );
+        }
+
+        if (item.network === "deezer") {
+            return (
+                <a
+                    key={item.url}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Listen on Deezer"
+                    className="relative flex h-10 w-10 items-center justify-center rounded-full border border-zinc-700 bg-black hover:scale-110 transition-transform duration-200 overflow-hidden">
+                    <Image
+                        src="/icons/deezer.png"
+                        alt="Deezer"
+                        width={28}
+                        height={28}
+                        className="object-contain"
+                    />
+                </a>
+            );
+        }
+
+        if (item.network === "youtube") {
+            return (
+                <a
+                    key={item.url}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Listen on YouTube"
+                    className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
+                    style={{width: size, height: size}}
+                >
+                    <Image
+                        src="/icons/youtube.jpg"
+                        alt="YouTube"
+                        fill
+                        unoptimized
+                        className="object-cover"
+                    />
+                </a>
+            );
+        }
+
+        if (item.network === "youtube-music") {
+            return (
+                <a
+                    key={item.url}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Listen on YouTube"
+                    className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
+                    style={{width: size, height: size}}
+                >
+                    <Image
+                        src="/icons/youtube-music.png"
+                        alt="YouTube Music"
+                        fill
+                        unoptimized
+                        className="object-cover"
+                    />
+                </a>
+            );
+        }
+
+        if (item.network === "instagram") {
+            return (
+                <a
+                    key={item.url}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Find us on Instagram"
+                    style={{width: size, height: size}}
+                    className="
                                         relative bg-white
                                         flex h-10 w-10
                                         items-center justify-center
@@ -190,28 +202,45 @@ export function SocialIcons({ SocialLinkData }: SocialIconsProps) {
                                         hover:scale-110 transition-transform duration-200
                                         overflow-hidden
                                       "
-                    >
-                        <Image
-                            src="/icons/instagram.png"
-                            alt="Instagram"
-                            fill
-                            unoptimized
-                            className="object-cover"
-                        />
-                    </a>
-                ) : (
-                    <SocialIcon
-                        key={item.url}
-                        url={item.url}
-                        network={item.network as any}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        {...(item.bgColor ? {bgColor: item.bgColor} : {})}
-                        fgColor="#ffffff"
-                        className="hover:scale-110 transition-transform duration-200"
-                        style={{height: 40, width: 40}}
+                >
+                    <Image
+                        src="/icons/instagram.png"
+                        alt="Instagram"
+                        fill
+                        unoptimized
+                        className="object-cover"
                     />
-                )
+                </a>
+            );
+        }
+
+        return (
+            <SocialIcon
+                key={item.url}
+                url={item.url}
+                network={item.network as any}
+                target="_blank"
+                rel="noopener noreferrer"
+                {...(item.bgColor ? {bgColor: item.bgColor} : {})}
+                fgColor="#ffffff"
+                className="hover:scale-110 transition-transform duration-200"
+                style={{ width: size, height: size }}
+            />
+        );
+    }
+
+    return (
+        <div className="flex w-full flex-col gap-3 items-center">
+            {primary.length > 0 && (
+                <div className="flex w-full flex-wrap items-center justify-center gap-3">
+                    {primary.map((item) => renderIcon(item, true))}
+                </div>
+            )}
+
+            {secondary.length > 0 && (
+                <div className="flex w-full flex-wrap items-center justify-center gap-3">
+                    {secondary.map((item) => renderIcon(item, false))}
+                </div>
             )}
         </div>
     );
