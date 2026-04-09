@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
-import { db } from "@/lib/db";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -136,40 +135,6 @@ export async function POST(request: Request) {
                 { status: 500 }
             );
         }
-
-        try {
-            await db.query(
-                `
-        INSERT INTO interaction_events
-        (song, action, service, page, referrer, user_agent, ip_address, session_id, campaign, source, medium, country)
-        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)
-        `,
-                [
-                    song,
-                    action,
-                    service ?? null,
-                    page ?? null,
-                    referrer ?? request.headers.get("referer") ?? null,
-                    userAgent ?? null,
-                    ip ?? null,
-                    sessionId ?? null,
-                    campaign ?? null,
-                    source ?? null,
-                    medium ?? null,
-                    country,
-                ]
-            );
-        } catch (error) {
-            console.error("Database insert failed", error);
-            return NextResponse.json(
-                {
-                    error: "Database insert failed",
-                    details: error instanceof Error ? error.message : String(error),
-                },
-                { status: 500 }
-            );
-        }
-
         return NextResponse.json({
             ok: true,
             debug: {
