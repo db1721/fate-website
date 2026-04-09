@@ -235,6 +235,17 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
     const [lyricsMaxHeight, setLyricsMaxHeight] = useState("14rem");
     const lyricsContentRef = useRef<HTMLDivElement | null>(null);
     const hasTrackedLyricsRef = useRef(false);
+    const hasTracked = useRef(false);
+
+    useEffect(() => {
+        if (hasTracked.current) return;
+        hasTracked.current = true;
+
+        trackInteraction({
+            song: song.slug,
+            action: "song_page_visited",
+        });
+    }, []);
 
     useEffect(() => {
         if (!lyricsContentRef.current) return;
