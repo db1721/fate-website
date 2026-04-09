@@ -1,8 +1,7 @@
 import { AppleMusicIcon } from "@/app/components/logos/apple";
 import Image from "next/image";
 import { SocialIcon } from "react-social-icons";
-import { track } from "@vercel/analytics";
-import {trackInteraction} from "@/lib/trackInteraction";
+import {trackInteraction} from "@/lib/track-interaction";
 
 export type SocialLink = {
     url: string;

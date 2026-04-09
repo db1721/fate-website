@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import {SocialIcons, SocialIconsProps} from "@/app/components/shared/socials";
 import {track} from "@vercel/analytics";
-import {trackInteraction} from "@/lib/trackInteraction";
+import {trackInteraction} from "@/lib/track-interaction";
 
 export type SocialLink = {
     url: string;

@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-export const AppleMusicIcon = ({ className }: { className?: string }) => {
+export const AppleMusicIcon = ({className, style}: { className?: string, style?: { color: string } }) => {
     const gradientId = useId();
 
     return (

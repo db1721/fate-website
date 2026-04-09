@@ -24,7 +24,6 @@ const bandInfo = {
         subtitle: "Featured Single",
         coverSrc: ugly,
         audioSrc: "/audio/new-beginnings/ugly-feature.mp3",
-        link: "https://fatemusicofficial.com/music/ugly",
     },
 
     // Placeholder
@@ -33,7 +32,6 @@ const bandInfo = {
     //     subtitle: "Featured Single",
     //     coverSrc: friends,
     //     audioSrc: "/audio/new-beginnings/friends-feature.mp3",
-    //     link: "https://ffm.to/fate-friends",
     // },
 
     MAIN_BAND_PAGE: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL",

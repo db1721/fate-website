@@ -3,12 +3,15 @@ import { COLORS } from "@/app/theme";
 import bandInfo from "@/app/config/fate-info";
 import {AudioTrack} from "@/app/components/audio-track";
 import {SocialIcons} from "@/app/components/shared/socials";
+import { useRouter } from "next/navigation";
+import {slugify} from "@/lib/utils";
 
 type HeroSectionProps = {
     onScrollDown: () => void;
 };
 
 export function HeroSection({ onScrollDown }: HeroSectionProps) {
+    const router = useRouter();
     return (
         <section
             id="hero"
@@ -32,7 +35,7 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
             {/* LEFT: text + socials */}
                 <div className="flex-1 space-y-8 text-center lg:text-left">
                     {/*Socials*/}
-                    <SocialIcons SocialLinkData={bandInfo.SOCIAL_LINKS}/>
+                    <SocialIcons SocialLinkData={bandInfo.SOCIAL_LINKS} SongSlug={""}/>
 
                     {/* Band name + tagline */}
                     <div className="space-y-4">
@@ -100,7 +103,7 @@ export function HeroSection({ onScrollDown }: HeroSectionProps) {
                             {/*    {bandInfo.band_name ?? bandInfo.band_name_full}.*/}
                             {/*</p>*/}
                             <button
-                                onClick={() => window.open(bandInfo.FEATURED_TRACK.link, "_blank")}
+                                onClick={() => router.push(`/music/${slugify(bandInfo.FEATURED_TRACK.title)}`)}
                                 className="rounded-full mt-3 px-6 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-200 shadow-md hover:brightness-110 transition"
                                 style={{ backgroundColor: COLORS.accent }}
                             >

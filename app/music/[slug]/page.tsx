@@ -1,14 +1,7 @@
 import { notFound } from "next/navigation";
 import MusicLandingPage, {SongPageData} from "@/app/components/music-landing-page";
 import bandInfo from "@/app/config/fate-info";
-
-function slugify(value: string) {
-    return value
-        .toLowerCase()
-        .trim()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-+|-+$/g, "");
-}
+import {slugify} from "@/lib/utils";
 
 function getSongPageDataFromSlug(slug: string): SongPageData | null {
     for (const album of bandInfo.ALBUMS) {
