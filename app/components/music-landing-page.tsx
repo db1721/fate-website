@@ -30,9 +30,6 @@ export type SongPageData = {
     tagline?: string;
     coverImage: string | StaticImageData;
     previewUrl: string;
-    spotifyUrl: string;
-    appleUrl?: string;
-    youtubeUrl?: string;
     lyricsTease?: string[];
     lyricsFile?: string;
     quote?: string;

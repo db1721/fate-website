@@ -32,15 +32,6 @@ export async function trackInteraction(data: {
 
         const text = await response.text();
 
-        if (!response.ok) {
-            console.error("Tracking failed", {
-                status: response.status,
-                statusText: response.statusText,
-                body: text,
-            });
-            return;
-        }
-
         console.log("Tracking success", text);
     } catch (error) {
         console.error("Tracking request error", error);

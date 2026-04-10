@@ -34,6 +34,7 @@ const config: Config = {
             animation: {
                 scroll:
                     "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
+                fadeIn: "fadeIn 0.35s ease-out",
             },
             keyframes: {
                 scroll: {

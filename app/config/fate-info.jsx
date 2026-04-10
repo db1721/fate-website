@@ -130,11 +130,6 @@ const bandInfo = {
                         { url: "https://www.tidal.com/track/505959659", network: "tidal", tooltip: 'Tidal' },
                         { url: "https://www.deezer.com/track/3893040501", network: "deezer", tooltip: 'Deezer' },
                     ],
-                    single_link_share: "https://ffm.to/fate-ugly",
-                    spotifyUrl: "https://open.spotify.com/track/63gEItrCSEEslMEBR8D5v0",
-                    appleUrl: "https://geo.music.apple.com/us/album/ugly/1884149137?i=1884149138&app=music&ls=1",
-                    amazonUrl: "https://music.amazon.com/tracks/B0GS437Z12/?ref=dm_ff_amazonmusic_3p",
-                    youtubeUrl: "https://music.youtube.com/watch?v=EaLaIPN7x6E",
                     releaseDate: "3/29/2026"
                 },
             ]

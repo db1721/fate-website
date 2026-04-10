@@ -352,3 +352,19 @@
     background-color: #6EACDA;
     animation: fate-eq 0.7s ease-in-out infinite;
 }
+
+@keyframes streamNudge {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0.85;
+  }
+  50% {
+    transform: translateX(-4px);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to { opacity: 1; transform: translateX(0); }
+}

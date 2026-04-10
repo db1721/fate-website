@@ -4,12 +4,14 @@ import {useEffect, useRef, useState} from "react";
 import {useAudioManager} from "@/app/context/audio-manager";
 
 type AudioTrackProps = {
-    id: string;          // unique id (track title or slug)
-    src: string;         // audio file path
+    id: string;
+    src: string;
     autoPlay?: boolean;
-    className?: string;  // for container
+    className?: string;
     maxWidth?: string;
-    maxHeight?: string;  // optional – we’ll keep it but use a safe minimum
+    maxHeight?: string;
+    onPlay?: () => void;
+    onPause?: () => void;
 };
 
 function formatTime(seconds: number): string {
@@ -28,6 +30,8 @@ export function AudioTrack({
                                className,
                                maxWidth,
                                maxHeight,
+                               onPlay,
+                               onPause,
                            }: AudioTrackProps) {
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const {registerAudio, handlePlay} = useAudioManager();
@@ -61,17 +65,10 @@ export function AudioTrack({
 
         if (isPlaying) {
             el.pause();
-            setIsPlaying(false);
         } else {
-            el
-                .play()
-                .then(() => {
-                    setIsPlaying(true);
-                    handlePlay(id); // let manager stop others
-                })
-                .catch(() => {
-                    // user gesture required etc.
-                });
+            el.play().catch(() => {
+                // user gesture required etc.
+            });
         }
     };
 
@@ -105,13 +102,18 @@ export function AudioTrack({
                 onPlay={() => {
                     setIsPlaying(true);
                     handlePlay(id);
+                    onPlay?.();
                 }}
-                onPause={() => setIsPlaying(false)}
+                onPause={() => {
+                    setIsPlaying(false);
+                    onPause?.();
+                }}
                 onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
                 onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
                 onEnded={() => {
                     setIsPlaying(false);
                     setCurrentTime(0);
+                    onPause?.();
                 }}
             />
 
@@ -158,10 +160,10 @@ export function AudioTrack({
                     value={currentTime}
                     onChange={(e) => handleSeek(Number(e.target.value))}
                     className="
-      h-1 w-28 sm:w-32
-      cursor-pointer
-      accent-blue-400
-    "
+                      h-1 w-28 sm:w-32
+                      cursor-pointer
+                      accent-blue-400
+                    "
                 />
 
                 {/* time + playing indicator */}

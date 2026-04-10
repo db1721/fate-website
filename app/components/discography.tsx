@@ -3,6 +3,8 @@ import {useState} from "react";
 import bandInfo from "@/app/config/fate-info";
 import Image from 'next/image';
 import {AudioTrack} from "@/app/components/audio-track";
+import Link from "next/link";
+import {slugify} from "@/lib/utils";
 
 type Track = {
     title: string;
@@ -41,6 +43,7 @@ function formatReleaseDate(dateString: string): string {
 
 export function AlbumsSection() {
     const [activeIndex, setActiveIndex] = useState(0);
+    const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null);
 
     // Let TS infer the type from bandInfo.ALBUMS
     const activeAlbum = bandInfo.ALBUMS[activeIndex];
@@ -165,6 +168,7 @@ export function AlbumsSection() {
                         <div className="space-y-3">
                             {activeAlbum.tracks.map((track) => {
                                 const status = getReleaseStatus(track.releaseDate);
+                                const hasLinks = track.songServiceLinks && track.songServiceLinks.length > 0;
                                 return (
                                     <div
                                         key={track.title}
@@ -175,9 +179,27 @@ export function AlbumsSection() {
                                           "
                                         style={{borderColor: COLORS.border}}
                                     >
-                                      <span className="font-medium text-zinc-100">
-                                        {track.title}
-                                      </span>
+                                        {hasLinks ? (
+                                            <Link
+                                                href={`/music/${slugify(track.title)}`}
+                                                className="group inline-flex items-center gap-2 font-medium text-zinc-100 transition-colors hover:text-blue-400 cursor-pointer"
+                                            >
+                                                <span>{track.title}</span>
+                                                {/* 🔥 ONLY show when this track is playing */}
+                                                {currentlyPlaying === track.title && (
+                                                    <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-[0.16em] text-blue-300 opacity-90 animate-fadeIn">
+                                                        <span className="inline-block animate-[streamNudge_1s_ease-in-out_infinite]">
+                                                            ←
+                                                        </span>
+                                                        <span>Stream here</span>
+                                                    </span>
+                                                )}
+                                            </Link>
+                                        ) : (
+                                            <span className="font-medium text-zinc-100">
+                                                {track.title}
+                                            </span>
+                                        )}
 
                                         {status === "released" ? (
                                             <div className="w-full sm:w-auto sm:max-w-xs">
@@ -185,6 +207,8 @@ export function AlbumsSection() {
                                                     id={track.title}
                                                     src={track.audioSrc}
                                                     className="w-full"
+                                                    onPlay={() => setCurrentlyPlaying(track.title)}
+                                                    onPause={() => setCurrentlyPlaying((prev) => prev === track.title ? null : prev)}
                                                 />
                                             </div>
                                         ) : (
