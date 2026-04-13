@@ -616,7 +616,7 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                                     boxShadow: `0 0 20px ${hexToRgba(palette.primary, 0.14)}`,
                                 }}
                             >
-                                ↓ Start here ↓
+                                ↓ Stream here ↓
                             </span>
                         </div>
 
@@ -679,7 +679,7 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                                     boxShadow: `0 0 20px ${hexToRgba(palette.primary, 0.14)}`,
                                 }}
                             >
-                                ↓ Start here ↓
+                                ↓ Stream here ↓
                             </span>
                         </div>
                         {/*Desktop Socials*/}
