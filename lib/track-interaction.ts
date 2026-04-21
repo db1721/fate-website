@@ -11,7 +11,7 @@ export async function trackInteraction(data: {
         const campaign = params.get("utm_campaign");
 
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_DJANGO_API_URL}/api/music/track-interaction/`,
+            `/api/track-interaction/`,
             {
                 method: "POST",
                 headers: {
@@ -31,7 +31,6 @@ export async function trackInteraction(data: {
         );
 
         const text = await response.text();
-
         console.log("Tracking success", text);
     } catch (error) {
         console.error("Tracking request error", error);
