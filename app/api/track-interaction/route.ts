@@ -5,7 +5,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 type InteractionBody = {
     song: string;
-    action: "service_click" | "preview_play" | "lyrics_review";
+    action: "service_click" | "preview_play" | "lyrics_review" | "song_page_visited";
     service?: string;
     page?: string;
     userAgent?: string;
@@ -55,35 +55,64 @@ export async function POST(request: Request) {
         }
 
         const forwardedFor = request.headers.get("x-forwarded-for");
-        const ip = forwardedFor ? forwardedFor.split(",")[0].trim() : request.headers.get("x-real-ip");
+        const ip = forwardedFor
+            ? forwardedFor.split(",")[0].trim()
+            : request.headers.get("x-real-ip");
+
         const sessionId = request.headers.get("cookie") || null;
 
-        let country: string | null = request.headers.get("x-vercel-ip-country");
+        let country = request.headers.get("x-vercel-ip-country");
 
         if (!country && ip) {
             try {
                 const geoRes = await fetch(`https://ipapi.co/${ip}/json/`);
                 const geoText = await geoRes.text();
 
-                if (!geoRes.ok) {
+                if (geoRes.ok) {
+                    const geo = JSON.parse(geoText);
+                    country = geo.country_name || geo.country || null;
+                } else {
                     console.error("Geo lookup HTTP error", {
                         status: geoRes.status,
                         body: geoText,
                     });
-                } else {
-                    try {
-                        const geo = JSON.parse(geoText);
-                        country = geo.country_name || geo.country || null;
-                    } catch (error) {
-                        console.error("Failed to parse geo lookup response", {
-                            error,
-                            body: geoText,
-                        });
-                    }
                 }
             } catch (error) {
                 console.error("Geo lookup failed", error);
             }
+        }
+
+        if (!country) {
+            country = "unknown";
+        }
+
+        // Forward to Django so it gets saved
+        const djangoResponse = await fetch(
+            `${process.env.NEXT_PUBLIC_DJANGO_API_URL}/api/music/track-interaction/`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-App-Country": country,
+                },
+                body: JSON.stringify({
+                    ...body,
+                    sessionId,
+                }),
+            }
+        );
+
+        const djangoText = await djangoResponse.text();
+
+        if (!djangoResponse.ok) {
+            console.error("Django tracking failed", djangoText);
+            return NextResponse.json(
+                {
+                    error: "Failed to save interaction in Django",
+                    details: djangoText,
+                },
+                { status: djangoResponse.status }
+            );
         }
 
         const now = new Date().toISOString();
@@ -93,48 +122,36 @@ export async function POST(request: Request) {
                 ? `[FATE Tracking] ${song} → ${service ?? "unknown"}`
                 : action === "preview_play"
                     ? `[FATE Tracking] Preview played → ${song}`
-                    : `[FATE Tracking] Lyrics expanded → ${song}`;
+                    : action === "lyrics_review"
+                        ? `[FATE Tracking] Lyrics expanded → ${song}`
+                        : `[FATE Tracking] Song page visited → ${song}`;
 
         const html = `
-      <div style="font-family: Arial, sans-serif; line-height: 1.5;">
-        <h2>New interaction</h2>
-        <p><strong>Song:</strong> ${song}</p>
-        <p><strong>Action:</strong> ${action}</p>
-        <p><strong>Service:</strong> ${service ?? "N/A"}</p>
-        <p><strong>Page:</strong> ${page ?? "N/A"}</p>
-        <p><strong>Referrer:</strong> ${referrer ?? "N/A"}</p>
-        <p><strong>Country:</strong> ${country ?? "Unknown"}</p>
-        <p><strong>Time:</strong> ${now}</p>
-        <p><strong>User Agent:</strong> ${userAgent ?? "N/A"}</p>
-        <p><strong>IP:</strong> ${ip ?? "N/A"}</p>
-      </div>
-    `;
+          <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+            <h2>New interaction</h2>
+            <p><strong>Song:</strong> ${song}</p>
+            <p><strong>Action:</strong> ${action}</p>
+            <p><strong>Service:</strong> ${service ?? "N/A"}</p>
+            <p><strong>Page:</strong> ${page ?? "N/A"}</p>
+            <p><strong>Referrer:</strong> ${referrer ?? "N/A"}</p>
+            <p><strong>Country:</strong> ${country}</p>
+            <p><strong>Time:</strong> ${now}</p>
+            <p><strong>User Agent:</strong> ${userAgent ?? "N/A"}</p>
+            <p><strong>IP:</strong> ${ip ?? "N/A"}</p>
+          </div>
+        `;
 
-        try {
-            const resendResult = await resend.emails.send({
-                from: process.env.TRACKING_FROM_EMAIL!,
-                to: process.env.TRACKING_TO_EMAIL!,
-                subject,
-                html,
-            });
+        const resendResult = await resend.emails.send({
+            from: process.env.TRACKING_FROM_EMAIL!,
+            to: process.env.TRACKING_TO_EMAIL!,
+            subject,
+            html,
+        });
 
-            if (resendResult.error) {
-                console.error("Resend error", resendResult.error);
-                return NextResponse.json(
-                    {
-                        error: "Failed to send email",
-                        details: resendResult.error,
-                    },
-                    { status: 500 }
-                );
-            }
-        } catch (error) {
-            console.error("Unexpected email send failure", error);
-            return NextResponse.json(
-                { error: "Unexpected email send failure" },
-                { status: 500 }
-            );
+        if (resendResult.error) {
+            console.error("Resend error", resendResult.error);
         }
+
         return NextResponse.json({
             ok: true,
             debug: {
@@ -143,6 +160,7 @@ export async function POST(request: Request) {
                 service,
                 ip,
                 country,
+                djangoResponse: djangoText,
             },
         });
     } catch (error) {
