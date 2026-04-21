@@ -115,42 +115,42 @@ export async function POST(request: Request) {
             );
         }
 
-        const now = new Date().toISOString();
-
-        const subject =
-            action === "service_click"
-                ? `[FATE Tracking] ${song} → ${service ?? "unknown"}`
-                : action === "preview_play"
-                    ? `[FATE Tracking] Preview played → ${song}`
-                    : action === "lyrics_review"
-                        ? `[FATE Tracking] Lyrics expanded → ${song}`
-                        : `[FATE Tracking] Song page visited → ${song}`;
-
-        const html = `
-          <div style="font-family: Arial, sans-serif; line-height: 1.5;">
-            <h2>New interaction</h2>
-            <p><strong>Song:</strong> ${song}</p>
-            <p><strong>Action:</strong> ${action}</p>
-            <p><strong>Service:</strong> ${service ?? "N/A"}</p>
-            <p><strong>Page:</strong> ${page ?? "N/A"}</p>
-            <p><strong>Referrer:</strong> ${referrer ?? "N/A"}</p>
-            <p><strong>Country:</strong> ${country}</p>
-            <p><strong>Time:</strong> ${now}</p>
-            <p><strong>User Agent:</strong> ${userAgent ?? "N/A"}</p>
-            <p><strong>IP:</strong> ${ip ?? "N/A"}</p>
-          </div>
-        `;
-
-        const resendResult = await resend.emails.send({
-            from: process.env.TRACKING_FROM_EMAIL!,
-            to: process.env.TRACKING_TO_EMAIL!,
-            subject,
-            html,
-        });
-
-        if (resendResult.error) {
-            console.error("Resend error", resendResult.error);
-        }
+        // const now = new Date().toISOString();
+        //
+        // const subject =
+        //     action === "service_click"
+        //         ? `[FATE Tracking] ${song} → ${service ?? "unknown"}`
+        //         : action === "preview_play"
+        //             ? `[FATE Tracking] Preview played → ${song}`
+        //             : action === "lyrics_review"
+        //                 ? `[FATE Tracking] Lyrics expanded → ${song}`
+        //                 : `[FATE Tracking] Song page visited → ${song}`;
+        //
+        // const html = `
+        //   <div style="font-family: Arial, sans-serif; line-height: 1.5;">
+        //     <h2>New interaction</h2>
+        //     <p><strong>Song:</strong> ${song}</p>
+        //     <p><strong>Action:</strong> ${action}</p>
+        //     <p><strong>Service:</strong> ${service ?? "N/A"}</p>
+        //     <p><strong>Page:</strong> ${page ?? "N/A"}</p>
+        //     <p><strong>Referrer:</strong> ${referrer ?? "N/A"}</p>
+        //     <p><strong>Country:</strong> ${country}</p>
+        //     <p><strong>Time:</strong> ${now}</p>
+        //     <p><strong>User Agent:</strong> ${userAgent ?? "N/A"}</p>
+        //     <p><strong>IP:</strong> ${ip ?? "N/A"}</p>
+        //   </div>
+        // `;
+        //
+        // const resendResult = await resend.emails.send({
+        //     from: process.env.TRACKING_FROM_EMAIL!,
+        //     to: process.env.TRACKING_TO_EMAIL!,
+        //     subject,
+        //     html,
+        // });
+        //
+        // if (resendResult.error) {
+        //     console.error("Resend error", resendResult.error);
+        // }
 
         return NextResponse.json({
             ok: true,
