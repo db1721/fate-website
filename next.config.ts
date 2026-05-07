@@ -1,39 +1,27 @@
-import '@/app/src/env.mjs';
-/** @type {import('next').NextConfig} */
+import "@/app/src/env.mjs";
+import type { NextConfig } from "next";
 
-const isDev = process.env.NODE_ENV === 'development';
-
-const nextConfig = {
+const nextConfig: NextConfig = {
     images: {
         remotePatterns: [
             {
-                protocol: 'https',
-                hostname: 'fate-band.s3.amazonaws.com',
+                protocol: "https",
+                hostname: "fate-band.s3.amazonaws.com",
             },
         ],
     },
     compiler: {
-        // Custom SWC configuration
-        styledComponents: true, // Enables better debugging for styled-components
-        emotion: true, // Enables better debugging for Emotion CSS
-        reactRemoveProperties: true, // Removes React properties
+        styledComponents: true,
+        emotion: true,
+        reactRemoveProperties: true,
     },
-    reactStrictMode: false, // Disable strict mode in development for faster renders
+    reactStrictMode: true,
     env: {
         BACKEND_SERVER_URL: process.env.NEXT_PUBLIC_BACKEND_SERVER_URL,
         NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     },
     experimental: {
-        optimizePackageImports: ['icon-library'],
-        turbo: {}, // Enable turbo bundler
-    },
-    eslint: {
-        // ignoreDuringBuilds: isDev,
-        ignoreDuringBuilds: true, // Ignore ESLint during builds to save time
-    },
-    typescript: {
-        // ignoreBuildErrors: isDev,
-        ignoreBuildErrors: true, // Ignore TypeScript errors during builds
+        optimizePackageImports: ["lucide-react"],
     },
 };
 

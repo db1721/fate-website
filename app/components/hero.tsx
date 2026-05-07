@@ -1,123 +1,127 @@
 import Image from "next/image";
+import Link from "next/link";
 import { COLORS } from "@/app/theme";
 import bandInfo from "@/app/config/fate-info";
-import {AudioTrack} from "@/app/components/audio-track";
-import {SocialIcons} from "@/app/components/shared/socials";
-import { useRouter } from "next/navigation";
-import {slugify} from "@/lib/utils";
+import { AudioTrack } from "@/app/components/audio-track";
+import { SocialIcons } from "@/app/components/shared/socials";
+import { slugify } from "@/lib/utils";
+import { STREAMING_NETWORKS, filterLinksByNetwork } from "@/app/config/link-groups";
 
-type HeroSectionProps = {
-    onScrollDown: () => void;
-};
+export function HeroSection() {
+    const featuredSlug = slugify(bandInfo.FEATURED_TRACK.title);
+    const heroLinks = filterLinksByNetwork(bandInfo.SOCIAL_LINKS, STREAMING_NETWORKS);
 
-export function HeroSection({ onScrollDown }: HeroSectionProps) {
-    const router = useRouter();
     return (
         <section
             id="hero"
-            data-reveal
-            className="relative flex min-h-[85vh] flex-col items-center justify-center overflow-hidden px-4 py-16 sm:px-8 lg:px-16"
+            className="relative flex min-h-[88vh] flex-col items-center justify-center overflow-hidden px-4 pb-16 pt-28 sm:px-8 lg:px-16"
         >
-            {/* Background gradient */}
             <div
-                className="pointer-events-none absolute inset-0 opacity-70"
+                className="pointer-events-none absolute inset-0 opacity-95"
                 style={{
-                    backgroundImage: `radial-gradient(circle at top, ${COLORS.accent} 0, #000 55%)`,
+                    backgroundImage: `
+                        radial-gradient(circle at 20% 18%, rgba(14, 165, 233, 0.26) 0, transparent 34%),
+                        radial-gradient(circle at 78% 55%, rgba(245, 179, 1, 0.14) 0, transparent 28%),
+                        linear-gradient(180deg, #020617 0%, #030712 58%, #000 100%)
+                    `,
                 }}
             />
 
-            <div
-                className="
-                relative z-10
-                flex w-full max-w-6xl flex-col items-center gap-10
-                lg:flex-row lg:items-center lg:justify-between"
-            >
-            {/* LEFT: text + socials */}
-                <div className="flex-1 space-y-8 text-center lg:text-left">
-                    {/*Socials*/}
-                    <SocialIcons SocialLinkData={bandInfo.SOCIAL_LINKS} SongSlug={""}/>
+            <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:54px_54px] opacity-[0.05]" />
 
-                    {/* Band name + tagline */}
+            <div className="relative z-10 grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[1fr_0.92fr] lg:gap-14">
+                <div className="space-y-7 text-center lg:text-left">
                     <div className="space-y-4">
-                        <p className="text-xs uppercase tracking-[0.32em] text-zinc-200">
+                        <p className="text-xs font-semibold uppercase tracking-[0.34em] text-[#f5b301]">
                             {bandInfo.band_name_full}
                         </p>
 
-                        <img
-                            src="/icons/fate-white-short.png"
-                            alt="F.A.T.E. Logo"
-                            className="
-                            mx-auto lg:mx-0
-                            w-48 sm:w-64 lg:w-80
-                            h-auto
-                          "
-                        />
+                        <h1 className="mx-auto max-w-xl lg:mx-0">
+                            <span className="sr-only">F.A.T.E. - Fight Against the Enemy</span>
+                            <Image
+                                src="/icons/fate-white-short.png"
+                                alt="F.A.T.E."
+                                width={760}
+                                height={270}
+                                priority
+                                className="h-auto w-56 sm:w-72 lg:w-96"
+                            />
+                        </h1>
+
+                        <p className="mx-auto max-w-xl text-base font-medium leading-7 text-zinc-200 sm:text-lg lg:mx-0">
+                            Heavy melodic rock for the battles you carry quietly, built with driving guitars,
+                            anthemic hooks, and lyrics meant to be screamed back.
+                        </p>
+
+                        <p className="mx-auto max-w-xl text-sm leading-6 text-zinc-400 lg:mx-0">
+                            Start with the new single <span className="font-semibold text-zinc-100">Ugly</span>,
+                            then jump to your favorite streaming platform.
+                        </p>
                     </div>
 
-
-                    {/* CTAs */}
-                    <div className="mt-4 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
-                        <button
-                            onClick={onScrollDown}
-                            className="rounded-full px-6 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-200 shadow-md hover:brightness-110 transition"
-                            style={{ backgroundColor: COLORS.accent }}
+                    <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+                        <Link
+                            href={`/music/${featuredSlug}`}
+                            className="rounded-full bg-[#f5b301] px-6 py-3 text-xs font-black uppercase tracking-[0.18em] text-black shadow-[0_18px_55px_rgba(245,179,1,0.2)] transition hover:-translate-y-0.5 hover:bg-[#ffd766]"
                         >
-                            See Discography
-                        </button>
-                        {/*<a*/}
-                        {/*    href={bandInfo.MAIN_BAND_PAGE}*/}
-                        {/*    target="_blank"*/}
-                        {/*    rel="noopener noreferrer"*/}
-                        {/*    className="text-xs uppercase tracking-[0.2em] text-zinc-200 hover:text-white"*/}
-                        {/*>*/}
-                        {/*    Open artist page ↗*/}
-                        {/*</a>*/}
+                            Play Ugly
+                        </Link>
+                        <a
+                            href="#albums"
+                            className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-[0.18em] text-zinc-100 transition hover:-translate-y-0.5 hover:border-white/35 hover:bg-white/10"
+                        >
+                            View Music
+                        </a>
+                    </div>
+
+                    <div className="mx-auto max-w-sm pt-2 lg:mx-0">
+                        <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
+                            Listen on
+                        </p>
+                        <SocialIcons SocialLinkData={heroLinks} SongSlug="home" />
                     </div>
                 </div>
 
-                {/* RIGHT: featured single card */}
-                <div className="w-full max-w-md flex-1 self-center rounded-2xl border bg-black/60 p-4 shadow-xl backdrop-blur-md sm:p-5 lg:mt-0">
-                    {/* Cover + text side-by-side */}
-                    <div className="flex gap-3 min-w-0">
-                        {/* Cover */}
-                        <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl border border-zinc-700 sm:h-28 sm:w-28">
+                <div
+                    className="w-full rounded-lg border border-white/15 bg-black/65 p-4 shadow-[0_28px_100px_rgba(0,0,0,0.45)] backdrop-blur-md sm:p-5"
+                    style={{ boxShadow: `0 28px 100px ${COLORS.accentSoft}22` }}
+                >
+                    <div className="flex gap-4 min-w-0">
+                        <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-md border border-zinc-700 sm:h-36 sm:w-36">
                             <Image
                                 src={bandInfo.FEATURED_TRACK.coverSrc}
-                                alt={`${bandInfo.FEATURED_TRACK.title} cover`}
+                                alt={`${bandInfo.FEATURED_TRACK.title} single cover art`}
                                 fill
-                                style={{ objectFit: "cover" }}
-                                unoptimized
+                                sizes="144px"
+                                className="object-cover"
+                                priority
                             />
                         </div>
 
-                        {/* Text to the right of the cover */}
-                        <div className="flex-1 flex-col justify-center min-w-0">
-                            <p className="text-xs uppercase tracking-[0.25em] text-zinc-400">
+                        <div className="flex min-w-0 flex-1 flex-col justify-center">
+                            <p className="text-xs uppercase tracking-[0.25em] text-zinc-500">
                                 {bandInfo.FEATURED_TRACK.subtitle}
                             </p>
-                            <h2 className="mt-1 text-lg font-semibold text-zinc-50">
+                            <h2 className="mt-1 text-2xl font-black uppercase tracking-wide text-zinc-50">
                                 {bandInfo.FEATURED_TRACK.title}
                             </h2>
-                            {/*<p className="mt-1 text-xs text-zinc-400">*/}
-                            {/*    Hit play and dive straight into the sound of{" "}*/}
-                            {/*    {bandInfo.band_name ?? bandInfo.band_name_full}.*/}
-                            {/*</p>*/}
-                            <button
-                                onClick={() => router.push(`/music/${slugify(bandInfo.FEATURED_TRACK.title)}`)}
-                                className="rounded-full mt-3 px-6 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-zinc-200 shadow-md hover:brightness-110 transition"
-                                style={{ backgroundColor: COLORS.accent }}
+                            <p className="mt-2 text-sm leading-6 text-zinc-400">
+                                Hear the hook, read the lyrics, and choose where to stream the full track.
+                            </p>
+                            <Link
+                                href={`/music/${featuredSlug}`}
+                                className="mt-4 inline-flex w-fit rounded-full bg-[#03346E] px-5 py-2 text-xs font-bold uppercase tracking-[0.18em] text-zinc-100 transition hover:bg-[#0f6fad]"
                             >
-                                Stream Here →
-                            </button>
+                                Lyrics and streams
+                            </Link>
                         </div>
                     </div>
 
-                    {/* Player below everything */}
-                    <div className="mt-4 w-full flex justify-center">
+                    <div className="mt-5 w-full">
                         <AudioTrack
                             id={`${bandInfo.FEATURED_TRACK.title}-feature`}
                             src={bandInfo.FEATURED_TRACK.audioSrc}
-                            className="max-w-xs"
+                            className="w-full justify-center"
                         />
                     </div>
                 </div>

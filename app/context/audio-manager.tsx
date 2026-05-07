@@ -48,8 +48,9 @@ export function AudioManagerProvider({ children }: { children: ReactNode }) {
 
 export function useAudioManager() {
     const ctx = useContext(AudioManagerContext);
-    if (!ctx) {
-        throw new Error('useAudioManager must be used within AudioManagerProvider');
-    }
-    return ctx;
+
+    return ctx ?? {
+        registerAudio: () => {},
+        handlePlay: () => {},
+    };
 }

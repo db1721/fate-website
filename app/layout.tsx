@@ -1,19 +1,63 @@
-import {Geist, Geist_Mono} from "next/font/google";
-import {CssBaseline} from "@mui/material";
-import "./globals.css";
-import {Analytics} from "@vercel/analytics/react";
-import {ColorModeProvider} from "@/app/config/color-mode-context";
-import ThemeWrapper from "@/app/config/theme-wrapper";
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import localFont from "next/font/local";
-import { AudioManagerProvider } from "./context/audio-manager";
+import "./globals.css";
+import { ARTIST_FULL_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/app/config/site";
 
-export const metadata = {
-    title: "Fight Against the Enemy (F.A.T.E.)",
-    description: "F.A.T.E (Fight Against the Enemy) is a modern rock project known for blending powerful melodies, " +
-        "emotional storytelling, and anthemic hooks. My music explores the battles we all face—each one different, " +
-        "each one real—and aims to inspire strength, resilience, and connection through sound. With driving guitars, " +
-        "heartfelt vocals, and lyrics that cut deep, F.A.T.E delivers a bold reminder that no matter what fight you’re " +
-        "in, you’re never fighting alone",
+export const metadata: Metadata = {
+    metadataBase: new URL(SITE_URL),
+    applicationName: SITE_NAME,
+    title: {
+        default: `${SITE_NAME} | ${ARTIST_FULL_NAME}`,
+        template: `%s | ${SITE_NAME}`,
+    },
+    description: SITE_DESCRIPTION,
+    keywords: [
+        "F.A.T.E.",
+        "Fight Against the Enemy",
+        "modern rock band",
+        "melodic hard rock",
+        "alternative rock",
+        "new rock music",
+        "Ugly F.A.T.E.",
+        "New Beginnings album",
+    ],
+    alternates: {
+        canonical: "/",
+    },
+    openGraph: {
+        title: `${SITE_NAME} | ${ARTIST_FULL_NAME}`,
+        description: SITE_DESCRIPTION,
+        url: SITE_URL,
+        siteName: SITE_NAME,
+        images: [
+            {
+                url: "/icons/fate-white-short.png",
+                width: 1200,
+                height: 630,
+                alt: `${SITE_NAME} logo`,
+            },
+        ],
+        type: "website",
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: `${SITE_NAME} | ${ARTIST_FULL_NAME}`,
+        description: SITE_DESCRIPTION,
+        images: ["/icons/fate-white-short.png"],
+    },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+            "max-video-preview": -1,
+        },
+    },
 };
 
 const geistSans = Geist({
@@ -39,8 +83,8 @@ const callingAngels = localFont({
 });
 
 export default function RootLayout({
-                                       children,
-                                   }: Readonly<{
+    children,
+}: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
@@ -49,15 +93,8 @@ export default function RootLayout({
             className={`${geistSans.variable} ${geistMono.variable} ${callingAngels.variable} ${altarGothic.variable} antialiased`}
             suppressHydrationWarning
         >
-        <ColorModeProvider>
-            <CssBaseline/>
-            <ThemeWrapper>
-                <Analytics/>
-                <AudioManagerProvider>
-                {children}
-                </AudioManagerProvider>
-            </ThemeWrapper>
-        </ColorModeProvider>
+        <Analytics />
+        {children}
         </body>
         </html>
     );

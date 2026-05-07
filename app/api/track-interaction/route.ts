@@ -5,7 +5,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 type InteractionBody = {
     song: string;
-    action: "service_click" | "preview_play" | "lyrics_review" | "song_page_visited";
+    action: "service_click" | "social_click" | "preview_play" | "lyrics_review" | "song_page_visited";
     service?: string;
     page?: string;
     userAgent?: string;

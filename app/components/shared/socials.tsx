@@ -1,3 +1,5 @@
+"use client";
+
 import { AppleMusicIcon } from "@/app/components/logos/apple";
 import Image from "next/image";
 import { SocialIcon } from "react-social-icons";
@@ -13,6 +15,7 @@ export type SocialLink = {
 export interface SocialIconsProps {
     SocialLinkData?: SocialLink[];
     SongSlug: string;
+    trackingAction?: "service_click" | "social_click";
     palette?: {
         border: string;
         primary: string;
@@ -23,6 +26,7 @@ export interface SocialIconsProps {
 export function SocialIcons({
                                 SocialLinkData = [],
                                 SongSlug,
+                                trackingAction = "service_click",
                             }: SocialIconsProps) {
     const primaryNetworks: any[] = [];
     const primary = primaryNetworks
@@ -49,7 +53,7 @@ export function SocialIcons({
                     onClick={() =>
                         trackInteraction({
                         song: SongSlug,
-                        action: "service_click",
+                        action: trackingAction,
                         service: "apple",
                     })
                 }
@@ -75,7 +79,7 @@ export function SocialIcons({
                     onClick={() =>
                         trackInteraction({
                         song: SongSlug,
-                        action: "service_click",
+                        action: trackingAction,
                         service: "amazon_music",
                     })
                 }
@@ -104,7 +108,7 @@ export function SocialIcons({
                     onClick={() =>
                             trackInteraction({
                             song: SongSlug,
-                            action: "service_click",
+                            action: trackingAction,
                             service: "pandora_music",
                         })
                     }
@@ -133,7 +137,7 @@ export function SocialIcons({
                     onClick={() =>
                             trackInteraction({
                             song: SongSlug,
-                            action: "service_click",
+                            action: trackingAction,
                             service: "tidal",
                         })
                     }
@@ -160,7 +164,7 @@ export function SocialIcons({
                     onClick={() =>
                             trackInteraction({
                             song: SongSlug,
-                            action: "service_click",
+                            action: trackingAction,
                             service: "deezer",
                         })
                     }
@@ -183,13 +187,13 @@ export function SocialIcons({
                     href={item.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    aria-label="Listen on YouTube"
+                    aria-label="Listen on YouTube Music"
                     className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
                     style={{width: size, height: size}}
                     onClick={() =>
                             trackInteraction({
                             song: SongSlug,
-                            action: "service_click",
+                            action: trackingAction,
                             service: "youtube",
                         })
                     }
@@ -218,7 +222,7 @@ export function SocialIcons({
                     onClick={() =>
                         trackInteraction({
                             song: SongSlug,
-                            action: "service_click",
+                            action: trackingAction,
                             service: "youtube_music",
                         })
                     }
@@ -246,7 +250,7 @@ export function SocialIcons({
                     onClick={() =>
                     trackInteraction({
                         song: SongSlug,
-                        action: "service_click",
+                        action: trackingAction,
                         service: "instagram",
                     })
                 }
@@ -270,6 +274,35 @@ export function SocialIcons({
             );
         }
 
+        if (item.network === "shazam") {
+            return (
+                <a
+                    key={item.url}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Find on Shazam"
+                    className="relative flex items-center justify-center rounded-full border border-zinc-700 bg-black hover:scale-110 transition-transform duration-200 overflow-hidden"
+                    style={{ width: size, height: size }}
+                    onClick={() =>
+                        trackInteraction({
+                            song: SongSlug,
+                            action: trackingAction,
+                            service: "shazam",
+                        })
+                    }
+                >
+                    <Image
+                        src="/icons/shazam.png"
+                        alt="Shazam"
+                        fill
+                        unoptimized
+                        className="object-cover"
+                    />
+                </a>
+            );
+        }
+
         return (
             <SocialIcon
                 key={item.url}
@@ -284,7 +317,7 @@ export function SocialIcons({
                 onClick={() =>
                     trackInteraction({
                     song: SongSlug,
-                    action: "service_click",
+                    action: trackingAction,
                     service: item.network,
                 })
 

@@ -15,8 +15,8 @@ const bandInfo = {
     band_logo: e2,
     band_name: 'F.A.T.E',
     band_name_full: 'Fight Against the Enemy',
-    band_description: 'logo',
-    band_seo_description: 'logo',
+    band_description: 'Modern melodic rock with heavy guitars, emotional lyrics, and anthemic hooks.',
+    band_seo_description: 'F.A.T.E. (Fight Against the Enemy) is a modern melodic rock project creating heavy, emotional songs for listeners who connect with resilience, struggle, and hope.',
 
     // Placeholder
     FEATURED_TRACK: {
@@ -57,7 +57,7 @@ const bandInfo = {
             id: "new-beginnings",
             title: "New Beginnings",
             year: 2026,
-            description: "Planned Release TBD",
+            description: "A growing collection of heavy melodic rock singles about starting over, surviving the fight, and finding the strength to keep moving.",
             coverSrc: new_beginnings,
             tracks: [
                 {
@@ -160,7 +160,7 @@ const bandInfo = {
             id: "wake-of-determination",
             title: "Wake of Determination",
             year: 2026,
-            description: "Dark, emotional riffs and breakdowns.",
+            description: "A darker chapter built around emotional riffs, pressure, release, and determination.",
             coverSrc: wake_of_determination,
             tracks: [
                 { title: "Brand New Day", audioSrc: "/audio/wake-of-determination/brand-new-day.mp3", releaseDate: ""  },

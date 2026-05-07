@@ -1,12 +1,10 @@
-import {COLORS} from "@/app/theme";
+import { COLORS } from "@/app/theme";
 
 export function getYearsSince(dateInput: string | Date): number {
     const date = new Date(dateInput);
     const now = new Date();
-
     let years = now.getFullYear() - date.getFullYear();
 
-    // adjust if the month/day hasn't been reached yet this year
     const hasNotHadAnniversaryThisYear =
         now.getMonth() < date.getMonth() ||
         (now.getMonth() === date.getMonth() && now.getDate() < date.getDate());
@@ -18,7 +16,6 @@ export function getYearsSince(dateInput: string | Date): number {
     return years;
 }
 
-
 export function AboutSection() {
     return (
         <section
@@ -29,15 +26,20 @@ export function AboutSection() {
                 backgroundImage: `radial-gradient(circle at left, ${COLORS.accent} 0, #000 55%)`,
             }}
         >
-            <div className="mx-auto flex max-w-5xl flex-col gap-8">
+            <div className="mx-auto grid max-w-5xl gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
                 <div className="max-w-xl">
                     <h2 className="text-sm uppercase tracking-[0.28em] text-zinc-400">
-                        &lt; ABOUT &gt;
+                        About
                     </h2>
-                    <p className="mt-4 text-xl font-semibold text-zinc-50">
-                        &quot;F.A.T.E. (Fight Against The Enemy) is more than a music project&quot;
+                    <p className="mt-4 text-2xl font-black uppercase tracking-wide text-zinc-50 sm:text-3xl">
+                        Heavy songs with a reason to fight back
+                    </p>
+                    <p className="mt-4 text-sm leading-6 text-zinc-400">
+                        F.A.T.E. stands for Fight Against the Enemy: the pressure, fear, doubt, grief,
+                        and inner battles people carry long before anyone hears the song.
                     </p>
                 </div>
+
                 <div className="space-y-4 text-sm leading-relaxed text-zinc-300 sm:text-base">
                     <p>
                         It’s the culmination of a lifelong obsession with songwriting that has shaped me and, at times,
@@ -46,13 +48,12 @@ export function AboutSection() {
                         mind can escape when I can't escape reality and where I can comfortably express my emotions.
                     </p>
                     <p>
-                        I write heavy, melodic rock rooted in tension, release, and emotional strength (or breakdown). Every
-                        lyric starts as something lived. Every chorus is built to hit hard enough to mean something.
-                        Every melody crafted for long-term resonance.
+                        The sound lives in modern melodic rock: heavy guitars, cinematic production, emotional vocals,
+                        and choruses built to stick after the first listen.
                     </p>
                     <p>
                         What began as riffs, raw demos, and notebook lyrics has evolved with modern production tools
-                        into something far more expansive — cinematic, detailed, unapologetic.
+                        into something far more expansive.
                     </p>
                     <p>
                         The vocal identity is built from my original recordings and developed into a custom AI vocal

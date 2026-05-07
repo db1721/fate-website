@@ -2,43 +2,17 @@
 
 import {useEffect, useMemo, useRef, useState} from "react";
 import Image, {type StaticImageData} from "next/image";
+import Link from "next/link";
 import {Vibrant} from "node-vibrant/browser";
 import {
-    ExternalLink,
-    Heart,
     Music2,
     Pause,
     Play,
-    Sparkles,
 } from "lucide-react";
-import {SocialIcons, SocialIconsProps} from "@/app/components/shared/socials";
+import {SocialIcons} from "@/app/components/shared/socials";
 import {track} from "@vercel/analytics";
 import {trackInteraction} from "@/lib/track-interaction";
-
-export type SocialLink = {
-    url: string;
-    network: string;
-    tooltip: string;
-    bgColor?: string;
-};
-
-export type SongPageData = {
-    slug: string;
-    title: string;
-    artist?: string;
-    subtitle?: string;
-    tagline?: string;
-    coverImage: string | StaticImageData;
-    previewUrl: string;
-    lyricsTease?: string[];
-    lyricsFile?: string;
-    quote?: string;
-    releaseLabel?: string;
-    backgroundVideoUrl?: string;
-    previewStartLabel?: string;
-    previewStartTime?: number;
-    songServiceLinks?: SocialLink[];
-};
+import type { SongPageData } from "@/app/config/music-data";
 
 type MusicLandingPageProps = {
     song: SongPageData;
@@ -123,46 +97,6 @@ function formatTime(seconds: number): string {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
 }
 
-function CTAButton({
-                       href,
-                       children,
-                       primary = false,
-                       palette,
-                   }: {
-    href: string;
-    children: React.ReactNode;
-    primary?: boolean;
-    palette: ThemePalette;
-}) {
-    return (
-        <a
-            href={href}
-            target="_blank"
-            rel="noreferrer"
-            className={[
-                "group inline-flex min-h-12 items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold tracking-wide transition duration-200",
-                primary ? "text-white hover:-translate-y-0.5" : "hover:-translate-y-0.5",
-            ].join(" ")}
-            style={
-                primary
-                    ? {
-                        background: `linear-gradient(135deg, ${palette.primary}, ${palette.secondary})`,
-                        boxShadow: `0 18px 60px ${hexToRgba(palette.primary, 0.3)}`,
-                    }
-                    : {
-                        border: `1px solid ${palette.border}`,
-                        background: hexToRgba(palette.secondary, 0.1),
-                        color: "white",
-                        backdropFilter: "blur(16px)",
-                    }
-            }
-        >
-            <span>{children}</span>
-            <ExternalLink className="ml-2 h-4 w-4 opacity-70 transition group-hover:opacity-100"/>
-        </a>
-    );
-}
-
 function FloatingOrb({
                          className,
                          color,
@@ -176,43 +110,6 @@ function FloatingOrb({
             style={{background: color}}
         />
     );
-}
-
-export function generateSongMetadata(song: SongPageData) {
-    const pageUrl = `https://fatemusicofficial.com/music/${song.slug}`;
-    const title = `${song.title} | ${song.artist ?? "F.A.T.E."}`;
-    const description =
-        song.subtitle ??
-        `Listen to ${song.title} by ${song.artist ?? "F.A.T.E."} and hear the strongest part of the track first.`;
-
-    return {
-        title,
-        description,
-        alternates: {
-            canonical: pageUrl,
-        },
-        openGraph: {
-            title,
-            description,
-            url: pageUrl,
-            siteName: "F.A.T.E.",
-            images: [
-                {
-                    url: getImageSrc(song.coverImage),
-                    width: 1200,
-                    height: 1200,
-                    alt: `${song.title} cover art`,
-                },
-            ],
-            type: "website",
-        },
-        twitter: {
-            card: "summary_large_image",
-            title,
-            description,
-            images: [getImageSrc(song.coverImage)],
-        },
-    };
 }
 
 export default function MusicLandingPage({song}: MusicLandingPageProps) {
@@ -494,8 +391,17 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
             <div
                 className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:44px_44px] opacity-[0.06]"/>
 
+            <div className="relative z-20 mx-auto flex w-full max-w-7xl px-4 pt-5 sm:px-6 sm:pt-6 lg:px-8">
+                <Link
+                    href="/"
+                    className="rounded-full border border-white/10 bg-black/30 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/70 backdrop-blur transition hover:border-white/25 hover:text-white"
+                >
+                    Back to F.A.T.E.
+                </Link>
+            </div>
+
             <section
-                className="relative z-10 mx-auto flex min-h-screen w-full max-w-7xl items-start px-4 py-6 sm:px-6 sm:py-8 lg:items-center lg:px-8">
+                className="relative z-10 mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-7xl items-start px-4 py-6 sm:px-6 sm:py-8 lg:items-center lg:px-8">
                 <div className="grid w-full items-start gap-5 sm:gap-6 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14">
                     <div className="order-1 lg:order-2">
                         <div
@@ -530,7 +436,7 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                                     />
 
                                     <div
-                                        className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-black/10"/>
+                                        className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/5 to-transparent"/>
 
                                     <button
                                         type="button"
@@ -616,7 +522,7 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                                     boxShadow: `0 0 20px ${hexToRgba(palette.primary, 0.14)}`,
                                 }}
                             >
-                                ↓ Stream here ↓
+                                Stream the full song
                             </span>
                         </div>
 
@@ -627,6 +533,18 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                                 SongSlug={song.slug}
                             />
                         </div>
+                        {song.spotifyUrl && !song.songServiceLinks?.length ? (
+                            <div className="mt-3 flex justify-center lg:hidden">
+                                <a
+                                    href={song.spotifyUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="rounded-full bg-white px-4 py-2 text-sm font-bold text-black transition hover:-translate-y-0.5"
+                                >
+                                    Open streaming link
+                                </a>
+                            </div>
+                        ) : null}
                     </div>
 
                     <div className="order-2 space-y-5 lg:order-1 lg:space-y-6">
@@ -653,20 +571,19 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                                 </h1>
                             </div>
 
-                            {/*{song.subtitle ? (*/}
-                            {/*    <p className="max-w-2xl text-base leading-7 sm:text-lg" style={{ color: palette.textSoft }}>*/}
-                            {/*        {song.subtitle}*/}
-                            {/*    </p>*/}
-                            {/*) : null}*/}
+                            {song.subtitle ? (
+                                <p
+                                    className="mx-auto max-w-2xl text-center text-base leading-7 sm:text-lg lg:mx-0 lg:text-left"
+                                    style={{ color: palette.textSoft }}
+                                >
+                                    {song.subtitle}
+                                </p>
+                            ) : null}
 
-                            {/*{song.tagline ? (*/}
-                            {/*    <p*/}
-                            {/*        className="max-w-xl text-sm uppercase tracking-[0.28em] sm:text-base"*/}
-                            {/*        style={{ color: hexToRgba(palette.secondary, 0.76) }}*/}
-                            {/*    >*/}
-                            {/*        {song.tagline}*/}
-                            {/*    </p>*/}
-                            {/*) : null}*/}
+                            <div className="flex flex-wrap items-center justify-center gap-2 text-xs uppercase tracking-[0.24em] text-white/45 lg:justify-start">
+                                {song.tagline ? <span>{song.tagline}</span> : null}
+                                {song.releaseLabel ? <span>{song.releaseLabel}</span> : null}
+                            </div>
                         </div>
                         {/*Desktop CTA*/}
                         <div className="mb-3 hidden lg:flex justify-center">
@@ -679,7 +596,7 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                                     boxShadow: `0 0 20px ${hexToRgba(palette.primary, 0.14)}`,
                                 }}
                             >
-                                ↓ Stream here ↓
+                                Stream the full song
                             </span>
                         </div>
                         {/*Desktop Socials*/}
@@ -689,6 +606,18 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                                 SongSlug={song.slug}
                             />
                         </div>
+                        {song.spotifyUrl && !song.songServiceLinks?.length ? (
+                            <div className="hidden justify-center lg:flex">
+                                <a
+                                    href={song.spotifyUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="rounded-full bg-white px-5 py-2 text-sm font-bold text-black transition hover:-translate-y-0.5"
+                                >
+                                    Open streaming link
+                                </a>
+                            </div>
+                        ) : null}
 
                         {/*Show the song lyrics*/}
                         {lyrics ? (

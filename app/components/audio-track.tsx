@@ -82,11 +82,11 @@ export function AudioTrack({
     return (
         <div
             className={`
-        inline-flex items-center gap-3 rounded-md
+        flex w-full max-w-full items-center gap-2 rounded-md
         bg-black/70 border border-zinc-700
         px-3 py-2 text-[0.7rem] text-zinc-100
         shadow-sm backdrop-blur-sm
-        shrink-0
+        overflow-hidden
         ${className ?? ""}
       `}
             style={{
@@ -150,9 +150,10 @@ export function AudioTrack({
                 )}
             </button>
 
-            <div className="flex items-center gap-2 min-w-0">
+            <div className="flex min-w-0 flex-1 items-center gap-2">
                 {/* progress bar */}
                 <input
+                    aria-label={`Seek ${id}`}
                     type="range"
                     min={0}
                     max={duration || 0}
@@ -160,19 +161,19 @@ export function AudioTrack({
                     value={currentTime}
                     onChange={(e) => handleSeek(Number(e.target.value))}
                     className="
-                      h-1 w-28 sm:w-32
+                      h-1 min-w-0 flex-1
                       cursor-pointer
                       accent-blue-400
                     "
                 />
 
                 {/* time + playing indicator */}
-                <div className="flex items-center gap-1">
+                <div className="flex shrink-0 items-center gap-1">
                     <span
                         className="whitespace-nowrap text-[0.65rem] text-zinc-300"
                         style={{
                             fontVariantNumeric: "tabular-nums", // all digits same width
-                            minWidth: "11ch",                   // enough space for "00:00 / 00:00"
+                            minWidth: "9.5ch",
                             textAlign: "right",
                         }}
                     >
