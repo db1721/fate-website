@@ -10,6 +10,7 @@ import { STREAMING_NETWORKS, filterLinksByNetwork } from "@/app/config/link-grou
 export function HeroSection() {
     const featuredSlug = slugify(bandInfo.FEATURED_TRACK.title);
     const heroLinks = filterLinksByNetwork(bandInfo.SOCIAL_LINKS, STREAMING_NETWORKS);
+    const featuredTitle = bandInfo.FEATURED_TRACK.title;
 
     return (
         <section
@@ -54,8 +55,9 @@ export function HeroSection() {
                         </p>
 
                         <p className="mx-auto max-w-xl text-sm leading-6 text-zinc-400 lg:mx-0">
-                            Start with the new single <span className="font-semibold text-zinc-100">Ugly</span>,
-                            then jump to your favorite streaming platform.
+                            The debut album <span className="font-semibold text-zinc-100">New Beginnings</span> drops
+                            May 8, 2026. Start with <span className="font-semibold text-zinc-100">{featuredTitle}</span>,
+                            then jump into the full record.
                         </p>
                     </div>
 
@@ -64,13 +66,13 @@ export function HeroSection() {
                             href={`/music/${featuredSlug}`}
                             className="rounded-full bg-[#f5b301] px-6 py-3 text-xs font-black uppercase tracking-[0.18em] text-black shadow-[0_18px_55px_rgba(245,179,1,0.2)] transition hover:-translate-y-0.5 hover:bg-[#ffd766]"
                         >
-                            Play Ugly
+                            Play {featuredTitle}
                         </Link>
                         <a
                             href="#albums"
                             className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-[0.18em] text-zinc-100 transition hover:-translate-y-0.5 hover:border-white/35 hover:bg-white/10"
                         >
-                            View Music
+                            New Beginnings
                         </a>
                     </div>
 
@@ -106,13 +108,13 @@ export function HeroSection() {
                                 {bandInfo.FEATURED_TRACK.title}
                             </h2>
                             <p className="mt-2 text-sm leading-6 text-zinc-400">
-                                Hear the hook, read the lyrics, and choose where to stream the full track.
+                                Hear the featured preview now, then be ready when the album lands May 8.
                             </p>
                             <Link
                                 href={`/music/${featuredSlug}`}
                                 className="mt-4 inline-flex w-fit rounded-full bg-[#03346E] px-5 py-2 text-xs font-bold uppercase tracking-[0.18em] text-zinc-100 transition hover:bg-[#0f6fad]"
                             >
-                                Lyrics and streams
+                                Preview and album links
                             </Link>
                         </div>
                     </div>

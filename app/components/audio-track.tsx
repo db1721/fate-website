@@ -23,6 +23,21 @@ function formatTime(seconds: number): string {
     return `${mins}:${secs}`;
 }
 
+function getAudioDuration(el: HTMLAudioElement): number {
+    if (Number.isFinite(el.duration) && el.duration > 0) {
+        return el.duration;
+    }
+
+    if (el.seekable.length > 0) {
+        const seekableEnd = el.seekable.end(el.seekable.length - 1);
+        if (Number.isFinite(seekableEnd) && seekableEnd > 0) {
+            return seekableEnd;
+        }
+    }
+
+    return 0;
+}
+
 export function AudioTrack({
                                id,
                                src,
@@ -40,10 +55,79 @@ export function AudioTrack({
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
 
+    const syncDuration = () => {
+        const el = audioRef.current;
+        if (!el) return;
+
+        const nextDuration = getAudioDuration(el);
+        if (nextDuration > 0) {
+            setDuration(nextDuration);
+        }
+    };
+
+    const syncCurrentTime = () => {
+        const el = audioRef.current;
+        if (!el) return;
+
+        syncDuration();
+        setCurrentTime(el.currentTime || 0);
+    };
+
     // register with audio manager
     useEffect(() => {
         registerAudio(id, audioRef.current);
     }, [id, registerAudio]);
+
+    useEffect(() => {
+        const el = audioRef.current;
+        if (!el) return;
+
+        let durationReady = false;
+        const syncMetadata = () => {
+            const nextDuration = getAudioDuration(el);
+            if (nextDuration > 0) {
+                durationReady = true;
+                setDuration(nextDuration);
+            }
+        };
+        const syncPlaybackPosition = () => {
+            syncMetadata();
+            setCurrentTime(el.currentTime || 0);
+        };
+
+        setIsPlaying(false);
+        setDuration(0);
+        setCurrentTime(0);
+
+        el.addEventListener("loadedmetadata", syncMetadata);
+        el.addEventListener("durationchange", syncMetadata);
+        el.addEventListener("loadeddata", syncMetadata);
+        el.addEventListener("canplay", syncMetadata);
+        el.addEventListener("timeupdate", syncPlaybackPosition);
+
+        el.load();
+        syncMetadata();
+
+        const metadataPoll = window.setInterval(() => {
+            syncMetadata();
+            if (durationReady) {
+                window.clearInterval(metadataPoll);
+            }
+        }, 250);
+        const metadataTimeout = window.setTimeout(() => {
+            window.clearInterval(metadataPoll);
+        }, 6000);
+
+        return () => {
+            el.removeEventListener("loadedmetadata", syncMetadata);
+            el.removeEventListener("durationchange", syncMetadata);
+            el.removeEventListener("loadeddata", syncMetadata);
+            el.removeEventListener("canplay", syncMetadata);
+            el.removeEventListener("timeupdate", syncPlaybackPosition);
+            window.clearInterval(metadataPoll);
+            window.clearTimeout(metadataTimeout);
+        };
+    }, [src]);
 
     // optional autoplay (hero)
     useEffect(() => {
@@ -74,9 +158,14 @@ export function AudioTrack({
 
     const handleSeek = (value: number) => {
         const el = audioRef.current;
-        if (!el || !duration) return;
-        el.currentTime = value;
-        setCurrentTime(value);
+        if (!el) return;
+
+        const availableDuration = duration || getAudioDuration(el);
+        if (!availableDuration) return;
+
+        const nextTime = Math.max(0, Math.min(value, availableDuration));
+        el.currentTime = nextTime;
+        setCurrentTime(nextTime);
     };
 
     return (
@@ -98,8 +187,10 @@ export function AudioTrack({
             <audio
                 ref={audioRef}
                 src={src}
+                preload="metadata"
                 className="hidden"
                 onPlay={() => {
+                    syncDuration();
                     setIsPlaying(true);
                     handlePlay(id);
                     onPlay?.();
@@ -108,8 +199,11 @@ export function AudioTrack({
                     setIsPlaying(false);
                     onPause?.();
                 }}
-                onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
-                onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
+                onTimeUpdate={syncCurrentTime}
+                onDurationChange={syncDuration}
+                onLoadedData={syncDuration}
+                onCanPlay={syncDuration}
+                onLoadedMetadata={syncDuration}
                 onEnded={() => {
                     setIsPlaying(false);
                     setCurrentTime(0);
@@ -160,6 +254,7 @@ export function AudioTrack({
                     step={0.1}
                     value={currentTime}
                     onChange={(e) => handleSeek(Number(e.target.value))}
+                    onInput={(e) => handleSeek(Number(e.currentTarget.value))}
                     className="
                       h-1 min-w-0 flex-1
                       cursor-pointer

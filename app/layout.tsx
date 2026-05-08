@@ -20,8 +20,10 @@ export const metadata: Metadata = {
         "melodic hard rock",
         "alternative rock",
         "new rock music",
-        "Ugly F.A.T.E.",
+        "Friends F.A.T.E.",
         "New Beginnings album",
+        "New Beginnings F.A.T.E.",
+        "Fight Against the Enemy Friends",
     ],
     alternates: {
         canonical: "/",

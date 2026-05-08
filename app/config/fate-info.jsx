@@ -6,6 +6,7 @@ import running_away_single from './../assets/albums/running-away-cover.png';
 import tell_me_single from './../assets/albums/tell-me-cover.jpg';
 import angels from './../assets/albums/angels-single-cover.jpg';
 import ugly from './../assets/albums/ugly-single-cover.png';
+import friends from './../assets/albums/friends-single-cover.jpg';
 import passion_single from './../assets/albums/passion-single-cover.png';
 import wake_of_determination from './../assets/albums/wake-of-determination.png';
 import music_for_all from './../assets/blogs/music-for-all-logo-site.png';
@@ -15,24 +16,15 @@ const bandInfo = {
     band_logo: e2,
     band_name: 'F.A.T.E',
     band_name_full: 'Fight Against the Enemy',
-    band_description: 'Modern melodic rock with heavy guitars, emotional lyrics, and anthemic hooks.',
-    band_seo_description: 'F.A.T.E. (Fight Against the Enemy) is a modern melodic rock project creating heavy, emotional songs for listeners who connect with resilience, struggle, and hope.',
+    band_description: 'Modern melodic rock with heavy guitars, emotional lyrics, and anthemic hooks. New Beginnings arrives May 8, 2026.',
+    band_seo_description: 'F.A.T.E. (Fight Against the Enemy) is a modern melodic rock project creating heavy, emotional songs for listeners who connect with resilience, struggle, and hope. The New Beginnings album arrives May 8, 2026.',
 
-    // Placeholder
     FEATURED_TRACK: {
-        title: "Ugly",
-        subtitle: "Featured Single",
-        coverSrc: ugly,
-        audioSrc: "/audio/new-beginnings/ugly-feature.mp3",
+        title: "Friends",
+        subtitle: "Featured Single from New Beginnings",
+        coverSrc: friends,
+        audioSrc: "/audio/new-beginnings/friends-feature.mp3",
     },
-
-    // Placeholder
-    // FEATURED_TRACK: {
-    //     title: "Friends",
-    //     subtitle: "Featured Single",
-    //     coverSrc: friends,
-    //     audioSrc: "/audio/new-beginnings/friends-feature.mp3",
-    // },
 
     MAIN_BAND_PAGE: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL",
     SOCIAL_LINKS: [
@@ -57,7 +49,10 @@ const bandInfo = {
             id: "new-beginnings",
             title: "New Beginnings",
             year: 2026,
-            description: "A growing collection of heavy melodic rock singles about starting over, surviving the fight, and finding the strength to keep moving.",
+            releaseDate: "05/08/2026",
+            tagline: "The debut album from F.A.T.E.",
+            highlightTrack: "Friends",
+            description: "New Beginnings is the first full chapter from F.A.T.E.: twelve heavy melodic rock tracks about loyalty, scars, relapse, resilience, and choosing to keep fighting when the easy thing would be to shut down.",
             coverSrc: new_beginnings,
             tracks: [
                 {
@@ -95,7 +90,7 @@ const bandInfo = {
                     ],
                     releaseDate: "12/23/2025"
                 },
-                {title: "Lost and Afraid", audioSrc: "/audio/new-beginnings/lost-and-afraid.mp3", releaseDate: ""},
+                {title: "Lost and Afraid", audioSrc: "/audio/new-beginnings/lost-and-afraid.mp3", releaseDate: "05/08/2026"},
                 {
                     title: "Tell Me",
                     audioSrc: "/audio/new-beginnings/tell-me.mp3",
@@ -112,9 +107,29 @@ const bandInfo = {
                     single_link_share: "https://ffm.to/fate-running-away",
                     releaseDate: "02/16/2026"
                 },
-                {title: "Friends", audioSrc: "/audio/new-beginnings/friends.mp3", releaseDate: ""},
-                {title: "Fully Alive", audioSrc: "/audio/new-beginnings/fully-alive.mp3", releaseDate: ""},
-                {title: "No More Games", audioSrc: "/audio/new-beginnings/no-more-games.mp3", releaseDate: ""},
+                {
+                    title: "Friends",
+                    audioSrc: "/audio/new-beginnings/friends.mp3",
+                    previewSrc: "/audio/new-beginnings/friends-feature.mp3",
+                    songImg: friends,
+                    storyBehindTheLyrics: "",
+                    previewStartTime: 113,
+                    previewStartLabel: "Featured preview",
+                    lyricsFile: "/lyrics/new-beginnings/friends.txt",
+                    featured: true,
+                    songServiceLinks: [
+                        { url: "https://open.spotify.com/track/0BDNmxnU0FRDkqt5Q7PNVm", network: "spotify", tooltip: 'Spotify' },
+                        { url: "https://geo.music.apple.com/us/album/friends/1889441855?i=1889441863&app=music&ls=1", network: "apple", tooltip: 'Apple' },
+                        { url: "https://music.amazon.com/tracks/B0GVGDDPXZ/?ref=dm_ff_amazonmusic_3p", network: "amazon", tooltip: 'Amazon' },
+                        { url: "https://music.youtube.com/watch?v=ixcUpL_7TSM", network: "youtube-music", tooltip: 'YouTube Music' },
+                        { url: "https://pandora.app.link/?$desktop_url=https%3A%2F%2Fwww.pandora.com%2Fartist%2Ffight-against-the-enemy%2Fnew-beginnings%2Ffriends%2FTR292n5Kq6jcpvV&$ios_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A199827302&$android_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A199827302&~channel=Partner%20Catalog%20Search%20API", network: "pandora", tooltip: 'Pandora' },
+                        { url: "http://www.tidal.com/track/511351075", network: "tidal", tooltip: 'Tidal' },
+                        { url: "https://www.deezer.com/track/3929916421", network: "deezer", tooltip: 'Deezer' },
+                    ],
+                    releaseDate: "05/08/2026"
+                },
+                {title: "Fully Alive", audioSrc: "/audio/new-beginnings/fully-alive.mp3", releaseDate: "05/08/2026"},
+                {title: "No More Games", audioSrc: "/audio/new-beginnings/no-more-games.mp3", releaseDate: "05/08/2026"},
                 {
                     title: "Passion",
                     audioSrc: "/audio/new-beginnings/passion.mp3",
@@ -134,7 +149,7 @@ const bandInfo = {
                     ],
                     releaseDate: "12/22/2025"
                 },
-                {title: "Hold My Hand", audioSrc: "/audio/new-beginnings/hold-my-hand.mp3", releaseDate: ""},
+                {title: "Hold My Hand", audioSrc: "/audio/new-beginnings/hold-my-hand.mp3", releaseDate: "05/08/2026"},
                 {
                     title: "Ugly",
                     audioSrc: "/audio/new-beginnings/ugly.mp3",

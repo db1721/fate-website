@@ -97,6 +97,21 @@ function formatTime(seconds: number): string {
     return `${mins}:${secs.toString().padStart(2, "0")}`;
 }
 
+function getAudioDuration(audio: HTMLAudioElement): number {
+    if (Number.isFinite(audio.duration) && audio.duration > 0) {
+        return audio.duration;
+    }
+
+    if (audio.seekable.length > 0) {
+        const seekableEnd = audio.seekable.end(audio.seekable.length - 1);
+        if (Number.isFinite(seekableEnd) && seekableEnd > 0) {
+            return seekableEnd;
+        }
+    }
+
+    return 0;
+}
+
 function FloatingOrb({
                          className,
                          color,
@@ -245,8 +260,18 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
         const audio = audioRef.current;
         if (!audio) return;
 
-        const onLoadedMetadata = () => setDuration(audio.duration || 0);
-        const onTimeUpdate = () => setCurrentTime(audio.currentTime || 0);
+        let durationReady = false;
+        const syncDuration = () => {
+            const nextDuration = getAudioDuration(audio);
+            if (nextDuration > 0) {
+                durationReady = true;
+                setDuration(nextDuration);
+            }
+        };
+        const onTimeUpdate = () => {
+            syncDuration();
+            setCurrentTime(audio.currentTime || 0);
+        };
         const onEnded = () => {
             setIsPlaying(false);
             setCurrentTime(0);
@@ -258,16 +283,35 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
             });
         };
 
-        audio.addEventListener("loadedmetadata", onLoadedMetadata);
+        audio.addEventListener("loadedmetadata", syncDuration);
+        audio.addEventListener("durationchange", syncDuration);
+        audio.addEventListener("loadeddata", syncDuration);
+        audio.addEventListener("canplay", syncDuration);
         audio.addEventListener("timeupdate", onTimeUpdate);
         audio.addEventListener("ended", onEnded);
+        audio.load();
+        syncDuration();
+        const metadataPoll = window.setInterval(() => {
+            syncDuration();
+            if (durationReady) {
+                window.clearInterval(metadataPoll);
+            }
+        }, 250);
+        const metadataTimeout = window.setTimeout(() => {
+            window.clearInterval(metadataPoll);
+        }, 6000);
 
         return () => {
-            audio.removeEventListener("loadedmetadata", onLoadedMetadata);
+            audio.removeEventListener("loadedmetadata", syncDuration);
+            audio.removeEventListener("durationchange", syncDuration);
+            audio.removeEventListener("loadeddata", syncDuration);
+            audio.removeEventListener("canplay", syncDuration);
             audio.removeEventListener("timeupdate", onTimeUpdate);
             audio.removeEventListener("ended", onEnded);
+            window.clearInterval(metadataPoll);
+            window.clearTimeout(metadataTimeout);
         };
-    }, []);
+    }, [song.slug, song.title]);
 
     async function togglePlay() {
         const audio = audioRef.current;
@@ -279,6 +323,11 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                     audio.currentTime = song.previewStartTime ?? 0;
                     hasAppliedInitialStartRef.current = true;
                     setCurrentTime(audio.currentTime);
+                }
+
+                const nextDuration = getAudioDuration(audio);
+                if (nextDuration > 0) {
+                    setDuration(nextDuration);
                 }
 
                 await audio.play();
@@ -322,17 +371,24 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
 
     function handleSeek(event: React.MouseEvent<HTMLDivElement>) {
         const audio = audioRef.current;
-        if (!audio || !duration) return;
+        if (!audio) return;
+
+        const availableDuration = duration || getAudioDuration(audio);
+        if (!availableDuration) return;
 
         const rect = event.currentTarget.getBoundingClientRect();
         const percent = (event.clientX - rect.left) / rect.width;
-        const nextTime = Math.max(0, Math.min(duration, percent * duration));
+        const nextTime = Math.max(0, Math.min(availableDuration, percent * availableDuration));
 
         audio.currentTime = nextTime;
         setCurrentTime(nextTime);
+        setDuration(availableDuration);
     }
 
     const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
+    const streamingPrompt = song.songServiceLinks?.length
+        ? "Stream or save on your platform"
+        : "Follow for the release";
 
     return (
         <main className="relative min-h-screen overflow-hidden text-white">
@@ -522,7 +578,7 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                                     boxShadow: `0 0 20px ${hexToRgba(palette.primary, 0.14)}`,
                                 }}
                             >
-                                Stream the full song
+                                {streamingPrompt}
                             </span>
                         </div>
 
@@ -596,7 +652,7 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                                     boxShadow: `0 0 20px ${hexToRgba(palette.primary, 0.14)}`,
                                 }}
                             >
-                                Stream the full song
+                                {streamingPrompt}
                             </span>
                         </div>
                         {/*Desktop Socials*/}

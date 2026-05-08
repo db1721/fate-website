@@ -35,6 +35,7 @@ export type SongPageData = {
 type TrackData = {
     title: string;
     audioSrc: string;
+    previewSrc?: string;
     songImg?: string | StaticImageData;
     lyricsFile?: string;
     storyBehindTheLyrics?: string;
@@ -42,6 +43,7 @@ type TrackData = {
     releaseDate?: string;
     previewStartTime?: number;
     previewStartLabel?: string;
+    featured?: boolean;
     songServiceLinks?: SocialLink[];
 };
 
@@ -49,10 +51,24 @@ type AlbumData = {
     id: string;
     title: string;
     year: number;
+    releaseDate?: string;
+    tagline?: string;
+    highlightTrack?: string;
     description?: string;
     coverSrc: string | StaticImageData;
     tracks: TrackData[];
 };
+
+const FEATURED_RELEASE_NETWORKS = new Set([
+    "spotify",
+    "apple",
+    "youtube-music",
+    "amazon",
+    "pandora",
+    "tidal",
+    "deezer",
+    "shazam",
+]);
 
 export function getImageSrc(src: string | StaticImageData): string {
     return typeof src === "string" ? src : src.src;
@@ -76,7 +92,7 @@ function toIsoDate(dateString?: string): string | undefined {
 }
 
 function isPublicSongPage(track: TrackData) {
-    return Boolean(track.songServiceLinks?.length || track.single_link_share || track.lyricsFile);
+    return Boolean(track.featured || track.songServiceLinks?.length || track.single_link_share || track.lyricsFile);
 }
 
 export function getSongPageDataFromSlug(slug: string): SongPageData | null {
@@ -85,6 +101,12 @@ export function getSongPageDataFromSlug(slug: string): SongPageData | null {
             const trackSlug = slugify(track.title);
 
             if (trackSlug === slug) {
+                const featuredReleaseLinks = track.featured
+                    ? (bandInfo.SOCIAL_LINKS as SocialLink[]).filter((link) =>
+                        FEATURED_RELEASE_NETWORKS.has(link.network)
+                    )
+                    : undefined;
+
                 return {
                     slug: trackSlug,
                     title: track.title,
@@ -93,12 +115,12 @@ export function getSongPageDataFromSlug(slug: string): SongPageData | null {
                     subtitle: `${track.title} by ${ARTIST_FULL_NAME}`,
                     tagline: album.title ? `From ${album.title}` : undefined,
                     coverImage: track.songImg ?? album.coverSrc,
-                    previewUrl: track.audioSrc,
+                    previewUrl: track.previewSrc ?? track.audioSrc,
                     spotifyUrl: track.single_link_share ?? bandInfo.MAIN_BAND_PAGE,
                     releaseLabel: track.releaseDate ? `Released ${toIsoDate(track.releaseDate) ?? track.releaseDate}` : undefined,
                     releaseDate: toIsoDate(track.releaseDate),
                     albumTitle: album.title,
-                    songServiceLinks: track.songServiceLinks ?? undefined,
+                    songServiceLinks: track.songServiceLinks ?? featuredReleaseLinks,
                     previewStartTime: track.previewStartTime ?? 0,
                     previewStartLabel: track.previewStartLabel ?? "Preview",
                 };
@@ -134,8 +156,8 @@ export function generateSongMetadata(song: SongPageData): Metadata {
     const title = `${song.title} by ${ARTIST_FULL_NAME}`;
     const imageUrl = absoluteUrl(getImageSrc(song.coverImage));
     const description = song.albumTitle
-        ? `Listen to ${song.title} by ${ARTIST_FULL_NAME}, read the lyrics, and choose your favorite streaming platform. From ${song.albumTitle}.`
-        : `Listen to ${song.title} by ${ARTIST_FULL_NAME}, read the lyrics, and choose your favorite streaming platform.`;
+        ? `Preview ${song.title} by ${ARTIST_FULL_NAME}, then choose your favorite streaming platform. From ${song.albumTitle}.`
+        : `Preview ${song.title} by ${ARTIST_FULL_NAME}, then choose your favorite streaming platform.`;
 
     return {
         title,
@@ -186,7 +208,7 @@ export function getHomeStructuredData() {
             "@type": "MusicAlbum",
             name: album.title,
             byArtist: { "@id": `${SITE_URL}/#musicgroup` },
-            datePublished: String(album.year),
+            datePublished: toIsoDate(album.releaseDate) ?? String(album.year),
             url: absoluteUrl(`/#albums`),
             track: album.tracks.filter(isPublicSongPage).map((track) => ({
                 "@type": "MusicRecording",
