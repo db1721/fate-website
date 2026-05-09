@@ -45,7 +45,7 @@ export function HeroSection() {
                                 width={760}
                                 height={270}
                                 priority
-                                className="h-auto w-56 sm:w-72 lg:w-96"
+                                className="mx-auto h-auto w-56 sm:w-72 lg:mx-0 lg:w-96"
                             />
                         </h1>
 

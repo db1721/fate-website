@@ -158,16 +158,16 @@ export function AlbumsSection() {
                             sizes="256px"
                             className="object-cover"
                         />
-                        {albumReleaseDate ? (
-                            <div className="absolute inset-x-3 bottom-3 rounded-md border border-white/15 bg-black/70 px-3 py-2 text-center backdrop-blur">
-                                <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#f5b301]">
-                                    Album drops
-                                </p>
-                                <p className="mt-1 text-sm font-black uppercase tracking-wide text-white">
-                                    {albumReleaseDate}
-                                </p>
-                            </div>
-                        ) : null}
+                        {/*{albumReleaseDate ? (*/}
+                        {/*    <div className="absolute inset-x-3 bottom-3 rounded-md border border-white/15 bg-black/70 px-3 py-2 text-center backdrop-blur">*/}
+                        {/*        <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#f5b301]">*/}
+                        {/*            Album drops*/}
+                        {/*        </p>*/}
+                        {/*        <p className="mt-1 text-sm font-black uppercase tracking-wide text-white">*/}
+                        {/*            {albumReleaseDate}*/}
+                        {/*        </p>*/}
+                        {/*    </div>*/}
+                        {/*) : null}*/}
                     </div>
 
                     <div className="flex flex-1 flex-col gap-4">

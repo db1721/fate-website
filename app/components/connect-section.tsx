@@ -25,8 +25,7 @@ export function ConnectSection() {
                         Keep F.A.T.E. in your rotation
                     </p>
                     <p className="mt-3 max-w-xl text-sm leading-6 text-zinc-400 sm:text-base">
-                        Save the songs where you listen most, then follow the band for new releases,
-                        lyric clips, and behind-the-song updates.
+                        Save the songs where you listen most, then follow  for new releases.
                     </p>
                 </div>
 

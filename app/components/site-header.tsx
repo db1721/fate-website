@@ -5,15 +5,19 @@ const SECTIONS = [
     { id: "hero", label: "Home" },
     { id: "about", label: "About" },
     { id: "albums", label: "Music" },
-    { id: "connect", label: "Listen" },
+    { id: "connect", label: "Connect" },
     { id: "blogs", label: "Press" },
 ];
 
 export function SiteHeader() {
     return (
         <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-black/75 backdrop-blur-md">
-            <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-8 lg:px-10">
-                <a href="#hero" className="flex items-center gap-3" aria-label="Go to F.A.T.E. home">
+            <div className="relative mx-auto flex max-w-6xl items-center justify-end px-4 py-3 sm:px-8 md:justify-between lg:px-10">
+                <a
+                    href="#hero"
+                    className="absolute left-1/2 flex -translate-x-1/2 items-center gap-3 md:static md:translate-x-0"
+                    aria-label="Go to F.A.T.E. home"
+                >
                     <Image
                         src="/icons/fate-white-short.png"
                         alt=""
@@ -22,7 +26,7 @@ export function SiteHeader() {
                         className="h-auto w-16"
                         priority
                     />
-                    <span className="hidden text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-300 sm:inline">
+                    <span className="hidden text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-300 md:inline">
                         {bandInfo.band_name_full}
                     </span>
                 </a>
