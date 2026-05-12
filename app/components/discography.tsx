@@ -12,7 +12,7 @@ import { slugify } from "@/lib/utils";
 type Track = {
     title: string;
     audioSrc: string;
-    releaseDate: string;
+    releaseDate?: string;
     featured?: boolean;
     songServiceLinks?: unknown[];
     single_link_share?: string;
@@ -46,6 +46,10 @@ function formatReleaseDate(dateString: string): string {
 
 function hasTrackPage(track: Track) {
     return Boolean(track.featured || track.songServiceLinks?.length || track.single_link_share);
+}
+
+function getEffectiveReleaseDate(track: Track, albumReleaseDate?: string) {
+    return track.releaseDate?.trim() || albumReleaseDate || "";
 }
 
 export function AlbumsSection() {
@@ -221,7 +225,11 @@ export function AlbumsSection() {
 
                         <div className="space-y-3">
                             {activeAlbum.tracks.map((track: Track) => {
-                                const status = getReleaseStatus(track.releaseDate);
+                                const effectiveReleaseDate = getEffectiveReleaseDate(
+                                    track,
+                                    activeAlbum.releaseDate
+                                );
+                                const status = getReleaseStatus(effectiveReleaseDate);
                                 const canOpenTrackPage = hasTrackPage(track);
 
                                 return (
@@ -272,7 +280,7 @@ export function AlbumsSection() {
                                         ) : (
                                             <span className="mt-1 text-xs text-zinc-300 sm:mt-0 sm:w-64">
                                                 {status === "future"
-                                                    ? `Drops ${formatReleaseDate(track.releaseDate)}`
+                                                    ? `Drops ${formatReleaseDate(effectiveReleaseDate)}`
                                                     : "Release date TBD"}
                                             </span>
                                         )}

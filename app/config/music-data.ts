@@ -95,6 +95,10 @@ function isPublicSongPage(track: TrackData) {
     return Boolean(track.featured || track.songServiceLinks?.length || track.single_link_share || track.lyricsFile);
 }
 
+function getEffectiveReleaseDate(track: TrackData, album: AlbumData) {
+    return track.releaseDate?.trim() || album.releaseDate;
+}
+
 export function getSongPageDataFromSlug(slug: string): SongPageData | null {
     for (const album of bandInfo.ALBUMS as AlbumData[]) {
         for (const track of album.tracks) {
@@ -106,6 +110,7 @@ export function getSongPageDataFromSlug(slug: string): SongPageData | null {
                         FEATURED_RELEASE_NETWORKS.has(link.network)
                     )
                     : undefined;
+                const releaseDate = getEffectiveReleaseDate(track, album);
 
                 return {
                     slug: trackSlug,
@@ -117,8 +122,8 @@ export function getSongPageDataFromSlug(slug: string): SongPageData | null {
                     coverImage: track.songImg ?? album.coverSrc,
                     previewUrl: track.previewSrc ?? track.audioSrc,
                     spotifyUrl: track.single_link_share ?? bandInfo.MAIN_BAND_PAGE,
-                    releaseLabel: track.releaseDate ? `Released ${toIsoDate(track.releaseDate) ?? track.releaseDate}` : undefined,
-                    releaseDate: toIsoDate(track.releaseDate),
+                    releaseLabel: releaseDate ? `Released ${toIsoDate(releaseDate) ?? releaseDate}` : undefined,
+                    releaseDate: toIsoDate(releaseDate),
                     albumTitle: album.title,
                     songServiceLinks: track.songServiceLinks ?? featuredReleaseLinks,
                     previewStartTime: track.previewStartTime ?? 0,
@@ -143,7 +148,7 @@ export function getPublicSongPages() {
 
             pages.push({
                 ...song,
-                lastModified: parseReleaseDate(track.releaseDate) ?? undefined,
+                lastModified: parseReleaseDate(getEffectiveReleaseDate(track, album)) ?? undefined,
             });
         }
     }

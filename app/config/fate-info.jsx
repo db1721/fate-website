@@ -52,7 +52,7 @@ const bandInfo = {
             releaseDate: "05/08/2026",
             tagline: "The debut album from F.A.T.E.",
             highlightTrack: "Friends",
-            description: "New Beginnings is the first full chapter from F.A.T.E.: twelve heavy melodic rock tracks about loyalty, scars, relapse, resilience, and choosing to keep fighting when the easy thing would be to shut down.",
+            description: "New Beginnings is the first full chapter from F.A.T.E.: twelve heavy melodic rock tracks about loyalty, scars, resilience, and choosing to keep fighting when the easy thing would be to shut down.",
             coverSrc: new_beginnings,
             tracks: [
                 {
@@ -60,7 +60,18 @@ const bandInfo = {
                     audioSrc: "/audio/new-beginnings/new-beginning.mp3",
                     songImg: new_beginning,
                     storyBehindTheLyrics: "",
-                    single_link_share: "https://ffm.to/fate-new-beginning",
+                    lyricsFile: "/lyrics/new-beginnings/new-beginning.txt",
+                    previewStartTime: 38,
+                    previewStartLabel: "Chorus preview",
+                    songServiceLinks: [
+                        { url: "https://open.spotify.com/album/1iiUdWw0JICReZ4FJ7ey93", network: "spotify", tooltip: 'Spotify' },
+                        { url: "https://geo.music.apple.com/us/album/new-beginning-single/1859188495?app=music&ls=1", network: "apple", tooltip: 'Apple' },
+                        { url: "https://music.amazon.com/albums/B0G5GW3F9N?ref=dm_ff_amazonmusic_3p", network: "amazon", tooltip: 'Amazon' },
+                        { url: "https://music.youtube.com/playlist?list=OLAK5uy_kbAD8QrgldHGBRk34wbgeMLE8aFuvC5RE", network: "youtube-music", tooltip: 'YouTube Music' },
+                        { url: "https://pandora.app.link/?$desktop_url=https%3A%2F%2Fwww.pandora.com%2Fartist%2Ffight-against-the-enemy%2Fnew-beginning%2FALgrmkclwJd5ZPw&$ios_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Falbum%3Ftoken%3DAL%3A57501905&$android_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Falbum%3Ftoken%3DAL%3A57501905&~channel=Partner%20Catalog%20Search%20API", network: "pandora", tooltip: 'Pandora' },
+                        { url: "http://www.tidal.com/album/479414350", network: "tidal", tooltip: 'Tidal' },
+                        { url: "https://www.deezer.com/album/871797142", network: "deezer", tooltip: 'Deezer' },
+                    ],
                     releaseDate: "12/05/2025"
                 },
                 {
@@ -68,7 +79,18 @@ const bandInfo = {
                     audioSrc: "/audio/new-beginnings/angels.mp3",
                     songImg: angels,
                     storyBehindTheLyrics: "",
-                    single_link_share: "https://ffm.to/fate-angels",
+                    lyricsFile: "/lyrics/new-beginnings/angels.txt",
+                    previewStartTime: 95,
+                    previewStartLabel: "Chorus preview",
+                    songServiceLinks: [
+                        { url: "https://open.spotify.com/album/40VNaQq6OQysEgypm0KFyR", network: "spotify", tooltip: 'Spotify' },
+                        { url: "https://geo.music.apple.com/us/album/angels-single/1881379494?app=music&ls=1", network: "apple", tooltip: 'Apple' },
+                        { url: "https://music.amazon.com/albums/B0GQHHX6RR?ref=dm_ff_amazonmusic_3p", network: "amazon", tooltip: 'Amazon' },
+                        { url: "https://music.youtube.com/watch?v=j4WYi3ZYMHE", network: "youtube-music", tooltip: 'YouTube Music' },
+                        { url: "https://pandora.app.link/?$desktop_url=https%3A%2F%2Fwww.pandora.com%2Fartist%2Ffight-against-the-enemy%2Fangels%2FALcd3cP2vKpkrXm&$ios_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Falbum%3Ftoken%3DAL%3A62489408&$android_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Falbum%3Ftoken%3DAL%3A62489408&~channel=Partner%20Catalog%20Search%20API", network: "pandora", tooltip: 'Pandora' },
+                        { url: "http://www.tidal.com/album/502818596", network: "tidal", tooltip: 'Tidal' },
+                        { url: "https://www.deezer.com/album/928701881", network: "deezer", tooltip: 'Deezer' },
+                    ],
                     releaseDate: "3/15/2026"
                 },
                 {
@@ -90,13 +112,39 @@ const bandInfo = {
                     ],
                     releaseDate: "12/23/2025"
                 },
-                {title: "Lost and Afraid", audioSrc: "/audio/new-beginnings/lost-and-afraid.mp3", releaseDate: "05/08/2026"},
+                {
+                    title: "Lost and Afraid",
+                    audioSrc: "/audio/new-beginnings/lost-and-afraid.mp3",
+                    lyricsFile: "/lyrics/new-beginnings/lost-and-afraid.txt",
+                    previewStartTime: 50,
+                    previewStartLabel: "Chorus preview",
+                    songServiceLinks: [
+                        { url: "https://open.spotify.com/track/6PAleRr6Z7Sq30TcEtyEO2", network: "spotify", tooltip: 'Spotify' },
+                        { url: "https://geo.music.apple.com/us/album/lost-and-afraid/1889441855?i=1889441860&app=itunes&ls=1", network: "apple", tooltip: 'Apple' },
+                        { url: "https://music.amazon.com/tracks/B0GVG8KTK1/?ref=dm_ff_amazonmusic_3p", network: "amazon", tooltip: 'Amazon' },
+                        { url: "https://www.youtube.com/watch?v=j4WYi3ZYMHE", network: "youtube-music", tooltip: 'YouTube Music' },
+                        { url: "https://pandora.app.link/?$desktop_url=https%3A%2F%2Fwww.pandora.com%2Fartist%2Ffight-against-the-enemy%2Fnew-beginnings%2Flost-and-afraid%2FTRZjlx4nxxbwdlm&$ios_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A199827299&$android_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A199827299&~channel=Partner%20Catalog%20Search%20API", network: "pandora", tooltip: 'Pandora' },
+                        { url: "http://www.tidal.com/track/511351072", network: "tidal", tooltip: 'Tidal' },
+                        { url: "https://www.deezer.com/track/3929916391", network: "deezer", tooltip: 'Deezer' },
+                    ],
+                },
                 {
                     title: "Tell Me",
                     audioSrc: "/audio/new-beginnings/tell-me.mp3",
                     songImg: tell_me_single,
                     storyBehindTheLyrics: "",
-                    single_link_share: "https://ffm.to/fate-tell-me",
+                    lyricsFile: "/lyrics/new-beginnings/tell-me.txt",
+                    previewStartTime: 57,
+                    previewStartLabel: "Chorus preview",
+                    songServiceLinks: [
+                        { url: "https://open.spotify.com/album/5E2Bf41np3bT61B8V394Mu", network: "spotify", tooltip: 'Spotify' },
+                        { url: "https://geo.music.apple.com/us/album/tell-me-single/1875872747?app=music&ls=1", network: "apple", tooltip: 'Apple' },
+                        { url: "https://music.amazon.com/albums/B0GMH9X6P8?ref=dm_ff_amazonmusic_3p", network: "amazon", tooltip: 'Amazon' },
+                        { url: "https://music.youtube.com/playlist?list=OLAK5uy_luuBBzTbOeEu-pNUHGbbryzwjrtc1Q-4A", network: "youtube-music", tooltip: 'YouTube Music' },
+                        { url: "https://pandora.app.link/?$desktop_url=https%3A%2F%2Fwww.pandora.com%2Fartist%2Ffight-against-the-enemy%2Ftell-me%2FALnZthXkmzxXjw4&$ios_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Falbum%3Ftoken%3DAL%3A61845926&$android_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Falbum%3Ftoken%3DAL%3A61845926&~channel=Partner%20Catalog%20Search%20API", network: "pandora", tooltip: 'Pandora' },
+                        { url: "http://www.tidal.com/album/497415206", network: "tidal", tooltip: 'Tidal' },
+                        { url: "https://www.deezer.com/album/914897531", network: "deezer", tooltip: 'Deezer' },
+                    ],
                     releaseDate: "02/28/2026"
                 },
                 {
@@ -104,7 +152,18 @@ const bandInfo = {
                     audioSrc: "/audio/new-beginnings/running-away.mp3",
                     songImg: running_away_single,
                     storyBehindTheLyrics: "",
-                    single_link_share: "https://ffm.to/fate-running-away",
+                    lyricsFile: "/lyrics/new-beginnings/running-away.txt",
+                    previewStartTime: 0,
+                    previewStartLabel: "Chorus preview",
+                    songServiceLinks: [
+                        { url: "https://open.spotify.com/album/5qFoeXT3zlMMUTlscoES75", network: "spotify", tooltip: 'Spotify' },
+                        { url: "https://geo.music.apple.com/us/album/running-away-single/1870796810?app=music&ls=1", network: "apple", tooltip: 'Apple' },
+                        { url: "https://music.amazon.com/albums/B0GHXYFJVB?ref=dm_ff_amazonmusic_3p", network: "amazon", tooltip: 'Amazon' },
+                        { url: "https://music.youtube.com/playlist?list=OLAK5uy_my2trYHRQGcxWCunqldOxubPKaEA0JEqA", network: "youtube-music", tooltip: 'YouTube Music' },
+                        { url: "https://pandora.app.link/?$desktop_url=https%3A%2F%2Fwww.pandora.com%2Fartist%2Ffight-against-the-enemy%2Frunning-away%2FALXgfm5j3gh7lzZ&$ios_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Falbum%3Ftoken%3DAL%3A60038930&$android_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Falbum%3Ftoken%3DAL%3A60038930&~channel=Partner%20Catalog%20Search%20API", network: "pandora", tooltip: 'Pandora' },
+                        { url: "http://www.tidal.com/album/491371880", network: "tidal", tooltip: 'Tidal' },
+                        { url: "https://www.deezer.com/album/901807612", network: "deezer", tooltip: 'Deezer' },
+                    ],
                     releaseDate: "02/16/2026"
                 },
                 {
@@ -125,11 +184,40 @@ const bandInfo = {
                         { url: "https://pandora.app.link/?$desktop_url=https%3A%2F%2Fwww.pandora.com%2Fartist%2Ffight-against-the-enemy%2Fnew-beginnings%2Ffriends%2FTR292n5Kq6jcpvV&$ios_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A199827302&$android_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A199827302&~channel=Partner%20Catalog%20Search%20API", network: "pandora", tooltip: 'Pandora' },
                         { url: "http://www.tidal.com/track/511351075", network: "tidal", tooltip: 'Tidal' },
                         { url: "https://www.deezer.com/track/3929916421", network: "deezer", tooltip: 'Deezer' },
-                    ],
-                    releaseDate: "05/08/2026"
+                    ]
                 },
-                {title: "Fully Alive", audioSrc: "/audio/new-beginnings/fully-alive.mp3", releaseDate: "05/08/2026"},
-                {title: "No More Games", audioSrc: "/audio/new-beginnings/no-more-games.mp3", releaseDate: "05/08/2026"},
+                {
+                    title: "Fully Alive",
+                    audioSrc: "/audio/new-beginnings/fully-alive.mp3",
+                    lyricsFile: "/lyrics/new-beginnings/fully-alive.txt",
+                    previewStartTime: 147,
+                    previewStartLabel: "Chorus preview",
+                    songServiceLinks: [
+                        { url: "https://open.spotify.com/track/59rp0niuIrYW4zW43yGRpp", network: "spotify", tooltip: 'Spotify' },
+                        { url: "https://geo.music.apple.com/us/album/fully-alive/1889441855?i=1889441864&app=music&ls=1", network: "apple", tooltip: 'Apple' },
+                        { url: "https://music.amazon.com/tracks/B0GVGFD8SY/?ref=dm_ff_amazonmusic_3p", network: "amazon", tooltip: 'Amazon' },
+                        { url: "https://music.youtube.com/watch?v=Q0WA4AsshFs", network: "youtube-music", tooltip: 'YouTube Music' },
+                        { url: "https://pandora.app.link/?$desktop_url=https%3A%2F%2Fwww.pandora.com%2Fartist%2Ffight-against-the-enemy%2Fnew-beginnings%2Ffully-alive%2FTRfppVqZJKmKnfX&$ios_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A199827303&$android_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A199827303&~channel=Partner%20Catalog%20Search%20API", network: "pandora", tooltip: 'Pandora' },
+                        { url: "http://www.tidal.com/track/511351076", network: "tidal", tooltip: 'Tidal' },
+                        { url: "https://www.deezer.com/track/3929916431", network: "deezer", tooltip: 'Deezer' },
+                    ]
+                },
+                {
+                    title: "No More Games",
+                    audioSrc: "/audio/new-beginnings/no-more-games.mp3",
+                    lyricsFile: "/lyrics/new-beginnings/no-more-games.txt",
+                    previewStartTime: 50,
+                    previewStartLabel: "Chorus preview",
+                    songServiceLinks: [
+                        { url: "https://open.spotify.com/track/4gCsaPlT6b067JAabHeQEj", network: "spotify", tooltip: 'Spotify' },
+                        { url: "https://geo.music.apple.com/us/album/no-more-games/1889441855?i=1889441865&app=music&ls=1", network: "apple", tooltip: 'Apple' },
+                        { url: "https://music.amazon.com/tracks/B0GVGR3CSP/?ref=dm_ff_amazonmusic_3p", network: "amazon", tooltip: 'Amazon' },
+                        { url: "https://music.youtube.com/watch?v=RHcpXJeXnog", network: "youtube-music", tooltip: 'YouTube Music' },
+                        { url: "https://pandora.app.link/?$desktop_url=https%3A%2F%2Fwww.pandora.com%2Fartist%2Ffight-against-the-enemy%2Fnew-beginnings%2Fno-more-games%2FTRrK4Jwg3V96Zbq&$ios_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A199827304&$android_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A199827304&~channel=Partner%20Catalog%20Search%20API", network: "pandora", tooltip: 'Pandora' },
+                        { url: "http://www.tidal.com/track/511351077", network: "tidal", tooltip: 'Tidal' },
+                        { url: "https://www.deezer.com/track/3929916441", network: "deezer", tooltip: 'Deezer' },
+                    ]
+                },
                 {
                     title: "Passion",
                     audioSrc: "/audio/new-beginnings/passion.mp3",
@@ -149,7 +237,22 @@ const bandInfo = {
                     ],
                     releaseDate: "12/22/2025"
                 },
-                {title: "Hold My Hand", audioSrc: "/audio/new-beginnings/hold-my-hand.mp3", releaseDate: "05/08/2026"},
+                {
+                    title: "Hold My Hand",
+                    audioSrc: "/audio/new-beginnings/hold-my-hand.mp3",
+                    lyricsFile: "/lyrics/new-beginnings/hold-my-hand.txt",
+                    previewStartTime: 125,
+                    previewStartLabel: "Chorus preview",
+                    songServiceLinks: [
+                        { url: "https://open.spotify.com/track/2Zu5sQcNRbZmRbcmOHNhu8", network: "spotify", tooltip: 'Spotify' },
+                        { url: "https://geo.music.apple.com/us/album/hold-my-hand/1889441855?i=1889441867&app=music&ls=1", network: "apple", tooltip: 'Apple' },
+                        { url: "https://music.amazon.com/tracks/B0GVGD69CR/?ref=dm_ff_amazonmusic_3p", network: "amazon", tooltip: 'Amazon' },
+                        { url: "https://music.youtube.com/watch?v=H-i9VD3zyqI", network: "youtube-music", tooltip: 'YouTube Music' },
+                        { url: "https://pandora.app.link/?$desktop_url=https%3A%2F%2Fwww.pandora.com%2Fartist%2Ffight-against-the-enemy%2Fnew-beginnings%2Fhold-my-hand%2FTRd3qmkkkVqPJrX&$ios_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A199827306&$android_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A199827306&~channel=Partner%20Catalog%20Search%20API", network: "pandora", tooltip: 'Pandora' },
+                        { url: "http://www.tidal.com/track/511351079", network: "tidal", tooltip: 'Tidal' },
+                        { url: "https://www.deezer.com/track/3929916461", network: "deezer", tooltip: 'Deezer' },
+                    ]
+                },
                 {
                     title: "Ugly",
                     audioSrc: "/audio/new-beginnings/ugly.mp3",

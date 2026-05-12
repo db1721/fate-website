@@ -30,6 +30,27 @@ export function HeroSection() {
 
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:54px_54px] opacity-[0.05]" />
 
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-y-0 right-0 hidden w-[68%] overflow-hidden sm:block lg:w-[56%]"
+                style={{
+                    WebkitMaskImage:
+                        "linear-gradient(to left, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.68) 46%, transparent 86%)",
+                    maskImage:
+                        "linear-gradient(to left, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.68) 46%, transparent 86%)",
+                }}
+            >
+                <Image
+                    src="/images/dan-beck-hero.jpg"
+                    alt=""
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 56vw, 68vw"
+                    className="object-cover object-[58%_center] opacity-[0.3] grayscale brightness-[0.88] contrast-115 mix-blend-luminosity sm:opacity-[0.34] lg:opacity-[0.38]"
+                />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_42%,transparent_0,rgba(2,6,23,0.08)_34%,rgba(2,6,23,0.46)_88%),linear-gradient(90deg,#020617_0%,rgba(2,6,23,0.52)_38%,rgba(2,6,23,0.08)_100%),linear-gradient(180deg,rgba(2,6,23,0.48)_0%,transparent_42%,rgba(0,0,0,0.58)_100%)]" />
+            </div>
+
             <div className="relative z-10 grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[1fr_0.92fr] lg:gap-14">
                 <div className="space-y-7 text-center lg:text-left">
                     <div className="space-y-4">
