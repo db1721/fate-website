@@ -2,6 +2,7 @@
 
 import {useEffect, useRef, useState} from "react";
 import {useAudioManager} from "@/app/context/audio-manager";
+import { trackInteraction } from "@/lib/track-interaction";
 
 type AudioTrackProps = {
     id: string;
@@ -49,6 +50,7 @@ export function AudioTrack({
                                onPause,
                            }: AudioTrackProps) {
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const hasTrackedPlayRef = useRef(false);
     const {registerAudio, handlePlay} = useAudioManager();
 
     const [isPlaying, setIsPlaying] = useState(false);
@@ -82,6 +84,7 @@ export function AudioTrack({
         const el = audioRef.current;
         if (!el) return;
 
+        hasTrackedPlayRef.current = false;
         let durationReady = false;
         const syncMetadata = () => {
             const nextDuration = getAudioDuration(el);
@@ -193,6 +196,13 @@ export function AudioTrack({
                     syncDuration();
                     setIsPlaying(true);
                     handlePlay(id);
+                    if (!hasTrackedPlayRef.current) {
+                        hasTrackedPlayRef.current = true;
+                        void trackInteraction({
+                            song: id,
+                            action: "preview_play",
+                        });
+                    }
                     onPlay?.();
                 }}
                 onPause={() => {

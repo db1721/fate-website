@@ -172,7 +172,7 @@ const bandInfo = {
                     previewSrc: "/audio/new-beginnings/friends-feature.mp3",
                     songImg: friends,
                     storyBehindTheLyrics: "",
-                    previewStartTime: 113,
+                    previewStartTime: 113.5,
                     previewStartLabel: "Featured preview",
                     lyricsFile: "/lyrics/new-beginnings/friends.txt",
                     featured: true,

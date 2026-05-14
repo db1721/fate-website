@@ -12,6 +12,7 @@ import {
 import {SocialIcons} from "@/app/components/shared/socials";
 import {track} from "@vercel/analytics";
 import {trackInteraction} from "@/lib/track-interaction";
+import { trackMetaCustomEvent } from "@/lib/meta-pixel";
 import type { SongPageData } from "@/app/config/music-data";
 
 type MusicLandingPageProps = {
@@ -281,6 +282,13 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                 title: song.title,
                 duration: Math.floor(audio.duration || 0),
             });
+            trackMetaCustomEvent("MusicPreviewComplete", {
+                content_name: song.slug,
+                content_category: "music",
+                content_ids: [song.slug],
+                content_type: "music",
+                duration: Math.floor(audio.duration || 0),
+            });
         };
 
         audio.addEventListener("loadedmetadata", syncDuration);
@@ -347,6 +355,13 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                 track("song_preview_pause", {
                     song: song.slug,
                     title: song.title,
+                    current_time: Math.floor(audio.currentTime),
+                });
+                trackMetaCustomEvent("MusicPreviewPause", {
+                    content_name: song.slug,
+                    content_category: "music",
+                    content_ids: [song.slug],
+                    content_type: "music",
                     current_time: Math.floor(audio.currentTime),
                 });
             }
@@ -596,6 +611,13 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="rounded-full bg-white px-4 py-2 text-sm font-bold text-black transition hover:-translate-y-0.5"
+                                    onClick={() =>
+                                        trackInteraction({
+                                            song: song.slug,
+                                            action: "service_click",
+                                            service: "streaming_link",
+                                        })
+                                    }
                                 >
                                     Open streaming link
                                 </a>
@@ -669,6 +691,13 @@ export default function MusicLandingPage({song}: MusicLandingPageProps) {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="rounded-full bg-white px-5 py-2 text-sm font-bold text-black transition hover:-translate-y-0.5"
+                                    onClick={() =>
+                                        trackInteraction({
+                                            song: song.slug,
+                                            action: "service_click",
+                                            service: "streaming_link",
+                                        })
+                                    }
                                 >
                                     Open streaming link
                                 </a>
