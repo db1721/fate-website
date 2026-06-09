@@ -75,11 +75,11 @@ export function HeroSection() {
                             anthemic hooks, and lyrics meant to be screamed back.
                         </p>
 
-                        <p className="mx-auto max-w-xl text-sm leading-6 text-zinc-400 lg:mx-0">
-                            The debut album <span className="font-semibold text-zinc-100">New Beginnings</span> drops
-                            May 8, 2026. Start with <span className="font-semibold text-zinc-100">{featuredTitle}</span>,
-                            then jump into the full record.
-                        </p>
+                        {/*<p className="mx-auto max-w-xl text-sm leading-6 text-zinc-400 lg:mx-0">*/}
+                        {/*    The debut album <span className="font-semibold text-zinc-100">New Beginnings</span> drops*/}
+                        {/*    May 8, 2026. Start with <span className="font-semibold text-zinc-100">{featuredTitle}</span>,*/}
+                        {/*    then jump into the full record.*/}
+                        {/*</p>*/}
                     </div>
 
                     <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">

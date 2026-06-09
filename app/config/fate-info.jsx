@@ -11,6 +11,7 @@ import passion_single from './../assets/albums/passion-single-cover.png';
 import wake_of_determination from './../assets/albums/wake-of-determination.png';
 import music_for_all from './../assets/blogs/music-for-all-logo-site.png';
 import roadie_music from './../assets/blogs/roadie-music.jpg';
+import brand_new_day_single from './../assets/albums/brand-new-day-cover.jpg';
 
 const bandInfo = {
     band_logo: e2,
@@ -20,11 +21,17 @@ const bandInfo = {
     band_seo_description: 'F.A.T.E. (Fight Against the Enemy) is a modern melodic rock project creating heavy, emotional songs for listeners who connect with resilience, struggle, and hope. The New Beginnings album arrives May 8, 2026.',
 
     FEATURED_TRACK: {
-        title: "Friends",
-        subtitle: "Featured Single from New Beginnings",
-        coverSrc: friends,
-        audioSrc: "/audio/new-beginnings/friends-feature.mp3",
+        title: "Brand New Day",
+        subtitle: "Featured Single",
+        coverSrc: brand_new_day_single,
+        audioSrc: "/audio/wake-of-determination/brand-new-day-feature.mp3",
     },
+    // FEATURED_TRACK: {
+    //     title: "Friends",
+    //     subtitle: "Featured Single from New Beginnings",
+    //     coverSrc: friends,
+    //     audioSrc: "/audio/new-beginnings/friends-feature.mp3",
+    // },
 
     MAIN_BAND_PAGE: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL",
     SOCIAL_LINKS: [
@@ -52,7 +59,7 @@ const bandInfo = {
             releaseDate: "05/08/2026",
             tagline: "The debut album from F.A.T.E.",
             highlightTrack: "Friends",
-            description: "New Beginnings is the first full chapter from F.A.T.E.: twelve heavy melodic rock tracks about loyalty, scars, resilience, and choosing to keep fighting when the easy thing would be to shut down.",
+            description: "New Beginnings is the first full chapter from F.A.T.E.",
             coverSrc: new_beginnings,
             tracks: [
                 {
@@ -173,7 +180,7 @@ const bandInfo = {
                     songImg: friends,
                     storyBehindTheLyrics: "",
                     previewStartTime: 113.5,
-                    previewStartLabel: "Featured preview",
+                    previewStartLabel: "Chorus preview",
                     lyricsFile: "/lyrics/new-beginnings/friends.txt",
                     featured: true,
                     songServiceLinks: [
@@ -278,10 +285,29 @@ const bandInfo = {
             id: "wake-of-determination",
             title: "Wake of Determination",
             year: 2026,
-            description: "A darker chapter built around emotional riffs, pressure, release, and determination.",
+            releaseDate: "11/08/2026",
+            description: "The next chapter built around heavy riffs and determination.",
             coverSrc: wake_of_determination,
             tracks: [
-                { title: "Brand New Day", audioSrc: "/audio/wake-of-determination/brand-new-day.mp3", releaseDate: ""  },
+                {
+                    title: "Brand New Day",
+                    audioSrc: "/audio//audio/wake-of-determination/brand-new-day.mp3",
+                    songImg: brand_new_day_single,
+                    lyricsFile: "/lyrics/wake-of-determination/brand-new-day.txt",
+                    storyBehindTheLyrics: "",
+                    previewStartTime: 0,
+                    previewStartLabel: "Feature preview",
+                    songServiceLinks: [
+                        { url: "https://open.spotify.com/track/6Wy0AAhpjGWjPQsgWqAQP7", network: "spotify", tooltip: 'Spotify' },
+                        { url: "https://geo.music.apple.com/us/album/brand-new-day/6768919610?i=6768919615&app=music&ls=1", network: "apple", tooltip: 'Apple' },
+                        { url: "https://music.amazon.com/tracks/B0H1M5LFF3/?ref=dm_ff_amazonmusic_3p", network: "amazon", tooltip: 'Amazon' },
+                        { url: "https://music.youtube.com/watch?v=yW4Nd2f_ihQ", network: "youtube-music", tooltip: 'YouTube Music' },
+                        // { url: "https://pandora.app.link/?$desktop_url=https%3A%2F%2Fwww.pandora.com%2Fartist%2Ffight-against-the-enemy%2Fugly%2Fugly%2FTR5bPjX7w4b2qjg&$ios_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A196970543&$android_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A196970543&~channel=Partner%20Catalog%20Search%20API", network: "pandora", tooltip: 'Pandora' },
+                        { url: "http://www.tidal.com/track/524223994", network: "tidal", tooltip: 'Tidal' },
+                        { url: "https://www.deezer.com/track/4018962571", network: "deezer", tooltip: 'Deezer' },
+                    ],
+                    releaseDate: "6/9/2026"
+                },
                 { title: "Encompassing Defeat", audioSrc: "/audio/wake-of-determination/encompassing-defeat.mp3", releaseDate: ""  },
                 { title: "Wake of Determination", audioSrc: "/audio/wake-of-determination/wake-of-determination.mp3", releaseDate: ""  },
             ],
