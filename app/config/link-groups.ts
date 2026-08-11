@@ -1,4 +1,4 @@
-import type { SocialLink } from "@/app/config/music-data";
+import type { SocialLink } from "@/app/config/artists/types";
 
 export const STREAMING_NETWORKS = [
     "spotify",

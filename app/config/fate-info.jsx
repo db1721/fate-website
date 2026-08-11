@@ -1,17 +1,18 @@
 import e2 from './../assets/evolve_and_elevate_120.png';
-import new_beginnings from './../assets/albums/new-beginnings-cover.png';
-import new_beginning from './../assets/albums/new-beginning-cover.png';
-import blown_away_single from './../assets/albums/blown-away-cover.png';
-import running_away_single from './../assets/albums/running-away-cover.png';
-import tell_me_single from './../assets/albums/tell-me-cover.jpg';
-import angels from './../assets/albums/angels-single-cover.jpg';
-import ugly from './../assets/albums/ugly-single-cover.png';
-import friends from './../assets/albums/friends-single-cover.jpg';
-import passion_single from './../assets/albums/passion-single-cover.png';
-import wake_of_determination from './../assets/albums/wake-of-determination.png';
+import new_beginnings from '../assets/albums/fate/new-beginnings/new-beginnings-cover.png';
+import new_beginning from '../assets/albums/fate/new-beginnings/new-beginning-cover.png';
+import blown_away_single from '../assets/albums/fate/new-beginnings/blown-away-cover.png';
+import running_away_single from '../assets/albums/fate/new-beginnings/running-away-cover.png';
+import tell_me_single from '../assets/albums/fate/new-beginnings/tell-me-cover.jpg';
+import angels from '../assets/albums/fate/new-beginnings/angels-single-cover.jpg';
+import ugly from '../assets/albums/fate/new-beginnings/ugly-single-cover.png';
+import friends from '../assets/albums/fate/new-beginnings/friends-single-cover.jpg';
+import encompassing_defeat from '../assets/albums/fate/wake-of-determination/ed-single-cover.jpg';
+import passion_single from '../assets/albums/fate/new-beginnings/passion-single-cover.png';
+import wake_of_determination from '../assets/albums/fate/wake-of-determination/wake-of-determination.png';
 import music_for_all from './../assets/blogs/music-for-all-logo-site.png';
 import roadie_music from './../assets/blogs/roadie-music.jpg';
-import brand_new_day_single from './../assets/albums/brand-new-day-cover.jpg';
+import brand_new_day_single from '../assets/albums/fate/new-beginnings/brand-new-day-cover.jpg';
 
 const bandInfo = {
     band_logo: e2,
@@ -20,18 +21,32 @@ const bandInfo = {
     band_description: 'Modern melodic rock with heavy guitars, emotional lyrics, and anthemic hooks. New Beginnings arrives May 8, 2026.',
     band_seo_description: 'F.A.T.E. (Fight Against the Enemy) is a modern melodic rock project creating heavy, emotional songs for listeners who connect with resilience, struggle, and hope. The New Beginnings album arrives May 8, 2026.',
 
-    FEATURED_TRACK: {
-        title: "Brand New Day",
-        subtitle: "Featured Single",
-        coverSrc: brand_new_day_single,
-        audioSrc: "/audio/wake-of-determination/brand-new-day-feature.mp3",
-    },
-    // FEATURED_TRACK: {
-    //     title: "Friends",
-    //     subtitle: "Featured Single from New Beginnings",
-    //     coverSrc: friends,
-    //     audioSrc: "/audio/new-beginnings/friends-feature.mp3",
-    // },
+    FEATURED_TRACKS: [
+        {
+            title: "Friends",
+            subtitle: "Featured Single from New Beginnings",
+            coverSrc: friends,
+            audioSrc: "/audio/fate/new-beginnings/friends.mp3",
+            featureDate: "05/08/2026",
+            description: "A song about the people who stay when life gets heavy.",
+        },
+        {
+            title: "Brand New Day",
+            subtitle: "Featured Single from Wake of Determination",
+            coverSrc: brand_new_day_single,
+            audioSrc: "/audio/fate/wake-of-determination/brand-new-day-feature.mp3",
+            featureDate: "06/09/2026",
+            description: "A heavier next chapter built around resolve, momentum, and starting again.",
+        },
+        {
+            title: "Encompassing Defeat",
+            subtitle: "Featured Single from Wake of Determination",
+            coverSrc: encompassing_defeat,
+            audioSrc: "/audio/fate/wake-of-determination/encompassing-defeat.mp3",
+            featureDate: "08/28/2026",
+            description: "A darker turn built around pressure, collapse, and the decision to keep moving.",
+        },
+    ],
 
     MAIN_BAND_PAGE: "https://open.spotify.com/artist/5ANd03MPu8A0eOoeRzK8JL",
     SOCIAL_LINKS: [
@@ -64,10 +79,10 @@ const bandInfo = {
             tracks: [
                 {
                     title: "New Beginning",
-                    audioSrc: "/audio/new-beginnings/new-beginning.mp3",
+                    audioSrc: "/audio/fate/new-beginnings/new-beginning.mp3",
                     songImg: new_beginning,
                     storyBehindTheLyrics: "",
-                    lyricsFile: "/lyrics/new-beginnings/new-beginning.txt",
+                    lyricsFile: "/lyrics/fate/new-beginnings/new-beginning.txt",
                     previewStartTime: 38,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -83,10 +98,10 @@ const bandInfo = {
                 },
                 {
                     title: "Angels",
-                    audioSrc: "/audio/new-beginnings/angels.mp3",
+                    audioSrc: "/audio/fate/new-beginnings/angels.mp3",
                     songImg: angels,
                     storyBehindTheLyrics: "",
-                    lyricsFile: "/lyrics/new-beginnings/angels.txt",
+                    lyricsFile: "/lyrics/fate/new-beginnings/angels.txt",
                     previewStartTime: 95,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -102,9 +117,9 @@ const bandInfo = {
                 },
                 {
                     title: "Blown Away",
-                    audioSrc: "/audio/new-beginnings/blown-away.mp3",
+                    audioSrc: "/audio/fate/new-beginnings/blown-away.mp3",
                     songImg: blown_away_single,
-                    lyricsFile: "/lyrics/new-beginnings/blown-away.txt",
+                    lyricsFile: "/lyrics/fate/new-beginnings/blown-away.txt",
                     storyBehindTheLyrics: "",
                     previewStartTime: 205,
                     previewStartLabel: "Chorus preview",
@@ -121,8 +136,8 @@ const bandInfo = {
                 },
                 {
                     title: "Lost and Afraid",
-                    audioSrc: "/audio/new-beginnings/lost-and-afraid.mp3",
-                    lyricsFile: "/lyrics/new-beginnings/lost-and-afraid.txt",
+                    audioSrc: "/audio/fate/new-beginnings/lost-and-afraid.mp3",
+                    lyricsFile: "/lyrics/fate/new-beginnings/lost-and-afraid.txt",
                     previewStartTime: 50,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -137,10 +152,10 @@ const bandInfo = {
                 },
                 {
                     title: "Tell Me",
-                    audioSrc: "/audio/new-beginnings/tell-me.mp3",
+                    audioSrc: "/audio/fate/new-beginnings/tell-me.mp3",
                     songImg: tell_me_single,
                     storyBehindTheLyrics: "",
-                    lyricsFile: "/lyrics/new-beginnings/tell-me.txt",
+                    lyricsFile: "/lyrics/fate/new-beginnings/tell-me.txt",
                     previewStartTime: 57,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -156,10 +171,10 @@ const bandInfo = {
                 },
                 {
                     title: "Running Away",
-                    audioSrc: "/audio/new-beginnings/running-away.mp3",
+                    audioSrc: "/audio/fate/new-beginnings/running-away.mp3",
                     songImg: running_away_single,
                     storyBehindTheLyrics: "",
-                    lyricsFile: "/lyrics/new-beginnings/running-away.txt",
+                    lyricsFile: "/lyrics/fate/new-beginnings/running-away.txt",
                     previewStartTime: 0,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -175,13 +190,12 @@ const bandInfo = {
                 },
                 {
                     title: "Friends",
-                    audioSrc: "/audio/new-beginnings/friends.mp3",
-                    previewSrc: "/audio/new-beginnings/friends-feature.mp3",
+                    audioSrc: "/audio/fate/new-beginnings/friends.mp3",
                     songImg: friends,
                     storyBehindTheLyrics: "",
                     previewStartTime: 113.5,
                     previewStartLabel: "Chorus preview",
-                    lyricsFile: "/lyrics/new-beginnings/friends.txt",
+                    lyricsFile: "/lyrics/fate/new-beginnings/friends.txt",
                     featured: true,
                     songServiceLinks: [
                         { url: "https://open.spotify.com/track/0BDNmxnU0FRDkqt5Q7PNVm", network: "spotify", tooltip: 'Spotify' },
@@ -195,8 +209,8 @@ const bandInfo = {
                 },
                 {
                     title: "Fully Alive",
-                    audioSrc: "/audio/new-beginnings/fully-alive.mp3",
-                    lyricsFile: "/lyrics/new-beginnings/fully-alive.txt",
+                    audioSrc: "/audio/fate/new-beginnings/fully-alive.mp3",
+                    lyricsFile: "/lyrics/fate/new-beginnings/fully-alive.txt",
                     previewStartTime: 147,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -211,8 +225,8 @@ const bandInfo = {
                 },
                 {
                     title: "No More Games",
-                    audioSrc: "/audio/new-beginnings/no-more-games.mp3",
-                    lyricsFile: "/lyrics/new-beginnings/no-more-games.txt",
+                    audioSrc: "/audio/fate/new-beginnings/no-more-games.mp3",
+                    lyricsFile: "/lyrics/fate/new-beginnings/no-more-games.txt",
                     previewStartTime: 50,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -227,9 +241,9 @@ const bandInfo = {
                 },
                 {
                     title: "Passion",
-                    audioSrc: "/audio/new-beginnings/passion.mp3",
+                    audioSrc: "/audio/fate/new-beginnings/passion.mp3",
                     songImg: passion_single,
-                    lyricsFile: "/lyrics/new-beginnings/passion.txt",
+                    lyricsFile: "/lyrics/fate/new-beginnings/passion.txt",
                     storyBehindTheLyrics: "",
                     previewStartTime: 98,
                     previewStartLabel: "Chorus preview",
@@ -246,8 +260,8 @@ const bandInfo = {
                 },
                 {
                     title: "Hold My Hand",
-                    audioSrc: "/audio/new-beginnings/hold-my-hand.mp3",
-                    lyricsFile: "/lyrics/new-beginnings/hold-my-hand.txt",
+                    audioSrc: "/audio/fate/new-beginnings/hold-my-hand.mp3",
+                    lyricsFile: "/lyrics/fate/new-beginnings/hold-my-hand.txt",
                     previewStartTime: 125,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -262,9 +276,9 @@ const bandInfo = {
                 },
                 {
                     title: "Ugly",
-                    audioSrc: "/audio/new-beginnings/ugly.mp3",
+                    audioSrc: "/audio/fate/new-beginnings/ugly.mp3",
                     songImg: ugly,
-                    lyricsFile: "/lyrics/new-beginnings/ugly.txt",
+                    lyricsFile: "/lyrics/fate/new-beginnings/ugly.txt",
                     storyBehindTheLyrics: "",
                     previewStartTime: 206,
                     previewStartLabel: "Chorus preview",
@@ -291,9 +305,9 @@ const bandInfo = {
             tracks: [
                 {
                     title: "Brand New Day",
-                    audioSrc: "/audio//audio/wake-of-determination/brand-new-day.mp3",
+                    audioSrc: "/audio/fate/wake-of-determination/brand-new-day.mp3",
                     songImg: brand_new_day_single,
-                    lyricsFile: "/lyrics/wake-of-determination/brand-new-day.txt",
+                    lyricsFile: "/lyrics/fate/wake-of-determination/brand-new-day.txt",
                     storyBehindTheLyrics: "",
                     previewStartTime: 0,
                     previewStartLabel: "Feature preview",
@@ -308,8 +322,18 @@ const bandInfo = {
                     ],
                     releaseDate: "6/9/2026"
                 },
-                { title: "Encompassing Defeat", audioSrc: "/audio/wake-of-determination/encompassing-defeat.mp3", releaseDate: ""  },
-                { title: "Wake of Determination", audioSrc: "/audio/wake-of-determination/wake-of-determination.mp3", releaseDate: ""  },
+                {
+                    title: "Encompassing Defeat",
+                    audioSrc: "/audio/fate/wake-of-determination/encompassing-defeat.mp3",
+                    songImg: encompassing_defeat,
+                    lyricsFile: "/lyrics/fate/wake-of-determination/encompassing-defeat.txt",
+                    storyBehindTheLyrics: "",
+                    previewStartTime: 0,
+                    previewStartLabel: "Feature preview",
+                    featured: true,
+                    releaseDate: "08/28/2026"
+                },
+                { title: "Wake of Determination", audioSrc: "/audio/fate/wake-of-determination/wake-of-determination.mp3", releaseDate: ""  },
             ],
         },
         ],

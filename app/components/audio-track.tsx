@@ -1,12 +1,15 @@
 'use client';
 
 import {useEffect, useRef, useState} from "react";
+import { Pause, Play } from "lucide-react";
 import {useAudioManager} from "@/app/context/audio-manager";
 import { trackInteraction } from "@/lib/track-interaction";
+import type { ArtistId } from "@/app/config/artists/types";
 
 type AudioTrackProps = {
     id: string;
     src: string;
+    projectId?: ArtistId;
     autoPlay?: boolean;
     className?: string;
     maxWidth?: string;
@@ -42,6 +45,7 @@ function getAudioDuration(el: HTMLAudioElement): number {
 export function AudioTrack({
                                id,
                                src,
+                               projectId = "fate",
                                autoPlay,
                                className,
                                maxWidth,
@@ -49,6 +53,7 @@ export function AudioTrack({
                                onPlay,
                                onPause,
                            }: AudioTrackProps) {
+    const containerRef = useRef<HTMLDivElement | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const hasTrackedPlayRef = useRef(false);
     const {registerAudio, handlePlay} = useAudioManager();
@@ -108,8 +113,27 @@ export function AudioTrack({
         el.addEventListener("canplay", syncMetadata);
         el.addEventListener("timeupdate", syncPlaybackPosition);
 
-        el.load();
-        syncMetadata();
+        const beginMetadataLoad = () => {
+            if (el.preload === "metadata") return;
+            el.preload = "metadata";
+            el.load();
+            syncMetadata();
+        };
+
+        let observer: IntersectionObserver | null = null;
+        if (typeof IntersectionObserver === "undefined" || !containerRef.current) {
+            beginMetadataLoad();
+        } else {
+            observer = new IntersectionObserver(
+                (entries) => {
+                    if (!entries.some((entry) => entry.isIntersecting)) return;
+                    beginMetadataLoad();
+                    observer?.disconnect();
+                },
+                { rootMargin: "240px 0px" }
+            );
+            observer.observe(containerRef.current);
+        }
 
         const metadataPoll = window.setInterval(() => {
             syncMetadata();
@@ -129,6 +153,7 @@ export function AudioTrack({
             el.removeEventListener("timeupdate", syncPlaybackPosition);
             window.clearInterval(metadataPoll);
             window.clearTimeout(metadataTimeout);
+            observer?.disconnect();
         };
     }, [src]);
 
@@ -153,6 +178,10 @@ export function AudioTrack({
         if (isPlaying) {
             el.pause();
         } else {
+            if (el.preload === "none") {
+                el.preload = "metadata";
+                el.load();
+            }
             el.play().catch(() => {
                 // user gesture required etc.
             });
@@ -173,6 +202,7 @@ export function AudioTrack({
 
     return (
         <div
+            ref={containerRef}
             className={`
         flex w-full max-w-full items-center gap-2 rounded-md
         bg-black/70 border border-zinc-700
@@ -190,7 +220,7 @@ export function AudioTrack({
             <audio
                 ref={audioRef}
                 src={src}
-                preload="metadata"
+                preload="none"
                 className="hidden"
                 onPlay={() => {
                     syncDuration();
@@ -200,6 +230,7 @@ export function AudioTrack({
                         hasTrackedPlayRef.current = true;
                         void trackInteraction({
                             song: id,
+                            project: projectId,
                             action: "preview_play",
                         });
                     }
@@ -227,31 +258,14 @@ export function AudioTrack({
                 onClick={togglePlay}
                 className={`
           flex h-7 w-7 items-center justify-center
-          rounded-full bg-blue-400 text-black
-          hover:bg-blue-800 active:scale-95
+          rounded-full text-black
+          hover:brightness-125 active:scale-95
           transition-transform transition-colors
         `}
+                style={{ backgroundColor: "var(--artist-accent-bright, #60a5fa)" }}
                 aria-label={isPlaying ? "Pause" : "Play"}
             >
-                {isPlaying ? (
-                    // pause icon
-                    <span className="flex gap-[2px]">
-            <span className="h-3 w-[2px] bg-black rounded-sm"/>
-            <span className="h-3 w-[2px] bg-black rounded-sm"/>
-          </span>
-                ) : (
-                    // play triangle
-                    <span
-                        className="ml-[2px]"
-                        style={{
-                            width: 0,
-                            height: 0,
-                            borderTop: "6px solid transparent",
-                            borderBottom: "6px solid transparent",
-                            borderLeft: "9px solid black",
-                        }}
-                    />
-                )}
+                {isPlaying ? <Pause className="h-3.5 w-3.5" fill="currentColor" /> : <Play className="h-3.5 w-3.5" fill="currentColor" />}
             </button>
 
             <div className="flex min-w-0 flex-1 items-center gap-2">
@@ -268,7 +282,7 @@ export function AudioTrack({
                     className="
                       h-1 min-w-0 flex-1
                       cursor-pointer
-                      accent-blue-400
+                    accent-[var(--artist-accent-bright)]
                     "
                 />
 

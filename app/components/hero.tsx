@@ -1,16 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
-import { COLORS } from "@/app/theme";
-import bandInfo from "@/app/config/fate-info";
 import { AudioTrack } from "@/app/components/audio-track";
 import { SocialIcons } from "@/app/components/shared/socials";
-import { slugify } from "@/lib/utils";
+import type { ArtistConfig, FeaturedTrack } from "@/app/config/artists/types";
+import { getArtistSongPath } from "@/app/config/artists";
 import { STREAMING_NETWORKS, filterLinksByNetwork } from "@/app/config/link-groups";
+import { slugify } from "@/lib/utils";
 
-export function HeroSection() {
-    const featuredSlug = slugify(bandInfo.FEATURED_TRACK.title);
-    const heroLinks = filterLinksByNetwork(bandInfo.SOCIAL_LINKS, STREAMING_NETWORKS);
-    const featuredTitle = bandInfo.FEATURED_TRACK.title;
+type HeroSectionProps = {
+    artist: ArtistConfig;
+    featuredTrack: FeaturedTrack | null;
+};
+
+export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
+    const isBuriedInRuin = artist.id === "buried-in-ruin";
+    const heroLinks = filterLinksByNetwork(artist.socialLinks, STREAMING_NETWORKS);
+    const featuredPath = featuredTrack
+        ? getArtistSongPath(artist, slugify(featuredTrack.title))
+        : null;
 
     return (
         <section
@@ -18,135 +25,206 @@ export function HeroSection() {
             className="relative flex min-h-[88vh] flex-col items-center justify-center overflow-hidden px-4 pb-16 pt-28 sm:px-8 lg:px-16"
         >
             <div
-                className="pointer-events-none absolute inset-0 opacity-95"
+                className="pointer-events-none absolute inset-0"
                 style={{
                     backgroundImage: `
-                        radial-gradient(circle at 20% 18%, rgba(14, 165, 233, 0.26) 0, transparent 34%),
-                        radial-gradient(circle at 78% 55%, rgba(245, 179, 1, 0.14) 0, transparent 28%),
-                        linear-gradient(180deg, #020617 0%, #030712 58%, #000 100%)
+                        radial-gradient(circle at 20% 18%, ${artist.theme.heroGlow} 0, transparent 34%),
+                        radial-gradient(circle at 78% 55%, ${artist.theme.secondaryGlow} 0, transparent 30%),
+                        linear-gradient(180deg, ${artist.theme.background} 0%, ${artist.theme.backgroundAlt} 58%, #000 100%)
                     `,
                 }}
             />
 
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:54px_54px] opacity-[0.05]" />
 
-            <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-y-0 right-0 hidden w-[68%] overflow-hidden sm:block lg:w-[56%]"
-                style={{
-                    WebkitMaskImage:
-                        "linear-gradient(to left, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.68) 46%, transparent 86%)",
-                    maskImage:
-                        "linear-gradient(to left, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.68) 46%, transparent 86%)",
-                }}
-            >
-                <Image
-                    src="/images/dan-beck-hero.jpg"
-                    alt=""
-                    fill
-                    priority
-                    sizes="(min-width: 1024px) 56vw, 68vw"
-                    className="object-cover object-[58%_center] opacity-[0.3] grayscale brightness-[0.88] contrast-115 mix-blend-luminosity sm:opacity-[0.34] lg:opacity-[0.38]"
-                />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_42%,transparent_0,rgba(2,6,23,0.08)_34%,rgba(2,6,23,0.46)_88%),linear-gradient(90deg,#020617_0%,rgba(2,6,23,0.52)_38%,rgba(2,6,23,0.08)_100%),linear-gradient(180deg,rgba(2,6,23,0.48)_0%,transparent_42%,rgba(0,0,0,0.58)_100%)]" />
-            </div>
+            {artist.hero.image ? (
+                <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-y-0 right-0 hidden w-[68%] overflow-hidden sm:block lg:w-[56%]"
+                    style={{
+                        WebkitMaskImage:
+                            "linear-gradient(to left, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.68) 46%, transparent 86%)",
+                        maskImage:
+                            "linear-gradient(to left, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.68) 46%, transparent 86%)",
+                    }}
+                >
+                    <Image
+                        src={artist.hero.image}
+                        alt=""
+                        fill
+                        priority
+                        sizes="(min-width: 1024px) 56vw, 68vw"
+                        className={isBuriedInRuin
+                            ? "object-cover opacity-[0.34] brightness-[0.72] contrast-125 sm:opacity-[0.4] lg:opacity-[0.48]"
+                            : "object-cover opacity-[0.3] grayscale brightness-[0.82] contrast-125 mix-blend-luminosity sm:opacity-[0.34] lg:opacity-[0.4]"}
+                        style={{ objectPosition: artist.hero.imagePosition ?? "center" }}
+                    />
+                    <div
+                        className="absolute inset-0"
+                        style={{
+                            background: `radial-gradient(circle at 72% 42%, transparent 0, color-mix(in srgb, ${artist.theme.background} 18%, transparent) 34%, color-mix(in srgb, ${artist.theme.background} 62%, transparent) 88%), linear-gradient(90deg, ${artist.theme.background} 0%, color-mix(in srgb, ${artist.theme.background} 52%, transparent) 38%, transparent 100%), linear-gradient(180deg, color-mix(in srgb, ${artist.theme.background} 48%, transparent) 0%, transparent 42%, rgba(0,0,0,0.68) 100%)`,
+                        }}
+                    />
+                </div>
+            ) : null}
 
             <div className="relative z-10 grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[1fr_0.92fr] lg:gap-14">
                 <div className="space-y-7 text-center lg:text-left">
                     <div className="space-y-4">
-                        <p className="text-xs font-semibold uppercase tracking-[0.34em] text-[#f5b301]">
-                            {bandInfo.band_name_full}
+                        <p
+                            className="text-xs font-semibold uppercase tracking-[0.34em]"
+                            style={{ color: "var(--artist-accent-bright)" }}
+                        >
+                            {artist.hero.eyebrow}
                         </p>
 
-                        <h1 className="mx-auto max-w-xl lg:mx-0">
-                            <span className="sr-only">F.A.T.E. - Fight Against the Enemy</span>
-                            <Image
-                                src="/icons/fate-white-short.png"
-                                alt="F.A.T.E."
-                                width={760}
-                                height={270}
-                                priority
-                                className="mx-auto h-auto w-56 sm:w-72 lg:mx-0 lg:w-96"
-                            />
+                        <h1 className="mx-auto max-w-2xl lg:mx-0">
+                            <span className="sr-only">{artist.name}</span>
+                            {artist.logo ? (
+                                isBuriedInRuin ? (
+                                    <span className="relative mx-auto block aspect-[1.75/1] w-72 overflow-hidden sm:w-96 lg:mx-0 lg:w-[31rem]">
+                                        <Image
+                                            src={artist.logo}
+                                            alt={artist.logoAlt}
+                                            fill
+                                            priority
+                                            unoptimized
+                                            sizes="(min-width: 1024px) 31rem, 24rem"
+                                            className="scale-[1.75] object-cover object-center"
+                                        />
+                                    </span>
+                                ) : (
+                                    <Image
+                                        src={artist.logo}
+                                        alt={artist.logoAlt}
+                                        width={760}
+                                        height={270}
+                                        priority
+                                        className="mx-auto h-auto w-56 sm:w-72 lg:mx-0 lg:w-96"
+                                    />
+                                )
+                            ) : (
+                                <span className="block font-[family-name:var(--font-altar-gothic)] text-5xl uppercase leading-none tracking-normal text-white sm:text-7xl lg:text-8xl">
+                                    {artist.name}
+                                </span>
+                            )}
                         </h1>
 
                         <p className="mx-auto max-w-xl text-base font-medium leading-7 text-zinc-200 sm:text-lg lg:mx-0">
-                            Heavy melodic rock for the battles you carry quietly, built with driving guitars,
-                            anthemic hooks, and lyrics meant to be screamed back.
+                            {artist.hero.description}
                         </p>
-
-                        {/*<p className="mx-auto max-w-xl text-sm leading-6 text-zinc-400 lg:mx-0">*/}
-                        {/*    The debut album <span className="font-semibold text-zinc-100">New Beginnings</span> drops*/}
-                        {/*    May 8, 2026. Start with <span className="font-semibold text-zinc-100">{featuredTitle}</span>,*/}
-                        {/*    then jump into the full record.*/}
-                        {/*</p>*/}
                     </div>
 
                     <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-                        <Link
-                            href={`/music/${featuredSlug}`}
-                            className="rounded-full bg-[#f5b301] px-6 py-3 text-xs font-black uppercase tracking-[0.18em] text-black shadow-[0_18px_55px_rgba(245,179,1,0.2)] transition hover:-translate-y-0.5 hover:bg-[#ffd766]"
-                        >
-                            Play {featuredTitle}
-                        </Link>
+                        {featuredTrack && featuredPath ? (
+                            <Link
+                                href={featuredPath}
+                                className="rounded-full px-6 py-3 text-xs font-black uppercase tracking-[0.18em] shadow-[0_18px_55px_rgba(0,0,0,0.32)] transition hover:-translate-y-0.5"
+                                style={{
+                                    backgroundColor: "var(--artist-accent-bright)",
+                                    color: "var(--artist-button-text)",
+                                }}
+                            >
+                                Play {featuredTrack.title}
+                            </Link>
+                        ) : (
+                            <a
+                                href="#about"
+                                className="rounded-full px-6 py-3 text-xs font-black uppercase tracking-[0.18em] transition hover:-translate-y-0.5"
+                                style={{
+                                    backgroundColor: "var(--artist-accent-bright)",
+                                    color: "var(--artist-button-text)",
+                                }}
+                            >
+                                Discover {artist.name}
+                            </a>
+                        )}
                         <a
                             href="#albums"
                             className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-[0.18em] text-zinc-100 transition hover:-translate-y-0.5 hover:border-white/35 hover:bg-white/10"
                         >
-                            New Beginnings
+                            {artist.hero.secondaryCta}
                         </a>
                     </div>
 
-                    <div className="mx-auto max-w-sm pt-2 lg:mx-0">
-                        <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
-                            Listen on
-                        </p>
-                        <SocialIcons SocialLinkData={heroLinks} SongSlug="home" />
-                    </div>
+                    {heroLinks.length ? (
+                        <div className="mx-auto max-w-sm pt-2 lg:mx-0">
+                            <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
+                                Listen on
+                            </p>
+                            <SocialIcons
+                                SocialLinkData={heroLinks}
+                                SongSlug="home"
+                                ProjectId={artist.id}
+                            />
+                        </div>
+                    ) : null}
                 </div>
 
                 <div
                     className="w-full rounded-lg border border-white/15 bg-black/65 p-4 shadow-[0_28px_100px_rgba(0,0,0,0.45)] backdrop-blur-md sm:p-5"
-                    style={{ boxShadow: `0 28px 100px ${COLORS.accentSoft}22` }}
+                    style={{ boxShadow: `0 28px 100px ${artist.theme.accentSoft}22` }}
                 >
-                    <div className="flex gap-4 min-w-0">
-                        <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-md border border-zinc-700 sm:h-36 sm:w-36">
-                            <Image
-                                src={bandInfo.FEATURED_TRACK.coverSrc}
-                                alt={`${bandInfo.FEATURED_TRACK.title} single cover art`}
-                                fill
-                                sizes="144px"
-                                className="object-cover"
-                                priority
+                    {featuredTrack && featuredPath ? (
+                        <>
+                            <div className="flex min-w-0 gap-4">
+                                <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-md border border-zinc-700 sm:h-36 sm:w-36">
+                                    <Image
+                                        src={featuredTrack.coverSrc}
+                                        alt={`${featuredTrack.title} single cover art`}
+                                        fill
+                                        sizes="144px"
+                                        className="object-cover"
+                                        priority
+                                    />
+                                </div>
+
+                                <div className="flex min-w-0 flex-1 flex-col justify-center">
+                                    <p className="text-xs uppercase tracking-[0.25em] text-zinc-500">
+                                        {featuredTrack.subtitle}
+                                    </p>
+                                    <h2 className="mt-1 text-2xl font-black uppercase tracking-wide text-zinc-50">
+                                        {featuredTrack.title}
+                                    </h2>
+                                    <p className="mt-2 hidden text-sm leading-6 text-zinc-400 sm:block">
+                                        {featuredTrack.description ?? "Hear the current featured preview."}
+                                    </p>
+                                    <Link
+                                        href={featuredPath}
+                                        className="mt-4 hidden w-fit rounded-full px-5 py-2 text-xs font-bold uppercase tracking-[0.18em] text-white transition hover:brightness-125 sm:inline-flex"
+                                        style={{ backgroundColor: "var(--artist-accent)" }}
+                                    >
+                                        Preview and streaming links
+                                    </Link>
+                                </div>
+                            </div>
+
+                            <div className="mt-5 w-full">
+                                <AudioTrack
+                                    id={`${featuredTrack.title}-feature`}
+                                    src={featuredTrack.audioSrc}
+                                    projectId={artist.id}
+                                    className="w-full justify-center"
+                                />
+                            </div>
+                        </>
+                    ) : (
+                        <div className="flex min-h-64 flex-col justify-end overflow-hidden rounded-md border border-white/10 bg-black/35 p-6">
+                            <div
+                                className="mb-5 h-1 w-20"
+                                style={{ backgroundColor: "var(--artist-accent-bright)" }}
                             />
-                        </div>
-
-                        <div className="flex min-w-0 flex-1 flex-col justify-center">
-                            <p className="text-xs uppercase tracking-[0.25em] text-zinc-500">
-                                {bandInfo.FEATURED_TRACK.subtitle}
+                            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-zinc-500">
+                                Project status
                             </p>
-                            <h2 className="mt-1 text-2xl font-black uppercase tracking-wide text-zinc-50">
-                                {bandInfo.FEATURED_TRACK.title}
+                            <h2 className="mt-3 text-3xl font-black uppercase tracking-normal text-white">
+                                {artist.hero.noFeatureTitle}
                             </h2>
-                            <p className="mt-2 text-sm leading-6 text-zinc-400">
-                                Hear the featured preview now, then be ready when the album lands May 8.
+                            <p className="mt-3 max-w-md text-sm leading-6 text-zinc-400">
+                                {artist.hero.noFeatureDescription}
                             </p>
-                            <Link
-                                href={`/music/${featuredSlug}`}
-                                className="mt-4 inline-flex w-fit rounded-full bg-[#03346E] px-5 py-2 text-xs font-bold uppercase tracking-[0.18em] text-zinc-100 transition hover:bg-[#0f6fad]"
-                            >
-                                Preview and album links
-                            </Link>
                         </div>
-                    </div>
-
-                    <div className="mt-5 w-full">
-                        <AudioTrack
-                            id={`${bandInfo.FEATURED_TRACK.title}-feature`}
-                            src={bandInfo.FEATURED_TRACK.audioSrc}
-                            className="w-full justify-center"
-                        />
-                    </div>
+                    )}
                 </div>
             </div>
         </section>

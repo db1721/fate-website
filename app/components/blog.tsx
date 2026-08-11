@@ -1,6 +1,5 @@
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
-import { COLORS } from "@/app/theme";
 
 export type BlogPost = {
     title: string;
@@ -59,7 +58,8 @@ export default function BlogSection({
             data-reveal
             className="relative scroll-mt-24"
             style={{
-                backgroundImage: `radial-gradient(circle at bottom, rgba(245,179,1,0.12) 0, transparent 34%), radial-gradient(circle at top, ${COLORS.accent} 0, #000 58%)`,
+                backgroundImage:
+                    "radial-gradient(circle at bottom, color-mix(in srgb, var(--artist-accent-bright) 14%, transparent) 0, transparent 34%), radial-gradient(circle at top, var(--artist-accent) 0, #000 58%)",
             }}
         >
             <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
@@ -112,7 +112,10 @@ export default function BlogSection({
 
                                     <div className="absolute left-4 top-4">
                                         <div className="inline-flex items-center gap-2 rounded-full bg-black/60 px-3 py-1 text-xs font-bold text-white ring-1 ring-white/15 backdrop-blur">
-                                            <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#f5b301]" />
+                                            <span
+                                                className="inline-block h-1.5 w-1.5 rounded-full"
+                                                style={{ backgroundColor: "var(--artist-accent-bright)" }}
+                                            />
                                             {formatDate(post.date)}
                                         </div>
                                     </div>

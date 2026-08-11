@@ -1,20 +1,15 @@
 "use client";
 
-import { AppleMusicIcon } from "@/app/components/logos/apple";
 import Image from "next/image";
 import { SocialIcon } from "react-social-icons";
-import {trackInteraction} from "@/lib/track-interaction";
-
-export type SocialLink = {
-    url: string;
-    network: string;
-    tooltip: string;
-    bgColor?: string;
-};
+import { AppleMusicIcon } from "@/app/components/logos/apple";
+import type { ArtistId, SocialLink } from "@/app/config/artists/types";
+import { trackInteraction } from "@/lib/track-interaction";
 
 export interface SocialIconsProps {
     SocialLinkData?: SocialLink[];
     SongSlug: string;
+    ProjectId?: ArtistId;
     trackingAction?: "service_click" | "social_click";
     palette?: {
         border: string;
@@ -23,322 +18,101 @@ export interface SocialIconsProps {
     };
 }
 
+const CUSTOM_ICONS: Record<string, { src: string; label: string; service: string }> = {
+    amazon: { src: "/icons/amazon-music.png", label: "Amazon Music", service: "amazon_music" },
+    pandora: { src: "/icons/pandora.png", label: "Pandora", service: "pandora_music" },
+    tidal: { src: "/icons/tidal.jpg", label: "Tidal", service: "tidal" },
+    deezer: { src: "/icons/deezer.png", label: "Deezer", service: "deezer" },
+    youtube: { src: "/icons/youtube.jpg", label: "YouTube", service: "youtube" },
+    "youtube-music": {
+        src: "/icons/youtube-music.png",
+        label: "YouTube Music",
+        service: "youtube_music",
+    },
+    instagram: { src: "/icons/instagram.png", label: "Instagram", service: "instagram" },
+    shazam: { src: "/icons/shazam.png", label: "Shazam", service: "shazam" },
+};
+
 export function SocialIcons({
-                                SocialLinkData = [],
-                                SongSlug,
-                                trackingAction = "service_click",
-                            }: SocialIconsProps) {
-    const primaryNetworks: any[] = [];
-    const primary = primaryNetworks
-        .map((network) => SocialLinkData.find((item) => item.network === network))
-        .filter(Boolean);
-
-    const secondary = SocialLinkData.filter(
-        (item) => !primaryNetworks.includes(item.network)
-    );
-
-    function renderIcon(item: any, isPrimary = false) {
-        const size = isPrimary ? 35 : 40;
-
-        if (item.network === "apple") {
-            return (
-                <a
-                    key={item.url}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Listen on Apple Music"
-                    className="flex items-center justify-center rounded-full border border-zinc-700 hover:border-zinc-400 hover:bg-white/5 hover:scale-110 transition-transform duration-200"
-                    style={{ width: size, height: size }}
-                    onClick={() =>
-                        trackInteraction({
-                        song: SongSlug,
-                        action: trackingAction,
-                        service: "apple",
-                    })
-                }
-                >
-                    <AppleMusicIcon
-                        className="h-full w-full"
-                        style={{ color: "#fc3c44" }}
-                    />
-                </a>
-            );
-        }
-
-        if (item.network === "amazon") {
-            return (
-                <a
-                    key={item.url}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Listen on Amazon Music"
-                    className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
-                    style={{ width: size, height: size }}
-                    onClick={() =>
-                        trackInteraction({
-                        song: SongSlug,
-                        action: trackingAction,
-                        service: "amazon_music",
-                    })
-                }
-                >
-                    <Image
-                        src="/icons/amazon-music.png"
-                        alt="Amazon Music"
-                        fill
-                        unoptimized
-                        className="object-cover"
-                    />
-                </a>
-            );
-        }
-
-        if (item.network === "pandora") {
-            return (
-                <a
-                    key={item.url}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Listen on Pandora"
-                    className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
-                    style={{ width: size, height: size }}
-                    onClick={() =>
-                            trackInteraction({
-                            song: SongSlug,
-                            action: trackingAction,
-                            service: "pandora_music",
-                        })
-                    }
-                >
-                    <Image
-                        src="/icons/pandora.png"
-                        alt="Pandora"
-                        fill
-                        unoptimized
-                        className="object-cover"
-                    />
-                </a>
-            );
-        }
-
-        if (item.network === "tidal") {
-            return (
-                <a
-                    key={item.url}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Listen on Tidal"
-                    className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
-                    style={{ width: size, height: size }}
-                    onClick={() =>
-                            trackInteraction({
-                            song: SongSlug,
-                            action: trackingAction,
-                            service: "tidal",
-                        })
-                    }
-                >
-                    <Image
-                        src="/icons/tidal.jpg"
-                        alt="Tidal"
-                        fill
-                        unoptimized
-                        className="object-cover"
-                    />
-                </a>
-            );
-        }
-
-        if (item.network === "deezer") {
-            return (
-                <a
-                    key={item.url}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Listen on Deezer"
-                    onClick={() =>
-                            trackInteraction({
-                            song: SongSlug,
-                            action: trackingAction,
-                            service: "deezer",
-                        })
-                    }
-                    className="relative flex h-10 w-10 items-center justify-center rounded-full border border-zinc-700 bg-black hover:scale-110 transition-transform duration-200 overflow-hidden">
-                    <Image
-                        src="/icons/deezer.png"
-                        alt="Deezer"
-                        width={28}
-                        height={28}
-                        className="object-contain"
-                    />
-                </a>
-            );
-        }
-
-        if (item.network === "youtube") {
-            return (
-                <a
-                    key={item.url}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Listen on YouTube Music"
-                    className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
-                    style={{width: size, height: size}}
-                    onClick={() =>
-                            trackInteraction({
-                            song: SongSlug,
-                            action: trackingAction,
-                            service: "youtube",
-                        })
-                    }
-                >
-                    <Image
-                        src="/icons/youtube.jpg"
-                        alt="YouTube"
-                        fill
-                        unoptimized
-                        className="object-cover"
-                    />
-                </a>
-            );
-        }
-
-        if (item.network === "youtube-music") {
-            return (
-                <a
-                    key={item.url}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Listen on YouTube"
-                    className="relative flex items-center justify-center rounded-full border border-zinc-700 hover:scale-110 transition-transform duration-200 overflow-hidden"
-                    style={{width: size, height: size}}
-                    onClick={() =>
-                        trackInteraction({
-                            song: SongSlug,
-                            action: trackingAction,
-                            service: "youtube_music",
-                        })
-                    }
-                >
-                    <Image
-                        src="/icons/youtube-music.png"
-                        alt="YouTube Music"
-                        fill
-                        unoptimized
-                        className="object-cover"
-                    />
-                </a>
-            );
-        }
-
-        if (item.network === "instagram") {
-            return (
-                <a
-                    key={item.url}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Find us on Instagram"
-                    style={{width: size, height: size}}
-                    onClick={() =>
-                    trackInteraction({
-                        song: SongSlug,
-                        action: trackingAction,
-                        service: "instagram",
-                    })
-                }
-                    className="
-                                        relative bg-white
-                                        flex h-10 w-10
-                                        items-center justify-center
-                                        rounded-full border border-zinc-700
-                                        hover:scale-110 transition-transform duration-200
-                                        overflow-hidden
-                                      "
-                >
-                    <Image
-                        src="/icons/instagram.png"
-                        alt="Instagram"
-                        fill
-                        unoptimized
-                        className="object-cover"
-                    />
-                </a>
-            );
-        }
-
-        if (item.network === "shazam") {
-            return (
-                <a
-                    key={item.url}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Find on Shazam"
-                    className="relative flex items-center justify-center rounded-full border border-zinc-700 bg-black hover:scale-110 transition-transform duration-200 overflow-hidden"
-                    style={{ width: size, height: size }}
-                    onClick={() =>
-                        trackInteraction({
-                            song: SongSlug,
-                            action: trackingAction,
-                            service: "shazam",
-                        })
-                    }
-                >
-                    <Image
-                        src="/icons/shazam.png"
-                        alt="Shazam"
-                        fill
-                        unoptimized
-                        className="object-cover"
-                    />
-                </a>
-            );
-        }
-
-        return (
-            <SocialIcon
-                key={item.url}
-                url={item.url}
-                network={item.network as any}
-                target="_blank"
-                rel="noopener noreferrer"
-                {...(item.bgColor ? {bgColor: item.bgColor} : {})}
-                fgColor="#ffffff"
-                className="hover:scale-110 transition-transform duration-200"
-                style={{ width: size, height: size }}
-                onClick={() =>
-                    trackInteraction({
-                    song: SongSlug,
-                    action: trackingAction,
-                    service: item.network,
-                })
-
-                }
-            />
-        );
-    }
+    SocialLinkData = [],
+    SongSlug,
+    ProjectId = "fate",
+    trackingAction = "service_click",
+}: SocialIconsProps) {
+    const recordClick = (service: string) => {
+        void trackInteraction({
+            song: SongSlug,
+            project: ProjectId,
+            action: trackingAction,
+            service,
+        });
+    };
 
     return (
-        <div className="flex w-full flex-col gap-3 items-center">
-            {primary.length > 0 && (
-                <div className="flex w-full flex-wrap items-center justify-center gap-3">
-                    {primary.map((item) => renderIcon(item, true))}
-                </div>
-            )}
+        <div className="flex w-full flex-wrap items-center justify-center gap-3">
+            {SocialLinkData.map((item) => {
+                const size = 40;
 
-            {secondary.length > 0 && (
-                <div className="flex w-full flex-wrap items-center justify-center gap-3">
-                    {secondary.map((item) => renderIcon(item, false))}
-                </div>
-            )}
+                if (item.network === "apple") {
+                    return (
+                        <a
+                            key={item.url}
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={item.tooltip || "Listen on Apple Music"}
+                            title={item.tooltip || "Apple Music"}
+                            className="flex items-center justify-center rounded-full border border-zinc-700 transition hover:scale-110 hover:border-zinc-400 hover:bg-white/5"
+                            style={{ width: size, height: size }}
+                            onClick={() => recordClick("apple")}
+                        >
+                            <AppleMusicIcon className="h-full w-full" style={{ color: "#fc3c44" }} />
+                        </a>
+                    );
+                }
+
+                const customIcon = CUSTOM_ICONS[item.network];
+                if (customIcon) {
+                    return (
+                        <a
+                            key={item.url}
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={item.tooltip || customIcon.label}
+                            title={item.tooltip || customIcon.label}
+                            className="relative flex items-center justify-center overflow-hidden rounded-full border border-zinc-700 bg-black transition hover:scale-110 hover:border-zinc-400"
+                            style={{ width: size, height: size }}
+                            onClick={() => recordClick(customIcon.service)}
+                        >
+                            <Image
+                                src={customIcon.src}
+                                alt=""
+                                fill
+                                unoptimized
+                                className={item.network === "deezer" ? "object-contain p-1.5" : "object-cover"}
+                            />
+                        </a>
+                    );
+                }
+
+                return (
+                    <SocialIcon
+                        key={item.url}
+                        url={item.url}
+                        network={item.network}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={item.tooltip || item.network}
+                        title={item.tooltip || item.network}
+                        {...(item.bgColor ? { bgColor: item.bgColor } : {})}
+                        fgColor="#ffffff"
+                        className="transition-transform duration-200 hover:scale-110"
+                        style={{ width: size, height: size }}
+                        onClick={() => recordClick(item.network)}
+                    />
+                );
+            })}
         </div>
     );
 }

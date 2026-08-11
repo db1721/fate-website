@@ -5,6 +5,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 type InteractionBody = {
     song: string;
+    project?: string;
     action: "service_click" | "social_click" | "preview_play" | "lyrics_review" | "song_page_visited";
     service?: string;
     page?: string;
@@ -118,6 +119,7 @@ export async function POST(request: Request) {
 
         const {
             song,
+            project,
             action,
             service,
             page,
@@ -216,6 +218,7 @@ export async function POST(request: Request) {
             ok: true,
             debug: {
                 song,
+                project,
                 action,
                 service,
                 ip,

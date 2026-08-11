@@ -1,4 +1,4 @@
-import bandInfo from "@/app/config/fate-info";
+import type { ArtistConfig } from "@/app/config/artists/types";
 import { SocialIcons } from "@/app/components/shared/socials";
 import {
     SOCIAL_NETWORKS,
@@ -6,15 +6,17 @@ import {
     filterLinksByNetwork,
 } from "@/app/config/link-groups";
 
-const streamingLinks = filterLinksByNetwork(bandInfo.SOCIAL_LINKS, STREAMING_NETWORKS);
-const socialLinks = filterLinksByNetwork(bandInfo.SOCIAL_LINKS, SOCIAL_NETWORKS);
+export function ConnectSection({ artist }: { artist: ArtistConfig }) {
+    const streamingLinks = filterLinksByNetwork(artist.socialLinks, STREAMING_NETWORKS);
+    const socialLinks = filterLinksByNetwork(artist.socialLinks, SOCIAL_NETWORKS);
+    const hasLinks = streamingLinks.length > 0 || socialLinks.length > 0;
 
-export function ConnectSection() {
     return (
         <section
             id="connect"
             data-reveal
-            className="border-y border-white/10 bg-zinc-950 px-4 py-14 sm:px-8 lg:px-16"
+            className="border-y border-white/10 px-4 py-14 sm:px-8 lg:px-16"
+            style={{ backgroundColor: "var(--artist-background-alt)" }}
         >
             <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
                 <div>
@@ -22,36 +24,50 @@ export function ConnectSection() {
                         Listen and follow
                     </h2>
                     <p className="mt-3 text-2xl font-black uppercase tracking-wide text-zinc-50 sm:text-3xl">
-                        Keep F.A.T.E. in your rotation
+                        {artist.connect.title}
                     </p>
                     <p className="mt-3 max-w-xl text-sm leading-6 text-zinc-400 sm:text-base">
-                        Save the songs where you listen most, then follow  for new releases.
+                        {artist.connect.description}
                     </p>
                 </div>
 
-                <div className="grid gap-5 sm:grid-cols-2">
-                    <div className="rounded-lg border border-white/10 bg-white/[0.03] p-5">
-                        <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
-                            Stream on
-                        </p>
-                        <SocialIcons
-                            SocialLinkData={streamingLinks}
-                            SongSlug="home"
-                            trackingAction="service_click"
-                        />
-                    </div>
+                {hasLinks ? (
+                    <div className="grid gap-5 sm:grid-cols-2">
+                        {streamingLinks.length ? (
+                            <div className="rounded-lg border border-white/10 bg-white/[0.03] p-5">
+                                <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
+                                    Stream on
+                                </p>
+                                <SocialIcons
+                                    SocialLinkData={streamingLinks}
+                                    SongSlug="home"
+                                    ProjectId={artist.id}
+                                    trackingAction="service_click"
+                                />
+                            </div>
+                        ) : null}
 
-                    <div className="rounded-lg border border-white/10 bg-white/[0.03] p-5">
-                        <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
-                            Follow on
-                        </p>
-                        <SocialIcons
-                            SocialLinkData={socialLinks}
-                            SongSlug="home"
-                            trackingAction="social_click"
-                        />
+                        {socialLinks.length ? (
+                            <div className="rounded-lg border border-white/10 bg-white/[0.03] p-5">
+                                <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-500">
+                                    Follow on
+                                </p>
+                                <SocialIcons
+                                    SocialLinkData={socialLinks}
+                                    SongSlug="home"
+                                    ProjectId={artist.id}
+                                    trackingAction="social_click"
+                                />
+                            </div>
+                        ) : null}
                     </div>
-                </div>
+                ) : (
+                    <div className="border-l-2 py-6 pl-6" style={{ borderColor: "var(--artist-accent-bright)" }}>
+                        <p className="max-w-lg text-base leading-7 text-zinc-300">
+                            {artist.connect.emptyDescription}
+                        </p>
+                    </div>
+                )}
             </div>
         </section>
     );

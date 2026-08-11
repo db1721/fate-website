@@ -11,6 +11,7 @@ type MetaPixelParameters = Record<string, MetaPixelValue>;
 
 type TrackInteractionPayload = {
     song: string;
+    project?: string;
     action:
         | "service_click"
         | "social_click"
@@ -61,14 +62,16 @@ export function trackMetaPageView() {
 
 export function trackMetaInteraction({
     song,
+    project = "fate",
     action,
     service,
 }: TrackInteractionPayload) {
     const baseParams: MetaPixelParameters = {
         content_name: song,
         content_category: "music",
-        content_ids: [song],
+        content_ids: [`${project}:${song}`],
         content_type: "music",
+        project,
         service,
     };
 

@@ -4,6 +4,7 @@ export async function trackInteraction(data: {
     song: string;
     action: "service_click" | "social_click" | "preview_play" | "lyrics_review" | "song_page_visited";
     service?: string;
+    project?: string;
 }) {
     try {
         trackMetaInteraction(data);

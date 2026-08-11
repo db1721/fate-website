@@ -6,7 +6,7 @@ import bandInfo from "@/app/config/fate-info";
 export function HeroAudio() {
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
-    const heroTrack = bandInfo.FEATURED_TRACK.audioSrc
+    const heroTrack = bandInfo.FEATURED_TRACKS[0]?.audioSrc;
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -29,6 +29,8 @@ export function HeroAudio() {
             audio.pause();
         };
     }, []);
+
+    if (!heroTrack) return null;
 
     return (
         <audio

@@ -1,20 +1,27 @@
 import type { Metadata } from "next";
 import type { StaticImageData } from "next/image";
-import bandInfo from "@/app/config/fate-info";
-import { ARTIST_FULL_NAME, ARTIST_NAME, GENRES, SITE_DESCRIPTION, SITE_NAME, SITE_URL, absoluteUrl } from "@/app/config/site";
+import { ARTISTS, getArtistSongPath } from "@/app/config/artists";
+import type {
+    AlbumData,
+    ArtistConfig,
+    ArtistId,
+    ArtistTheme,
+    SocialLink,
+    TrackData,
+} from "@/app/config/artists/types";
+import { SITE_URL, absoluteUrl } from "@/app/config/site";
 import { slugify } from "@/lib/utils";
-
-export type SocialLink = {
-    url: string;
-    network: string;
-    tooltip: string;
-    bgColor?: string;
-};
 
 export type SongPageData = {
     slug: string;
     title: string;
-    artist?: string;
+    projectId: ArtistId;
+    artist: string;
+    artistFullName: string;
+    homePath: string;
+    musicPathPrefix: string;
+    genres: string[];
+    theme: ArtistTheme;
     subtitle?: string;
     tagline?: string;
     coverImage: string | StaticImageData;
@@ -32,33 +39,6 @@ export type SongPageData = {
     spotifyUrl?: string;
 };
 
-type TrackData = {
-    title: string;
-    audioSrc: string;
-    previewSrc?: string;
-    songImg?: string | StaticImageData;
-    lyricsFile?: string;
-    storyBehindTheLyrics?: string;
-    single_link_share?: string;
-    releaseDate?: string;
-    previewStartTime?: number;
-    previewStartLabel?: string;
-    featured?: boolean;
-    songServiceLinks?: SocialLink[];
-};
-
-type AlbumData = {
-    id: string;
-    title: string;
-    year: number;
-    releaseDate?: string;
-    tagline?: string;
-    highlightTrack?: string;
-    description?: string;
-    coverSrc: string | StaticImageData;
-    tracks: TrackData[];
-};
-
 const FEATURED_RELEASE_NETWORKS = new Set([
     "spotify",
     "apple",
@@ -70,7 +50,7 @@ const FEATURED_RELEASE_NETWORKS = new Set([
     "shazam",
 ]);
 
-export function getImageSrc(src: string | StaticImageData): string {
+export function getImageSrc(src: string | StaticImageData) {
     return typeof src === "string" ? src : src.src;
 }
 
@@ -87,48 +67,66 @@ function parseReleaseDate(dateString?: string): Date | null {
     return Number.isNaN(date.getTime()) ? null : date;
 }
 
-function toIsoDate(dateString?: string): string | undefined {
+function toIsoDate(dateString?: string) {
     return parseReleaseDate(dateString)?.toISOString().slice(0, 10);
 }
 
 function isPublicSongPage(track: TrackData) {
-    return Boolean(track.featured || track.songServiceLinks?.length || track.single_link_share || track.lyricsFile);
+    return Boolean(
+        track.featured ||
+        track.songServiceLinks?.length ||
+        track.single_link_share ||
+        track.lyricsFile
+    );
 }
 
 function getEffectiveReleaseDate(track: TrackData, album: AlbumData) {
-    return track.releaseDate?.trim() || album.releaseDate;
+    return track.releaseDate?.trim() || album.releaseDate?.trim() || undefined;
 }
 
-export function getSongPageDataFromSlug(slug: string): SongPageData | null {
-    for (const album of bandInfo.ALBUMS as AlbumData[]) {
+function buildSongPageData(
+    artist: ArtistConfig,
+    album: AlbumData,
+    track: TrackData
+): SongPageData {
+    const trackSlug = slugify(track.title);
+    const featuredReleaseLinks = track.featured
+        ? artist.socialLinks.filter((link) => FEATURED_RELEASE_NETWORKS.has(link.network))
+        : undefined;
+    const releaseDate = getEffectiveReleaseDate(track, album);
+
+    return {
+        slug: trackSlug,
+        title: track.title,
+        projectId: artist.id,
+        artist: artist.name,
+        artistFullName: artist.fullName,
+        homePath: artist.homePath,
+        musicPathPrefix: artist.musicPathPrefix,
+        genres: artist.seo.genres,
+        theme: artist.theme,
+        lyricsFile: track.lyricsFile,
+        subtitle: `${track.title} by ${artist.fullName}`,
+        tagline: album.title ? `From ${album.title}` : undefined,
+        coverImage: track.songImg ?? album.coverSrc,
+        previewUrl: track.previewSrc ?? track.audioSrc,
+        spotifyUrl: track.single_link_share ?? artist.mainArtistUrl,
+        releaseLabel: releaseDate
+            ? `Released ${toIsoDate(releaseDate) ?? releaseDate}`
+            : undefined,
+        releaseDate: toIsoDate(releaseDate),
+        albumTitle: album.title,
+        songServiceLinks: track.songServiceLinks ?? featuredReleaseLinks,
+        previewStartTime: track.previewStartTime ?? 0,
+        previewStartLabel: track.previewStartLabel ?? "Preview",
+    };
+}
+
+export function getSongPageDataFromSlug(artist: ArtistConfig, slug: string) {
+    for (const album of artist.albums) {
         for (const track of album.tracks) {
-            const trackSlug = slugify(track.title);
-
-            if (trackSlug === slug) {
-                const featuredReleaseLinks = track.featured
-                    ? (bandInfo.SOCIAL_LINKS as SocialLink[]).filter((link) =>
-                        FEATURED_RELEASE_NETWORKS.has(link.network)
-                    )
-                    : undefined;
-                const releaseDate = getEffectiveReleaseDate(track, album);
-
-                return {
-                    slug: trackSlug,
-                    title: track.title,
-                    lyricsFile: track.lyricsFile,
-                    artist: ARTIST_NAME,
-                    subtitle: `${track.title} by ${ARTIST_FULL_NAME}`,
-                    tagline: album.title ? `From ${album.title}` : undefined,
-                    coverImage: track.songImg ?? album.coverSrc,
-                    previewUrl: track.previewSrc ?? track.audioSrc,
-                    spotifyUrl: track.single_link_share ?? bandInfo.MAIN_BAND_PAGE,
-                    releaseLabel: releaseDate ? `Released ${toIsoDate(releaseDate) ?? releaseDate}` : undefined,
-                    releaseDate: toIsoDate(releaseDate),
-                    albumTitle: album.title,
-                    songServiceLinks: track.songServiceLinks ?? featuredReleaseLinks,
-                    previewStartTime: track.previewStartTime ?? 0,
-                    previewStartLabel: track.previewStartLabel ?? "Preview",
-                };
+            if (slugify(track.title) === slug) {
+                return buildSongPageData(artist, album, track);
             }
         }
     }
@@ -136,20 +134,20 @@ export function getSongPageDataFromSlug(slug: string): SongPageData | null {
     return null;
 }
 
-export function getPublicSongPages() {
+export function getPublicSongPages(artist?: ArtistConfig) {
     const pages: Array<SongPageData & { lastModified?: Date }> = [];
 
-    for (const album of bandInfo.ALBUMS as AlbumData[]) {
-        for (const track of album.tracks) {
-            if (!isPublicSongPage(track)) continue;
+    for (const project of artist ? [artist] : ARTISTS) {
+        for (const album of project.albums) {
+            for (const track of album.tracks) {
+                if (!isPublicSongPage(track)) continue;
 
-            const song = getSongPageDataFromSlug(slugify(track.title));
-            if (!song) continue;
-
-            pages.push({
-                ...song,
-                lastModified: parseReleaseDate(getEffectiveReleaseDate(track, album)) ?? undefined,
-            });
+                pages.push({
+                    ...buildSongPageData(project, album, track),
+                    lastModified:
+                        parseReleaseDate(getEffectiveReleaseDate(track, album)) ?? undefined,
+                });
+            }
         }
     }
 
@@ -157,30 +155,30 @@ export function getPublicSongPages() {
 }
 
 export function generateSongMetadata(song: SongPageData): Metadata {
-    const pageUrl = absoluteUrl(`/music/${song.slug}`);
-    const title = `${song.title} by ${ARTIST_FULL_NAME}`;
+    const pagePath = `${song.musicPathPrefix}/${song.slug}`;
+    const pageUrl = absoluteUrl(pagePath);
+    const title = `${song.title} by ${song.artistFullName}`;
     const imageUrl = absoluteUrl(getImageSrc(song.coverImage));
     const description = song.albumTitle
-        ? `Preview ${song.title} by ${ARTIST_FULL_NAME}, then choose your favorite streaming platform. From ${song.albumTitle}.`
-        : `Preview ${song.title} by ${ARTIST_FULL_NAME}, then choose your favorite streaming platform.`;
+        ? `Preview ${song.title} by ${song.artistFullName}, then choose your favorite streaming platform. From ${song.albumTitle}.`
+        : `Preview ${song.title} by ${song.artistFullName}, then choose your favorite streaming platform.`;
 
     return {
-        title,
+        title: { absolute: title },
         description,
-        alternates: {
-            canonical: pageUrl,
-        },
+        keywords: [song.title, song.artist, song.artistFullName, ...song.genres],
+        alternates: { canonical: pageUrl },
         openGraph: {
             title,
             description,
             url: pageUrl,
-            siteName: SITE_NAME,
+            siteName: `${song.artist} Official Music`,
             images: [
                 {
                     url: imageUrl,
                     width: 1200,
                     height: 1200,
-                    alt: `${song.title} cover art by ${ARTIST_FULL_NAME}`,
+                    alt: `${song.title} cover art by ${song.artistFullName}`,
                 },
             ],
             type: "music.song",
@@ -194,43 +192,47 @@ export function generateSongMetadata(song: SongPageData): Metadata {
     };
 }
 
-export function getHomeStructuredData() {
-    const publicSongs = getPublicSongPages();
+export function getHomeStructuredData(artist: ArtistConfig) {
+    const artistUrl = absoluteUrl(artist.homePath);
+    const artistId = `${artistUrl}${artist.homePath === "/" ? "" : "/"}#musicgroup`;
+    const publicSongs = getPublicSongPages(artist);
 
     return {
         "@context": "https://schema.org",
         "@type": "MusicGroup",
-        "@id": `${SITE_URL}/#musicgroup`,
-        name: ARTIST_NAME,
-        alternateName: ARTIST_FULL_NAME,
-        url: SITE_URL,
-        image: absoluteUrl("/icons/fate-white-short.png"),
-        logo: absoluteUrl("/icons/fate-white-short.png"),
-        description: SITE_DESCRIPTION,
-        genre: GENRES,
-        sameAs: bandInfo.SOCIAL_LINKS.map((link: SocialLink) => link.url),
-        album: (bandInfo.ALBUMS as AlbumData[]).map((album) => ({
+        "@id": artistId,
+        name: artist.name,
+        alternateName: artist.fullName !== artist.name ? artist.fullName : undefined,
+        url: artistUrl,
+        image: absoluteUrl(getImageSrc(artist.seo.image)),
+        logo: absoluteUrl(getImageSrc(artist.logo ?? artist.seo.image)),
+        description: artist.seo.description,
+        genre: artist.seo.genres,
+        sameAs: artist.socialLinks.map((link) => link.url),
+        album: artist.albums.map((album) => ({
             "@type": "MusicAlbum",
             name: album.title,
-            byArtist: { "@id": `${SITE_URL}/#musicgroup` },
+            byArtist: { "@id": artistId },
             datePublished: toIsoDate(album.releaseDate) ?? String(album.year),
-            url: absoluteUrl(`/#albums`),
+            url: `${artistUrl}${artist.homePath === "/" ? "" : "/"}#albums`,
             track: album.tracks.filter(isPublicSongPage).map((track) => ({
                 "@type": "MusicRecording",
                 name: track.title,
-                url: absoluteUrl(`/music/${slugify(track.title)}`),
+                url: absoluteUrl(getArtistSongPath(artist, slugify(track.title))),
             })),
         })),
         track: publicSongs.map((song) => ({
             "@type": "MusicRecording",
             name: song.title,
-            url: absoluteUrl(`/music/${song.slug}`),
+            url: absoluteUrl(`${song.musicPathPrefix}/${song.slug}`),
         })),
     };
 }
 
 export function getSongStructuredData(song: SongPageData) {
-    const songUrl = absoluteUrl(`/music/${song.slug}`);
+    const songUrl = absoluteUrl(`${song.musicPathPrefix}/${song.slug}`);
+    const artistUrl = absoluteUrl(song.homePath);
+    const artistId = `${artistUrl}${song.homePath === "/" ? "" : "/"}#musicgroup`;
 
     return {
         "@context": "https://schema.org",
@@ -240,19 +242,20 @@ export function getSongStructuredData(song: SongPageData) {
         url: songUrl,
         image: absoluteUrl(getImageSrc(song.coverImage)),
         datePublished: song.releaseDate,
-        genre: GENRES,
+        genre: song.genres,
         byArtist: {
             "@type": "MusicGroup",
-            "@id": `${SITE_URL}/#musicgroup`,
-            name: ARTIST_NAME,
-            alternateName: ARTIST_FULL_NAME,
-            url: SITE_URL,
+            "@id": artistId,
+            name: song.artist,
+            alternateName:
+                song.artistFullName !== song.artist ? song.artistFullName : undefined,
+            url: artistUrl,
         },
         inAlbum: song.albumTitle
             ? {
                 "@type": "MusicAlbum",
                 name: song.albumTitle,
-                byArtist: { "@id": `${SITE_URL}/#musicgroup` },
+                byArtist: { "@id": artistId },
             }
             : undefined,
         audio: {
@@ -261,9 +264,8 @@ export function getSongStructuredData(song: SongPageData) {
             encodingFormat: "audio/mpeg",
         },
         sameAs: song.songServiceLinks?.map((link) => link.url),
-        mainEntityOfPage: {
-            "@type": "WebPage",
-            "@id": songUrl,
-        },
+        mainEntityOfPage: { "@type": "WebPage", "@id": songUrl },
     };
 }
+
+export const MUSIC_SITE_URL = SITE_URL;

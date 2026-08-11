@@ -1,0 +1,85 @@
+import fateInfo from "@/app/config/fate-info";
+import type { ArtistConfig } from "@/app/config/artists/types";
+
+export const FATE_ARTIST: ArtistConfig = {
+    id: "fate",
+    routeSlug: "",
+    homePath: "/",
+    musicPathPrefix: "/music",
+    name: "F.A.T.E.",
+    fullName: "Fight Against the Enemy",
+    logo: "/icons/fate-white-short.png",
+    logoAlt: "F.A.T.E.",
+    hero: {
+        eyebrow: "Fight Against the Enemy",
+        description:
+            "Heavy melodic rock for the battles you carry quietly, built with driving guitars, anthemic hooks, and lyrics meant to be screamed back.",
+        image: "/images/dan-beck-hero.jpg",
+        imagePosition: "58% center",
+        secondaryCta: "Explore the music",
+        noFeatureTitle: "New music is taking shape",
+        noFeatureDescription: "Follow F.A.T.E. for the next release and project update.",
+    },
+    about: {
+        title: "Heavy songs with a reason to fight back",
+        intro:
+            "F.A.T.E. stands for Fight Against the Enemy: the pressure, fear, doubt, grief, and inner battles people carry long before anyone hears the song.",
+        paragraphs: [
+            "It is the culmination of a lifelong obsession with songwriting that has shaped me and, at times, saved me. For more than two decades, I have been writing melodies, building hooks, and turning real experiences into songs. Music is where my mind can escape when I cannot escape reality and where I can comfortably express my emotions.",
+            "The sound lives in modern melodic rock: heavy guitars, cinematic production, emotional vocals, and choruses built to stick after the first listen.",
+            "What began as riffs, raw demos, and notebook lyrics has evolved with modern production tools into something far more expansive.",
+            "The vocal identity is built from my original recordings and developed into a custom AI vocal profile that carries my phrasing and emotion. I shape the drum programming and experiment with tone and impact myself, building each track with intention from the rhythm up.",
+            "The long-term goal is simple: write songs that bands want to perform and that crowds want to scream back. It is a dream I have carried since I was a kid, and I am building it song by song.",
+            "Welcome to F.A.T.E. The fight starts here.",
+        ],
+        image: "/images/about-guitar-room.jpg",
+        imagePosition: "42% center",
+    },
+    musicSection: {
+        eyebrow: "Music",
+        title: "Singles, lyrics, and full releases",
+        description:
+            "Press play, find the songs that hit, then open the dedicated track pages for lyrics and full streaming links.",
+        emptyTitle: "The next chapter is in progress",
+        emptyDescription: "New F.A.T.E. music will appear here as it is announced.",
+    },
+    connect: {
+        title: "Keep F.A.T.E. in your rotation",
+        description: "Save the songs where you listen most, then follow for new releases.",
+        emptyDescription: "Streaming and social links will be added with the next release.",
+    },
+    seo: {
+        title: "F.A.T.E. | Fight Against the Enemy",
+        description: fateInfo.band_seo_description,
+        keywords: [
+            "F.A.T.E.",
+            "Fight Against the Enemy",
+            "modern rock",
+            "melodic hard rock",
+            "alternative rock",
+            "new rock music",
+            "New Beginnings album",
+        ],
+        genres: ["Modern rock", "Melodic hard rock", "Alternative rock", "Post-grunge"],
+        image: "/icons/fate-white-short.png",
+    },
+    theme: {
+        background: "#020617",
+        backgroundAlt: "#030712",
+        surface: "#07111f",
+        border: "#273447",
+        accent: "#0f6fad",
+        accentBright: "#f5b301",
+        accentSoft: "#6eacda",
+        text: "#f9fafb",
+        textMuted: "#a1a1aa",
+        buttonText: "#050505",
+        heroGlow: "rgba(14, 165, 233, 0.26)",
+        secondaryGlow: "rgba(245, 179, 1, 0.14)",
+    },
+    featuredTracks: fateInfo.FEATURED_TRACKS,
+    mainArtistUrl: fateInfo.MAIN_BAND_PAGE,
+    socialLinks: fateInfo.SOCIAL_LINKS,
+    albums: fateInfo.ALBUMS,
+    pressPosts: fateInfo.BLOGS,
+};

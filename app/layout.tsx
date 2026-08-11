@@ -8,7 +8,7 @@ import { MetaPixel } from "@/app/components/meta-pixel";
 
 export const metadata: Metadata = {
     metadataBase: new URL(SITE_URL),
-    applicationName: SITE_NAME,
+    applicationName: "F.A.T.E. / Buried In Ruin",
     title: {
         default: `${SITE_NAME} | ${ARTIST_FULL_NAME}`,
         template: `%s | ${SITE_NAME}`,
@@ -25,6 +25,9 @@ export const metadata: Metadata = {
         "New Beginnings album",
         "New Beginnings F.A.T.E.",
         "Fight Against the Enemy Friends",
+        "Buried In Ruin",
+        "Created A Monster",
+        "modern metal",
     ],
     alternates: {
         canonical: "/",
