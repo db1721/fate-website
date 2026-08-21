@@ -82,17 +82,16 @@ export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
                             <span className="sr-only">{artist.name}</span>
                             {artist.logo ? (
                                 isBuriedInRuin ? (
-                                    <span className="relative mx-auto block aspect-[1.75/1] w-72 overflow-hidden sm:w-96 lg:mx-0 lg:w-[31rem]">
-                                        <Image
-                                            src={artist.logo}
-                                            alt={artist.logoAlt}
-                                            fill
-                                            priority
-                                            unoptimized
-                                            sizes="(min-width: 1024px) 31rem, 24rem"
-                                            className="scale-[1.75] object-cover object-center"
-                                        />
-                                    </span>
+                                    <Image
+                                        src={artist.logo}
+                                        alt={artist.logoAlt}
+                                        width={466}
+                                        height={333}
+                                        priority
+                                        unoptimized
+                                        sizes="(min-width: 1024px) 27rem, (min-width: 640px) 24rem, 18rem"
+                                        className="mx-auto h-auto w-72 object-contain sm:w-96 lg:mx-0 lg:w-[27rem]"
+                                    />
                                 ) : (
                                     <Image
                                         src={artist.logo}

@@ -19,17 +19,19 @@ function ArtistMark({ artist, compact = false }: ArtistMarkProps) {
 
     if (artist.id === "buried-in-ruin") {
         return (
-            <span className={`relative block overflow-hidden ${compact ? "h-8 w-24" : "h-9 w-28"}`}>
-                <Image
-                    src={artist.logo}
-                    alt={artist.logoAlt}
-                    fill
-                    unoptimized
-                    sizes="112px"
-                    className="scale-[1.55] object-cover object-center"
-                    priority
-                />
-            </span>
+            <Image
+                src={artist.logo}
+                alt={artist.logoAlt}
+                width={466}
+                height={333}
+                unoptimized
+                sizes={compact ? "60px" : "74px"}
+                className={compact ? "h-11 w-auto object-contain" : "h-[3.25rem] w-auto object-contain"}
+                style={{
+                    filter: "brightness(1.2) contrast(1.12) drop-shadow(0 0 6px rgba(239, 49, 59, 0.28))",
+                }}
+                priority
+            />
         );
     }
 
@@ -68,7 +70,11 @@ export function SiteHeader({ artist, artists }: SiteHeaderProps) {
                     aria-label={`Go to ${artist.name} home`}
                 >
                     <ArtistMark artist={artist} />
-                    <span className="hidden text-[10px] font-semibold uppercase tracking-[0.24em] text-zinc-400 xl:inline">
+                    <span
+                        className={artist.id === "buried-in-ruin"
+                            ? "hidden text-[11px] font-bold uppercase tracking-[0.16em] text-zinc-100 xl:inline"
+                            : "hidden text-[10px] font-semibold uppercase tracking-[0.24em] text-zinc-400 xl:inline"}
+                    >
                         {artist.fullName}
                     </span>
                 </Link>

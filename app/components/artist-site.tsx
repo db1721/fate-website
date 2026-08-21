@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
+import { Mail } from "lucide-react";
 import { AboutSection } from "@/app/components/about";
 import { ArtistPageTracking } from "@/app/components/artist-page-tracking";
 import BlogSection from "@/app/components/blog";
@@ -12,6 +13,7 @@ import { ARTISTS } from "@/app/config/artists";
 import { getCurrentFeaturedTrack } from "@/app/config/artists/featured-track";
 import type { ArtistConfig } from "@/app/config/artists/types";
 import { getHomeStructuredData } from "@/app/config/music-data";
+import { CONTACT_EMAIL } from "@/app/config/site";
 import { CurrentYear } from "@/app/config/utils";
 
 type ArtistCssProperties = CSSProperties & Record<`--artist-${string}`, string>;
@@ -68,6 +70,13 @@ export function ArtistSite({ artist }: { artist: ArtistConfig }) {
                         <p className="mt-1 text-[10px] uppercase tracking-[0.18em] text-zinc-600">
                             Official artist site
                         </p>
+                        <a
+                            href={`mailto:${CONTACT_EMAIL}`}
+                            className="mt-3 inline-flex items-center gap-2 text-zinc-300 transition-colors hover:text-[var(--artist-accent-bright)]"
+                        >
+                            <Mail className="h-3.5 w-3.5" aria-hidden="true" />
+                            <span>Contact: {CONTACT_EMAIL}</span>
+                        </a>
                     </div>
 
                     <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">

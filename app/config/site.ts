@@ -2,6 +2,7 @@ export const SITE_URL = "https://fatemusicofficial.com";
 export const SITE_NAME = "F.A.T.E.";
 export const ARTIST_NAME = "F.A.T.E.";
 export const ARTIST_FULL_NAME = "Fight Against the Enemy";
+export const CONTACT_EMAIL = "dbeck@evolveelevatemedia.com";
 
 export const SITE_DESCRIPTION =
     "F.A.T.E. (Fight Against the Enemy) is a modern melodic rock project built on heavy guitars, emotional lyrics, and anthemic hooks. The New Beginnings album arrives May 8, 2026, led by the featured single Friends.";

@@ -9,7 +9,7 @@ import type {
     SocialLink,
     TrackData,
 } from "@/app/config/artists/types";
-import { SITE_URL, absoluteUrl } from "@/app/config/site";
+import { CONTACT_EMAIL, SITE_URL, absoluteUrl } from "@/app/config/site";
 import { slugify } from "@/lib/utils";
 
 export type SongPageData = {
@@ -208,6 +208,12 @@ export function getHomeStructuredData(artist: ArtistConfig) {
         logo: absoluteUrl(getImageSrc(artist.logo ?? artist.seo.image)),
         description: artist.seo.description,
         genre: artist.seo.genres,
+        email: CONTACT_EMAIL,
+        contactPoint: {
+            "@type": "ContactPoint",
+            contactType: "business inquiries",
+            email: CONTACT_EMAIL,
+        },
         sameAs: artist.socialLinks.map((link) => link.url),
         album: artist.albums.map((album) => ({
             "@type": "MusicAlbum",

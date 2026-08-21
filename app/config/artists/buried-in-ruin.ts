@@ -7,18 +7,18 @@ export const BURIED_IN_RUIN_ARTIST: ArtistConfig = {
     musicPathPrefix: "/buried-in-ruin/music",
     name: "Buried In Ruin",
     fullName: "Buried In Ruin",
-    logo: "/artists/buried-in-ruin/logo.png?v=20260811",
+    logo: "/artists/buried-in-ruin/logo.png?v=20260821",
     logoAlt: "Buried In Ruin",
     hero: {
-        eyebrow: "The first transmission",
+        eyebrow: "Out now",
         description:
-            "A heavier project built for crushing riffs, damaged atmosphere, and the weight that melodic rock cannot always carry alone.",
+            "A heavier project built for crushing riffs, head banging melodies, and a lot more screaming",
         image: "/artists/buried-in-ruin/created-a-monster-cover.png",
         imagePosition: "center",
         secondaryCta: "Explore the music",
-        noFeatureTitle: "The first transmission is coming",
+        noFeatureTitle: "More music is being forged",
         noFeatureDescription:
-            "Buried In Ruin is taking shape now. Releases, previews, and streaming links will surface here first.",
+            "Stream Created A Monster now and return for the next Buried In Ruin release.",
     },
     about: {
         title: "Heavier music for the things that refuse to stay buried",
@@ -26,9 +26,9 @@ export const BURIED_IN_RUIN_ARTIST: ArtistConfig = {
             "Buried In Ruin is the heavier counterpart to F.A.T.E., created for darker stories, harsher textures, and songs that need more impact.",
         paragraphs: [
             "This project creates room for the riffs, rhythms, and emotions that belong at the most aggressive edge of my writing.",
-            "The sound will lean into modern metal weight, low-tuned guitars, forceful drums, damaged atmosphere, and melodies that still leave a scar after the noise fades.",
+            "The sound leans more into modern metalcore.",
             "Buried In Ruin is not a replacement for F.A.T.E. It is the other side of the same creative life, with its own identity, catalog, visual language, and audience.",
-            "The first releases will define the shape of the project song by song.",
+            "Created A Monster opens that story, and each release will push the project into heavier territory.",
         ],
         image: "/images/about-guitar-room.jpg",
         imagePosition: "36% center",
@@ -38,14 +38,14 @@ export const BURIED_IN_RUIN_ARTIST: ArtistConfig = {
         title: "Created A Monster breaks the surface",
         description:
             "Hear the debut single, then return as the heavier Buried In Ruin catalog emerges track by track.",
-        emptyTitle: "Nothing leaves the ground before it is heavy enough",
+        emptyTitle: "Created A Monster is out now",
         emptyDescription:
-            "The catalog is currently in development. The first announced release will automatically become the featured track.",
+            "Stream the debut single now and return as more Buried In Ruin releases join the catalog.",
     },
     connect: {
         title: "Follow Buried In Ruin into the dark",
-        description: "Streaming and social destinations will collect here as the project launches.",
-        emptyDescription: "Project-specific streaming and social links are coming with the first release.",
+        description: "Stream Created A Monster now and follow Buried In Ruin as the project gets heavier.",
+        emptyDescription: "Created A Monster is available now on Spotify.",
     },
     seo: {
         title: "Buried In Ruin | Official Music",
@@ -54,6 +54,7 @@ export const BURIED_IN_RUIN_ARTIST: ArtistConfig = {
         keywords: [
             "Buried In Ruin",
             "modern metal",
+            "modern metalcore",
             "heavy music",
             "alternative metal",
             "new metal music",
@@ -89,12 +90,24 @@ export const BURIED_IN_RUIN_ARTIST: ArtistConfig = {
                 "The first look at Buried In Ruin: predatory tension, crushing weight, and a chorus built to leave teeth marks.",
         },
     ],
-    socialLinks: [],
+    socialLinks: [
+        {
+            url: "https://open.spotify.com/track/5OEYUZNBqy7L5S95aiDRay",
+            network: "spotify",
+            tooltip: "Spotify",
+        },
+        {
+            url: "https://music.apple.com/us/album/created-a-monster/6799304092?i=6799304094",
+            network: "apple",
+            tooltip: "Apple Music",
+        },
+    ],
     albums: [
         {
             id: "created-a-monster",
             title: "Created A Monster",
             year: 2026,
+            releaseDate: "08/21/2026",
             tagline: "Debut single",
             highlightTrack: "Created A Monster",
             description:
@@ -105,9 +118,22 @@ export const BURIED_IN_RUIN_ARTIST: ArtistConfig = {
                     title: "Created A Monster",
                     audioSrc: "/audio/buried-in-ruin/created-a-monster.mp3",
                     songImg: "/artists/buried-in-ruin/created-a-monster-cover.png",
+                    single_link_share: "https://open.spotify.com/track/5OEYUZNBqy7L5S95aiDRay",
                     previewStartTime: 0,
                     previewStartLabel: "Debut single preview",
                     featured: true,
+                    songServiceLinks: [
+                        {
+                            url: "https://open.spotify.com/track/5OEYUZNBqy7L5S95aiDRay",
+                            network: "spotify",
+                            tooltip: "Spotify",
+                        },
+                        {
+                            url: "https://music.apple.com/us/album/created-a-monster/6799304092?i=6799304094",
+                            network: "apple",
+                            tooltip: "Apple Music",
+                        },
+                    ],
                 },
             ],
         },
