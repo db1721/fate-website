@@ -3,6 +3,8 @@ import type { SocialLink } from "@/app/config/artists/types";
 export const STREAMING_NETWORKS = [
     "spotify",
     "apple",
+    "itunes",
+    "youtube",
     "youtube-music",
     "amazon",
     "pandora",

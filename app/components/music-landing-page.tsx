@@ -41,7 +41,7 @@ function getAudioDuration(audio: HTMLAudioElement) {
     return 0;
 }
 
-export default function MusicLandingPage({ song }: { song: SongPageData }) {
+export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPageData; lyrics?: string }) {
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const lyricsContentRef = useRef<HTMLDivElement | null>(null);
     const hasAppliedStartRef = useRef(false);
@@ -51,7 +51,6 @@ export default function MusicLandingPage({ song }: { song: SongPageData }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
-    const [lyrics, setLyrics] = useState("");
     const [lyricsExpanded, setLyricsExpanded] = useState(false);
     const [lyricsMaxHeight, setLyricsMaxHeight] = useState("15rem");
 
@@ -73,32 +72,6 @@ export default function MusicLandingPage({ song }: { song: SongPageData }) {
             action: "song_page_visited",
         });
     }, [song.projectId, song.slug]);
-
-    useEffect(() => {
-        let cancelled = false;
-
-        async function loadLyrics() {
-            if (!song.lyricsFile) {
-                setLyrics("");
-                return;
-            }
-
-            try {
-                const response = await fetch(song.lyricsFile);
-                if (!response.ok) throw new Error("Failed to load lyrics");
-                const text = await response.text();
-                if (!cancelled) setLyrics(text);
-            } catch (error) {
-                console.error("Could not load lyrics", error);
-                if (!cancelled) setLyrics("");
-            }
-        }
-
-        void loadLyrics();
-        return () => {
-            cancelled = true;
-        };
-    }, [song.lyricsFile]);
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -333,7 +306,7 @@ export default function MusicLandingPage({ song }: { song: SongPageData }) {
                             </a>
                         ) : (
                             <p className="text-sm leading-6 text-white/60">
-                                Project-specific streaming links will appear here when the single is released.
+                                Streaming links for this release will appear here as they become available.
                             </p>
                         )}
                     </div>
@@ -372,6 +345,7 @@ export default function MusicLandingPage({ song }: { song: SongPageData }) {
                             </button>
                         </div>
                     ) : null}
+
                 </div>
 
                 <div className="order-1 lg:order-2">

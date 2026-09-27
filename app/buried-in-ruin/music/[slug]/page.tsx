@@ -2,12 +2,15 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import MusicLandingPage from "@/app/components/music-landing-page";
 import { BURIED_IN_RUIN_ARTIST } from "@/app/config/artists";
+import { loadLyricsFromUrl } from "@/lib/lyrics.server";
 import {
     generateSongMetadata,
     getPublicSongPages,
     getSongPageDataFromSlug,
     getSongStructuredData,
 } from "@/app/config/music-data";
+
+export const revalidate = 3600;
 
 export function generateStaticParams() {
     return getPublicSongPages(BURIED_IN_RUIN_ARTIST).map((song) => ({
@@ -36,13 +39,15 @@ export default async function BuriedInRuinSongPage({
 
     if (!song) notFound();
 
+    const lyrics = await loadLyricsFromUrl(song.lyricsUrl);
+
     return (
         <>
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(getSongStructuredData(song)) }}
             />
-            <MusicLandingPage song={song} />
+            <MusicLandingPage song={song} lyrics={lyrics} />
         </>
     );
 }

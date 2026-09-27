@@ -3,6 +3,8 @@ import { BURIED_IN_RUIN_ARTIST } from "@/app/config/artists";
 import { getPublicSongPages } from "@/app/config/music-data";
 import { SITE_URL, absoluteUrl } from "@/app/config/site";
 
+export const revalidate = 3600;
+
 export default function sitemap(): MetadataRoute.Sitemap {
     const now = new Date();
 

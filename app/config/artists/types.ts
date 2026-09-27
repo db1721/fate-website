@@ -39,9 +39,8 @@ export type TrackData = {
     audioSrc: string;
     previewSrc?: string;
     songImg?: ImageSource;
-    lyricsFile?: string;
+    lyricsUrl?: string;
     storyBehindTheLyrics?: string;
-    single_link_share?: string;
     releaseDate?: string;
     previewStartTime?: number;
     previewStartLabel?: string;

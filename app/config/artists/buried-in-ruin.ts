@@ -35,17 +35,17 @@ export const BURIED_IN_RUIN_ARTIST: ArtistConfig = {
     },
     musicSection: {
         eyebrow: "Buried transmissions",
-        title: "Created A Monster breaks the surface",
+        title: "The catalog gets heavier",
         description:
-            "Hear the debut single, then return as the heavier Buried In Ruin catalog emerges track by track.",
+            "Hear Created A Monster and explore You Deserve Better as Buried In Ruin expands track by track.",
         emptyTitle: "Created A Monster is out now",
         emptyDescription:
             "Stream the debut single now and return as more Buried In Ruin releases join the catalog.",
     },
     connect: {
         title: "Follow Buried In Ruin into the dark",
-        description: "Stream Created A Monster now and follow Buried In Ruin as the project gets heavier.",
-        emptyDescription: "Created A Monster is available now on Spotify.",
+        description: "Stream Buried In Ruin and follow the project as the catalog gets heavier.",
+        emptyDescription: "Streaming links for the current release will appear here as they become available.",
     },
     seo: {
         title: "Buried In Ruin | Official Music",
@@ -84,31 +84,65 @@ export const BURIED_IN_RUIN_ARTIST: ArtistConfig = {
             title: "Created A Monster",
             subtitle: "Debut single from Buried In Ruin",
             coverSrc: "/artists/buried-in-ruin/created-a-monster-cover.png",
-            audioSrc: "/audio/buried-in-ruin/created-a-monster.mp3",
+            audioSrc: "/audio/buried-in-ruin/monster-you-created/created-a-monster.mp3",
             featureDate: "08/10/2026",
             description:
                 "The first look at Buried In Ruin: predatory tension, crushing weight, and a chorus built to leave teeth marks.",
         },
+        {
+            title: "Struggle",
+            subtitle: "From the new album You Deserve Better",
+            coverSrc: "/artists/buried-in-ruin/struggle-single-cover.jpg",
+            audioSrc: "/audio/buried-in-ruin/you-deserve-better/struggle.mp3",
+            featureDate: "10/09/2026",
+            description:
+                "A modern metalcore confrontation with isolation, hidden pain, and the fight to stand tall when the struggle is real.",
+        },
     ],
     socialLinks: [
         {
-            url: "https://open.spotify.com/track/5OEYUZNBqy7L5S95aiDRay",
+            url: "https://open.spotify.com/artist/7dtGVzhWBtwIdvvYa1wCOC",
             network: "spotify",
             tooltip: "Spotify",
         },
         {
-            url: "https://music.apple.com/us/album/created-a-monster/6799304092?i=6799304094",
+            url: "https://music.apple.com/us/artist/buried-in-ruin/6799197483",
             network: "apple",
             tooltip: "Apple Music",
+        },
+        {
+            url: "https://tidal.com/artist/84066612",
+            network: "tidal",
+            tooltip: "TIDAL",
+        },
+        {
+            url: "https://www.deezer.com/us/artist/408897142",
+            network: "deezer",
+            tooltip: "Deezer",
+        },
+        {
+            url: "https://music.amazon.com/artists/B0HDFKVNRD/buried-in-ruin",
+            network: "amazon",
+            tooltip: "Amazon Music",
+        },
+        {
+            url: "https://www.youtube.com/channel/UC7B5gGR88a5h6ZKW3rQdU6w",
+            network: "youtube",
+            tooltip: "YouTube",
+        },
+        {
+            url: "https://music.youtube.com/channel/UC7B5gGR88a5h6ZKW3rQdU6w",
+            network: "youtube-music",
+            tooltip: "YouTube Music",
         },
     ],
     albums: [
         {
-            id: "created-a-monster",
-            title: "Created A Monster",
+            id: "monster-you-created",
+            title: "Monster You Created",
             year: 2026,
-            releaseDate: "08/21/2026",
-            tagline: "Debut single",
+            releaseDate: "TBD",
+            tagline: "Debut Album",
             highlightTrack: "Created A Monster",
             description:
                 "The first Buried In Ruin release opens the project with a stark black-and-white identity and a heavier, more confrontational sound.",
@@ -116,9 +150,10 @@ export const BURIED_IN_RUIN_ARTIST: ArtistConfig = {
             tracks: [
                 {
                     title: "Created A Monster",
-                    audioSrc: "/audio/buried-in-ruin/created-a-monster.mp3",
+                    releaseDate: "08/21/2026",
+                    audioSrc: "/audio/buried-in-ruin/monster-you-created/created-a-monster.mp3",
                     songImg: "/artists/buried-in-ruin/created-a-monster-cover.png",
-                    single_link_share: "https://open.spotify.com/track/5OEYUZNBqy7L5S95aiDRay",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/buried-in-ruin-created-a-monster",
                     previewStartTime: 0,
                     previewStartLabel: "Debut single preview",
                     featured: true,
@@ -133,7 +168,55 @@ export const BURIED_IN_RUIN_ARTIST: ArtistConfig = {
                             network: "apple",
                             tooltip: "Apple Music",
                         },
+                        {
+                            url: "https://tidal.com/album/550221859/track/550221861",
+                            network: "tidal",
+                            tooltip: "TIDAL",
+                        },
+                        {
+                            url: "https://www.deezer.com/us/track/4210674812",
+                            network: "deezer",
+                            tooltip: "Deezer",
+                        },
+                        {
+                            url: "https://music.amazon.com/tracks/B0HDFLBQCL",
+                            network: "amazon",
+                            tooltip: "Amazon Music",
+                        },
+                        {
+                            url: "https://www.youtube.com/watch?v=9xSRE5evOGU",
+                            network: "youtube",
+                            tooltip: "YouTube",
+                        },
+                        {
+                            url: "https://music.youtube.com/watch?v=9xSRE5evOGU",
+                            network: "youtube-music",
+                            tooltip: "YouTube Music",
+                        },
                     ],
+                },
+            ],
+        },
+        {
+            id: "you-deserve-better",
+            title: "You Deserve Better",
+            year: 2026,
+            releaseDate: "10/09/2026",
+            tagline: "New album",
+            highlightTrack: "Struggle",
+            description:
+                "You Deserve Better turns inward, pairing modern metalcore weight with songs about isolation, survival, and finding the strength to push back.",
+            coverSrc: "/artists/buried-in-ruin/you-deserve-better-cover.png",
+            tracks: [
+                {
+                    title: "Struggle",
+                    audioSrc: "/audio/buried-in-ruin/you-deserve-better/struggle.mp3",
+                    songImg: "/artists/buried-in-ruin/struggle-single-cover.jpg",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/buried-in-ruin-struggle",
+                    previewStartTime: 102,
+                    previewStartLabel: "Struggle preview",
+                    featured: true,
+                    songServiceLinks: [],
                 },
             ],
         },

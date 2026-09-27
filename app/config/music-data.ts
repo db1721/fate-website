@@ -27,7 +27,7 @@ export type SongPageData = {
     coverImage: string | StaticImageData;
     previewUrl: string;
     lyricsTease?: string[];
-    lyricsFile?: string;
+    lyricsUrl?: string;
     quote?: string;
     releaseLabel?: string;
     releaseDate?: string;
@@ -42,6 +42,7 @@ export type SongPageData = {
 const FEATURED_RELEASE_NETWORKS = new Set([
     "spotify",
     "apple",
+    "youtube",
     "youtube-music",
     "amazon",
     "pandora",
@@ -71,12 +72,22 @@ function toIsoDate(dateString?: string) {
     return parseReleaseDate(dateString)?.toISOString().slice(0, 10);
 }
 
-function isPublicSongPage(track: TrackData) {
+function localIsoDate(date = new Date()) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+function isPublicSongPage(track: TrackData, album: AlbumData, now = new Date()) {
+    const releaseDate = toIsoDate(getEffectiveReleaseDate(track, album));
+    if (releaseDate && releaseDate > localIsoDate(now)) return false;
+
     return Boolean(
         track.featured ||
         track.songServiceLinks?.length ||
-        track.single_link_share ||
-        track.lyricsFile
+        track.lyricsUrl
     );
 }
 
@@ -105,12 +116,12 @@ function buildSongPageData(
         musicPathPrefix: artist.musicPathPrefix,
         genres: artist.seo.genres,
         theme: artist.theme,
-        lyricsFile: track.lyricsFile,
+        lyricsUrl: track.lyricsUrl,
         subtitle: `${track.title} by ${artist.fullName}`,
         tagline: album.title ? `From ${album.title}` : undefined,
         coverImage: track.songImg ?? album.coverSrc,
         previewUrl: track.previewSrc ?? track.audioSrc,
-        spotifyUrl: track.single_link_share ?? artist.mainArtistUrl,
+        spotifyUrl: artist.mainArtistUrl,
         releaseLabel: releaseDate
             ? `Released ${toIsoDate(releaseDate) ?? releaseDate}`
             : undefined,
@@ -126,7 +137,9 @@ export function getSongPageDataFromSlug(artist: ArtistConfig, slug: string) {
     for (const album of artist.albums) {
         for (const track of album.tracks) {
             if (slugify(track.title) === slug) {
-                return buildSongPageData(artist, album, track);
+                return isPublicSongPage(track, album)
+                    ? buildSongPageData(artist, album, track)
+                    : null;
             }
         }
     }
@@ -140,7 +153,7 @@ export function getPublicSongPages(artist?: ArtistConfig) {
     for (const project of artist ? [artist] : ARTISTS) {
         for (const album of project.albums) {
             for (const track of album.tracks) {
-                if (!isPublicSongPage(track)) continue;
+                if (!isPublicSongPage(track, album)) continue;
 
                 pages.push({
                     ...buildSongPageData(project, album, track),
@@ -221,7 +234,7 @@ export function getHomeStructuredData(artist: ArtistConfig) {
             byArtist: { "@id": artistId },
             datePublished: toIsoDate(album.releaseDate) ?? String(album.year),
             url: `${artistUrl}${artist.homePath === "/" ? "" : "/"}#albums`,
-            track: album.tracks.filter(isPublicSongPage).map((track) => ({
+            track: album.tracks.filter((track) => isPublicSongPage(track, album)).map((track) => ({
                 "@type": "MusicRecording",
                 name: track.title,
                 url: absoluteUrl(getArtistSongPath(artist, slugify(track.title))),

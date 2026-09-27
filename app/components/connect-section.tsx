@@ -6,8 +6,15 @@ import {
     filterLinksByNetwork,
 } from "@/app/config/link-groups";
 
-export function ConnectSection({ artist }: { artist: ArtistConfig }) {
-    const streamingLinks = filterLinksByNetwork(artist.socialLinks, STREAMING_NETWORKS);
+type ConnectSectionProps = {
+    artist: ArtistConfig;
+};
+
+export function ConnectSection({ artist }: ConnectSectionProps) {
+    const streamingLinks = filterLinksByNetwork(
+        artist.socialLinks,
+        STREAMING_NETWORKS.filter((network) => network !== "youtube")
+    );
     const socialLinks = filterLinksByNetwork(artist.socialLinks, SOCIAL_NETWORKS);
     const hasLinks = streamingLinks.length > 0 || socialLinks.length > 0;
 

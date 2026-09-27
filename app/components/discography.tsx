@@ -47,9 +47,8 @@ function formatReleaseDate(dateString: string) {
 function hasTrackPage(track: TrackData) {
     return Boolean(
         track.featured ||
-        track.lyricsFile ||
-        track.songServiceLinks?.length ||
-        track.single_link_share
+        track.lyricsUrl ||
+        track.songServiceLinks?.length
     );
 }
 
@@ -92,9 +91,16 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
     const albumReleaseDate = activeAlbum.releaseDate
         ? formatReleaseDate(activeAlbum.releaseDate)
         : null;
-    const highlightSlug = activeAlbum.highlightTrack
-        ? slugify(activeAlbum.highlightTrack)
-        : null;
+    const highlightedTrack = activeAlbum.highlightTrack
+        ? activeAlbum.tracks.find((track) => track.title === activeAlbum.highlightTrack)
+        : undefined;
+    const highlightReleaseDate = highlightedTrack
+        ? getEffectiveReleaseDate(highlightedTrack, activeAlbum.releaseDate)
+        : "";
+    const highlightStatus = highlightedTrack
+        ? getReleaseStatus(highlightReleaseDate)
+        : "tbd";
+    const highlightSlug = highlightedTrack ? slugify(highlightedTrack.title) : null;
 
     const prevAlbum = () => {
         setCurrentlyPlaying(null);
@@ -234,22 +240,33 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
 
                         {highlightSlug ? (
                             <div className="mt-6 flex flex-wrap gap-3">
-                                <Link
-                                    href={getArtistSongPath(artist, highlightSlug)}
-                                    className="rounded-md px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] transition hover:-translate-y-0.5"
-                                    style={{
-                                        backgroundColor: "var(--artist-accent-bright)",
-                                        color: "var(--artist-button-text)",
-                                    }}
-                                >
-                                    Open {activeAlbum.highlightTrack}
-                                </Link>
-                                <a
-                                    href="#connect"
-                                    className="rounded-md border border-white/15 bg-white/5 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-zinc-100 transition hover:border-white/35 hover:bg-white/10"
-                                >
-                                    Streaming platforms
-                                </a>
+                                {highlightStatus === "released" ? (
+                                    <>
+                                        <Link
+                                            href={getArtistSongPath(artist, highlightSlug)}
+                                            className="rounded-md px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] transition hover:-translate-y-0.5"
+                                            style={{
+                                                backgroundColor: "var(--artist-accent-bright)",
+                                                color: "var(--artist-button-text)",
+                                            }}
+                                        >
+                                            Open {activeAlbum.highlightTrack}
+                                        </Link>
+                                        <a
+                                            href="#connect"
+                                            className="rounded-md border border-white/15 bg-white/5 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-zinc-100 transition hover:border-white/35 hover:bg-white/10"
+                                        >
+                                            Streaming platforms
+                                        </a>
+                                    </>
+                                ) : (
+                                    <span className="inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/5 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-zinc-300">
+                                        <CalendarDays className="h-4 w-4" style={{ color: "var(--artist-accent-bright)" }} />
+                                        {highlightStatus === "future"
+                                            ? `Available ${formatReleaseDate(highlightReleaseDate)}`
+                                            : "Release date TBD"}
+                                    </span>
+                                )}
                             </div>
                         ) : null}
 
@@ -260,7 +277,7 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
                                     activeAlbum.releaseDate
                                 );
                                 const status = getReleaseStatus(effectiveReleaseDate);
-                                const canOpenTrackPage = hasTrackPage(track);
+                                const canOpenTrackPage = status === "released" && hasTrackPage(track);
 
                                 return (
                                     <div

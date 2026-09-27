@@ -82,7 +82,7 @@ const bandInfo = {
                     audioSrc: "/audio/fate/new-beginnings/new-beginning.mp3",
                     songImg: new_beginning,
                     storyBehindTheLyrics: "",
-                    lyricsFile: "/lyrics/fate/new-beginnings/new-beginning.txt",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/fight-against-the-enemy-new-beginning",
                     previewStartTime: 38,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -101,7 +101,7 @@ const bandInfo = {
                     audioSrc: "/audio/fate/new-beginnings/angels.mp3",
                     songImg: angels,
                     storyBehindTheLyrics: "",
-                    lyricsFile: "/lyrics/fate/new-beginnings/angels.txt",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/fight-against-the-enemy-angels",
                     previewStartTime: 95,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -119,7 +119,7 @@ const bandInfo = {
                     title: "Blown Away",
                     audioSrc: "/audio/fate/new-beginnings/blown-away.mp3",
                     songImg: blown_away_single,
-                    lyricsFile: "/lyrics/fate/new-beginnings/blown-away.txt",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/fight-against-the-enemy-blown-away",
                     storyBehindTheLyrics: "",
                     previewStartTime: 205,
                     previewStartLabel: "Chorus preview",
@@ -137,7 +137,7 @@ const bandInfo = {
                 {
                     title: "Lost and Afraid",
                     audioSrc: "/audio/fate/new-beginnings/lost-and-afraid.mp3",
-                    lyricsFile: "/lyrics/fate/new-beginnings/lost-and-afraid.txt",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/fight-against-the-enemy-lost-and-afraid",
                     previewStartTime: 50,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -155,7 +155,7 @@ const bandInfo = {
                     audioSrc: "/audio/fate/new-beginnings/tell-me.mp3",
                     songImg: tell_me_single,
                     storyBehindTheLyrics: "",
-                    lyricsFile: "/lyrics/fate/new-beginnings/tell-me.txt",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/fight-against-the-enemy-tell-me",
                     previewStartTime: 57,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -174,7 +174,7 @@ const bandInfo = {
                     audioSrc: "/audio/fate/new-beginnings/running-away.mp3",
                     songImg: running_away_single,
                     storyBehindTheLyrics: "",
-                    lyricsFile: "/lyrics/fate/new-beginnings/running-away.txt",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/fight-against-the-enemy-running-away",
                     previewStartTime: 0,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -195,7 +195,7 @@ const bandInfo = {
                     storyBehindTheLyrics: "",
                     previewStartTime: 113.5,
                     previewStartLabel: "Chorus preview",
-                    lyricsFile: "/lyrics/fate/new-beginnings/friends.txt",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/fight-against-the-enemy-friends",
                     featured: true,
                     songServiceLinks: [
                         { url: "https://open.spotify.com/track/0BDNmxnU0FRDkqt5Q7PNVm", network: "spotify", tooltip: 'Spotify' },
@@ -210,7 +210,7 @@ const bandInfo = {
                 {
                     title: "Fully Alive",
                     audioSrc: "/audio/fate/new-beginnings/fully-alive.mp3",
-                    lyricsFile: "/lyrics/fate/new-beginnings/fully-alive.txt",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/fight-against-the-enemy-fully-alive",
                     previewStartTime: 147,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -226,7 +226,7 @@ const bandInfo = {
                 {
                     title: "No More Games",
                     audioSrc: "/audio/fate/new-beginnings/no-more-games.mp3",
-                    lyricsFile: "/lyrics/fate/new-beginnings/no-more-games.txt",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/fight-against-the-enemy-no-more-games",
                     previewStartTime: 50,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -243,7 +243,7 @@ const bandInfo = {
                     title: "Passion",
                     audioSrc: "/audio/fate/new-beginnings/passion.mp3",
                     songImg: passion_single,
-                    lyricsFile: "/lyrics/fate/new-beginnings/passion.txt",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/fight-against-the-enemy-passion",
                     storyBehindTheLyrics: "",
                     previewStartTime: 98,
                     previewStartLabel: "Chorus preview",
@@ -261,7 +261,7 @@ const bandInfo = {
                 {
                     title: "Hold My Hand",
                     audioSrc: "/audio/fate/new-beginnings/hold-my-hand.mp3",
-                    lyricsFile: "/lyrics/fate/new-beginnings/hold-my-hand.txt",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/fight-against-the-enemy-hold-my-hand",
                     previewStartTime: 125,
                     previewStartLabel: "Chorus preview",
                     songServiceLinks: [
@@ -278,7 +278,7 @@ const bandInfo = {
                     title: "Ugly",
                     audioSrc: "/audio/fate/new-beginnings/ugly.mp3",
                     songImg: ugly,
-                    lyricsFile: "/lyrics/fate/new-beginnings/ugly.txt",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/fight-against-the-enemy-ugly",
                     storyBehindTheLyrics: "",
                     previewStartTime: 206,
                     previewStartLabel: "Chorus preview",
@@ -307,9 +307,9 @@ const bandInfo = {
                     title: "Brand New Day",
                     audioSrc: "/audio/fate/wake-of-determination/brand-new-day.mp3",
                     songImg: brand_new_day_single,
-                    lyricsFile: "/lyrics/fate/wake-of-determination/brand-new-day.txt",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/brand-new-day",
                     storyBehindTheLyrics: "",
-                    previewStartTime: 0,
+                    previewStartTime: 63,
                     previewStartLabel: "Feature preview",
                     songServiceLinks: [
                         { url: "https://open.spotify.com/track/6Wy0AAhpjGWjPQsgWqAQP7", network: "spotify", tooltip: 'Spotify' },
@@ -317,7 +317,7 @@ const bandInfo = {
                         { url: "https://music.amazon.com/tracks/B0H1M5LFF3/?ref=dm_ff_amazonmusic_3p", network: "amazon", tooltip: 'Amazon' },
                         { url: "https://music.youtube.com/watch?v=yW4Nd2f_ihQ", network: "youtube-music", tooltip: 'YouTube Music' },
                         // { url: "https://pandora.app.link/?$desktop_url=https%3A%2F%2Fwww.pandora.com%2Fartist%2Ffight-against-the-enemy%2Fugly%2Fugly%2FTR5bPjX7w4b2qjg&$ios_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A196970543&$android_deeplink_path=pandorav4%3A%2F%2Fbackstage%2Ftrack%3Ftoken%3DTR%3A196970543&~channel=Partner%20Catalog%20Search%20API", network: "pandora", tooltip: 'Pandora' },
-                        { url: "http://www.tidal.com/track/524223994", network: "tidal", tooltip: 'Tidal' },
+                        { url: "https://www.tidal.com/track/524223994", network: "tidal", tooltip: 'Tidal' },
                         { url: "https://www.deezer.com/track/4018962571", network: "deezer", tooltip: 'Deezer' },
                     ],
                     releaseDate: "6/9/2026"
@@ -326,14 +326,24 @@ const bandInfo = {
                     title: "Encompassing Defeat",
                     audioSrc: "/audio/fate/wake-of-determination/encompassing-defeat.mp3",
                     songImg: encompassing_defeat,
-                    lyricsFile: "/lyrics/fate/wake-of-determination/encompassing-defeat.txt",
+                    lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/encompassing-defeat",
                     storyBehindTheLyrics: "",
-                    previewStartTime: 0,
+                    previewStartTime: 46,
                     previewStartLabel: "Feature preview",
                     featured: true,
+                    songServiceLinks: [
+                        { url: "https://open.spotify.com/track/7eJzUduMfiFBuMlGJFRvpK", network: "spotify", tooltip: 'Spotify' },
+                        { url: "https://geo.music.apple.com/us/album/encompassing-defeat/6799019546?i=6799019547&app=music&ls=1", network: "apple", tooltip: 'Apple Music' },
+                        { url: "https://geo.itunes.apple.com/us/album/encompassing-defeat/6799019546?i=6799019547&app=itunes&ls=1", network: "itunes", tooltip: 'iTunes' },
+                        { url: "https://www.tidal.com/track/549997471", network: "tidal", tooltip: 'TIDAL' },
+                        { url: "https://www.deezer.com/track/4208986722", network: "deezer", tooltip: 'Deezer' },
+                        { url: "https://music.amazon.com/tracks/B0HDC3F57B", network: "amazon", tooltip: 'Amazon Music' },
+                        { url: "https://www.youtube.com/watch?v=S-fEbwZrivg", network: "youtube", tooltip: 'YouTube' },
+                        { url: "https://music.youtube.com/watch?v=S-fEbwZrivg", network: "youtube-music", tooltip: 'YouTube Music' },
+                    ],
                     releaseDate: "08/28/2026"
                 },
-                { title: "Wake of Determination", audioSrc: "/audio/fate/wake-of-determination/wake-of-determination.mp3", releaseDate: ""  },
+                // { title: "Wake of Determination", audioSrc: "/audio/fate/wake-of-determination/wake-of-determination.mp3", releaseDate: ""  },
             ],
         },
         ],

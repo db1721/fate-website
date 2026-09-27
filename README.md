@@ -20,6 +20,36 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Song Lyrics
+
+Add `lyricsUrl` to any track in `app/config/artists/buried-in-ruin.ts` (Buried In Ruin)
+or `app/config/fate-info.jsx` (FATE). Each track has a `lyricsUrl` field ready to fill in:
+
+```ts
+lyricsUrl: "https://app.evolveelevatemedia.com/music/lyrics/created-a-monster",
+```
+
+The song page fetches and displays the lyrics inline, with no external lyrics link.
+Supported sources are public Evolve & Elevate lyrics pages (a `section` whose
+`aria-label` ends in ` lyrics`) and HTTPS plain-text URLs served as `text/plain`.
+Line breaks and blank lines between verses are preserved. Fetched HTML is never
+rendered as markup.
+
+In production, the source and song page are cached for one hour and revalidated
+on subsequent visits, so source edits appear without a new deployment (not
+necessarily at exactly one hour). Adding or changing a URL in the track config
+still requires deploying the site.
+
+Local lyric text files are no longer used. An empty `lyricsUrl` or a failed source
+hides the lyrics section without breaking playback. Created A Monster is already
+configured; fill in the other songs' URLs when their public lyrics pages are ready.
+
+Run the lyrics importer tests with Node 22.18+:
+
+```bash
+node --test tests/lyrics.test.mjs
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

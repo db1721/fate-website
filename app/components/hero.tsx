@@ -14,7 +14,18 @@ type HeroSectionProps = {
 
 export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
     const isBuriedInRuin = artist.id === "buried-in-ruin";
-    const heroLinks = filterLinksByNetwork(artist.socialLinks, STREAMING_NETWORKS);
+    const heroImage = isBuriedInRuin
+        ? featuredTrack?.coverSrc ?? artist.hero.image
+        : artist.hero.image;
+    const featuredRelease = featuredTrack
+        ? artist.albums.flatMap((album) => album.tracks).find((track) =>
+            track.title === featuredTrack.title
+        )
+        : undefined;
+    const heroLinks = filterLinksByNetwork(
+        featuredRelease?.songServiceLinks ?? artist.socialLinks,
+        STREAMING_NETWORKS
+    );
     const featuredPath = featuredTrack
         ? getArtistSongPath(artist, slugify(featuredTrack.title))
         : null;
@@ -37,7 +48,7 @@ export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
 
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:54px_54px] opacity-[0.05]" />
 
-            {artist.hero.image ? (
+            {heroImage ? (
                 <div
                     aria-hidden="true"
                     className="pointer-events-none absolute inset-y-0 right-0 hidden w-[68%] overflow-hidden sm:block lg:w-[56%]"
@@ -49,7 +60,7 @@ export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
                     }}
                 >
                     <Image
-                        src={artist.hero.image}
+                        src={heroImage}
                         alt=""
                         fill
                         priority

@@ -8,6 +8,9 @@ import {
     getSongStructuredData,
 } from "@/app/config/music-data";
 import { FATE_ARTIST } from "@/app/config/artists";
+import { loadLyricsFromUrl } from "@/lib/lyrics.server";
+
+export const revalidate = 3600;
 
 export function generateStaticParams() {
     return getPublicSongPages(FATE_ARTIST).map((song) => ({
@@ -42,13 +45,15 @@ export default async function SongPage({
         notFound();
     }
 
+    const lyrics = await loadLyricsFromUrl(song.lyricsUrl);
+
     return (
         <>
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(getSongStructuredData(song)) }}
             />
-            <MusicLandingPage song={song} />
+            <MusicLandingPage song={song} lyrics={lyrics} />
         </>
     );
 }
