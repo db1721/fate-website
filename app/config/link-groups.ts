@@ -11,6 +11,8 @@ export const STREAMING_NETWORKS = [
     "tidal",
     "deezer",
     "shazam",
+    "anghami",
+    "iheart",
 ] as const;
 
 export const SOCIAL_NETWORKS = [

@@ -9,6 +9,7 @@ import { SocialIcons } from "@/app/components/shared/socials";
 import type { SongPageData } from "@/app/config/music-data";
 import { trackMetaCustomEvent } from "@/lib/meta-pixel";
 import { trackInteraction } from "@/lib/track-interaction";
+import { clampAudioPreviewStart } from "@/lib/audio-preview";
 
 function hexToRgba(hex: string, alpha: number) {
     const normalized = hex.replace("#", "");
@@ -89,6 +90,11 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
             if (nextDuration > 0) {
                 durationReady = true;
                 setDuration(nextDuration);
+                if (!hasAppliedStartRef.current && audio.readyState >= 1) {
+                    audio.currentTime = clampAudioPreviewStart(song.previewStartTime, nextDuration);
+                    hasAppliedStartRef.current = true;
+                    setCurrentTime(audio.currentTime);
+                }
             }
         };
         const updateTime = () => {
@@ -96,6 +102,7 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
             setCurrentTime(audio.currentTime || 0);
         };
         const handleEnded = () => {
+            hasAppliedStartRef.current = false;
             setIsPlaying(false);
             setCurrentTime(0);
             track("song_preview_complete", {
@@ -138,7 +145,7 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
             window.clearInterval(metadataPoll);
             window.clearTimeout(metadataTimeout);
         };
-    }, [song.previewUrl, song.projectId, song.slug]);
+    }, [song.previewUrl, song.projectId, song.slug, song.previewStartTime]);
 
     useEffect(() => {
         if (!lyricsContentRef.current) return;
@@ -151,8 +158,8 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
 
         try {
             if (audio.paused) {
-                if (!hasAppliedStartRef.current) {
-                    audio.currentTime = song.previewStartTime ?? 0;
+                if (!hasAppliedStartRef.current && audio.readyState >= 1) {
+                    audio.currentTime = clampAudioPreviewStart(song.previewStartTime, getAudioDuration(audio));
                     hasAppliedStartRef.current = true;
                     setCurrentTime(audio.currentTime);
                 }
@@ -228,6 +235,7 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
             <div className="pointer-events-none absolute inset-0 -z-20">
                 <Image
                     src={song.coverImage}
+                    unoptimized={typeof song.coverImage === "string" && song.coverImage.startsWith("https://")}
                     alt=""
                     fill
                     priority
@@ -346,6 +354,17 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
                         </div>
                     ) : null}
 
+                    {song.behindTheMusic?.trim() ? (
+                        <details className="mt-8 rounded-md border border-white/15 bg-white/5">
+                            <summary className="min-h-12 cursor-pointer rounded-md px-4 py-3 text-sm font-semibold text-white/85 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">
+                                Behind the Music
+                            </summary>
+                            <div className="whitespace-pre-wrap px-4 pb-5 text-sm leading-7 text-white/75 sm:text-base">
+                                {song.behindTheMusic}
+                            </div>
+                        </details>
+                    ) : null}
+
                 </div>
 
                 <div className="order-1 lg:order-2">
@@ -356,13 +375,14 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
                         >
                             <Image
                                 src={song.coverImage}
+                                unoptimized={typeof song.coverImage === "string" && song.coverImage.startsWith("https://")}
                                 alt={`${song.title} cover art`}
                                 fill
                                 priority
                                 sizes="(min-width: 1024px) 42vw, 92vw"
                                 className="object-cover"
                             />
-                            <button
+                            {song.previewUrl ? <button
                                 type="button"
                                 onClick={togglePlay}
                                 aria-label={isPlaying ? "Pause preview" : "Play preview"}
@@ -371,10 +391,10 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
                                 {isPlaying
                                     ? <Pause className="h-7 w-7" fill="currentColor" />
                                     : <Play className="ml-1 h-7 w-7" fill="currentColor" />}
-                            </button>
+                            </button> : null}
                         </div>
 
-                        <div className="mt-4 rounded-md border border-white/15 bg-black/55 p-4 backdrop-blur">
+                        {song.previewUrl ? <div className="mt-4 rounded-md border border-white/15 bg-black/55 p-4 backdrop-blur">
                             <div className="flex items-center justify-between gap-4">
                                 <p className="text-xs font-black uppercase tracking-[0.18em] text-white/70">
                                     {song.previewStartLabel ?? "Preview"}
@@ -396,7 +416,7 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
                                 style={{ accentColor: song.theme.accentBright }}
                             />
                             <audio ref={audioRef} src={song.previewUrl} preload="metadata" playsInline />
-                        </div>
+                        </div> : <p className="mt-4 text-center text-sm text-white/60">Audio preview is not currently published.</p>}
                     </div>
                 </div>
             </section>

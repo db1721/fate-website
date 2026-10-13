@@ -27,7 +27,7 @@ export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
         STREAMING_NETWORKS
     );
     const featuredPath = featuredTrack
-        ? getArtistSongPath(artist, slugify(featuredTrack.title))
+        ? getArtistSongPath(artist, featuredTrack.songSlug ?? slugify(featuredTrack.title))
         : null;
 
     return (
@@ -61,6 +61,7 @@ export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
                 >
                     <Image
                         src={heroImage}
+                        unoptimized={Boolean(artist.catalogStatus)}
                         alt=""
                         fill
                         priority
@@ -181,6 +182,7 @@ export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
                                 <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-md border border-zinc-700 sm:h-36 sm:w-36">
                                     <Image
                                         src={featuredTrack.coverSrc}
+                                        unoptimized={Boolean(artist.catalogStatus)}
                                         alt={`${featuredTrack.title} single cover art`}
                                         fill
                                         sizes="144px"
@@ -213,6 +215,7 @@ export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
                                 <AudioTrack
                                     id={`${featuredTrack.title}-feature`}
                                     src={featuredTrack.audioSrc}
+                                    previewStartTime={featuredTrack.previewStartTime}
                                     projectId={artist.id}
                                     className="w-full justify-center"
                                 />

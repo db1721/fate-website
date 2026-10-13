@@ -26,6 +26,8 @@ export type SocialLink = {
 };
 
 export type FeaturedTrack = {
+    songSlug?: string;
+    previewStartTime?: number;
     title: string;
     subtitle: string;
     coverSrc: ImageSource;
@@ -35,6 +37,13 @@ export type FeaturedTrack = {
 };
 
 export type TrackData = {
+    /** Exact publisher slug; never derive it again from the display title. */
+    publicSlug?: string;
+    publicSongId?: string;
+    publicArtistName?: string;
+    trackNumber?: number;
+    lyrics?: string;
+    behindTheMusic?: string;
     title: string;
     audioSrc: string;
     previewSrc?: string;
@@ -42,6 +51,8 @@ export type TrackData = {
     lyricsUrl?: string;
     storyBehindTheLyrics?: string;
     releaseDate?: string;
+    /** Optional app-owned date to begin considering this song for the featured hero. */
+    featureDate?: string;
     previewStartTime?: number;
     previewStartLabel?: string;
     featured?: boolean;
@@ -71,6 +82,23 @@ export type PressPost = {
 };
 
 export type ArtistConfig = {
+    /** No bundled song catalog: this artist must be supplied by the app. */
+    catalogRequired?: boolean;
+    /** Website-only copy and curation, never a second source of song metadata. */
+    catalogEditorial?: {
+        albums?: {
+            albumTitle: string;
+            tagline?: string;
+            description?: string;
+            highlightSongSlug?: string;
+        }[];
+        features?: {
+            songSlug: string;
+            subtitle: string;
+            description?: string;
+        }[];
+    };
+    catalogStatus?: "ready" | "unavailable";
     id: ArtistId;
     routeSlug: string;
     homePath: string;

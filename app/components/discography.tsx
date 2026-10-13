@@ -7,45 +7,36 @@ import { CalendarDays, ChevronLeft, ChevronRight, Disc3, Star } from "lucide-rea
 import { AudioTrack } from "@/app/components/audio-track";
 import { getArtistSongPath } from "@/app/config/artists";
 import type { ArtistConfig, TrackData } from "@/app/config/artists/types";
-import { slugify } from "@/lib/utils";
+import { getTrackSlug } from "@/app/config/music-data";
+import { isFutureCatalogRelease, parseMusicReleaseDate } from "@/lib/public-catalog";
 
 function parseReleaseDate(dateString: string) {
-    const match = dateString.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-
-    if (match) {
-        const [, month, day, year] = match;
-        return new Date(Number(year), Number(month) - 1, Number(day));
-    }
-
-    return new Date(dateString);
+    return parseMusicReleaseDate(dateString);
 }
 
 function getReleaseStatus(dateString: string): "released" | "future" | "tbd" {
     if (!dateString.trim()) return "tbd";
 
     const date = parseReleaseDate(dateString);
-    if (Number.isNaN(date.getTime())) return "tbd";
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    date.setHours(0, 0, 0, 0);
-
-    return date > today ? "future" : "released";
+    if (!date) return "tbd";
+    return isFutureCatalogRelease(dateString) ? "future" : "released";
 }
 
 function formatReleaseDate(dateString: string) {
     const date = parseReleaseDate(dateString);
-    if (Number.isNaN(date.getTime())) return dateString;
+    if (!date) return dateString;
 
     return date.toLocaleDateString(undefined, {
         year: "numeric",
         month: "short",
         day: "numeric",
+        timeZone: "UTC",
     });
 }
 
 function hasTrackPage(track: TrackData) {
     return Boolean(
+        track.publicSongId ||
         track.featured ||
         track.lyricsUrl ||
         track.songServiceLinks?.length
@@ -78,10 +69,10 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
                         {artist.musicSection.eyebrow}
                     </p>
                     <h2 className="mt-3 max-w-2xl text-3xl font-black uppercase tracking-normal text-white sm:text-4xl">
-                        {artist.musicSection.emptyTitle}
+                        {artist.catalogStatus === "unavailable" ? "Music is temporarily unavailable" : artist.musicSection.emptyTitle}
                     </h2>
                     <p className="mt-4 max-w-xl text-sm leading-7 text-zinc-400 sm:text-base">
-                        {artist.musicSection.emptyDescription}
+                        {artist.catalogStatus === "unavailable" ? "Please check back shortly. The music catalog could not be loaded." : artist.musicSection.emptyDescription}
                     </p>
                 </div>
             </section>
@@ -100,7 +91,7 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
     const highlightStatus = highlightedTrack
         ? getReleaseStatus(highlightReleaseDate)
         : "tbd";
-    const highlightSlug = highlightedTrack ? slugify(highlightedTrack.title) : null;
+    const highlightSlug = highlightedTrack ? getTrackSlug(highlightedTrack) : null;
 
     const prevAlbum = () => {
         setCurrentlyPlaying(null);
@@ -193,6 +184,7 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
                         <div className="relative aspect-square overflow-hidden rounded-md border border-white/15 bg-black">
                             <Image
                                 src={activeAlbum.coverSrc}
+                                unoptimized={Boolean(artist.catalogStatus)}
                                 alt={`${activeAlbum.title} cover art`}
                                 fill
                                 sizes="(min-width: 1024px) 360px, 92vw"
@@ -272,6 +264,7 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
 
                         <div className="mt-8 border-t border-white/15">
                             {activeAlbum.tracks.map((track, index) => {
+                                const playbackId = track.publicSongId ?? track.title;
                                 const effectiveReleaseDate = getEffectiveReleaseDate(
                                     track,
                                     activeAlbum.releaseDate
@@ -281,17 +274,17 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
 
                                 return (
                                     <div
-                                        key={track.title}
+                                        key={playbackId}
                                         className="grid min-h-16 items-center gap-3 border-b border-white/10 py-3 sm:grid-cols-[minmax(0,1fr)_minmax(220px,320px)]"
                                     >
                                         <div className="flex min-w-0 items-center gap-3">
                                             <span className="w-6 shrink-0 text-xs tabular-nums text-zinc-600">
-                                                {String(index + 1).padStart(2, "0")}
+                                                {String(track.trackNumber ?? index + 1).padStart(2, "0")}
                                             </span>
                                             <div className="min-w-0">
                                                 {canOpenTrackPage ? (
                                                     <Link
-                                                        href={getArtistSongPath(artist, slugify(track.title))}
+                                                        href={getArtistSongPath(artist, getTrackSlug(track))}
                                                         className="font-semibold text-zinc-100 transition-colors hover:text-[var(--artist-accent-bright)]"
                                                     >
                                                         {track.title}
@@ -303,29 +296,30 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
                                                     {track.featured ? (
                                                         <span style={{ color: "var(--artist-accent-soft)" }}>Featured</span>
                                                     ) : null}
-                                                    {currentlyPlaying === track.title ? (
+                                                    {currentlyPlaying === playbackId ? (
                                                         <span style={{ color: "var(--artist-accent-bright)" }}>Now playing</span>
                                                     ) : null}
                                                 </div>
                                             </div>
                                         </div>
 
-                                        {status === "released" ? (
+                                        {status === "released" && track.audioSrc ? (
                                             <AudioTrack
-                                                id={track.title}
+                                                id={playbackId}
                                                 src={track.audioSrc}
+                                                previewStartTime={0}
                                                 projectId={artist.id}
                                                 className="w-full"
-                                                onPlay={() => setCurrentlyPlaying(track.title)}
+                                                onPlay={() => setCurrentlyPlaying(playbackId)}
                                                 onPause={() => setCurrentlyPlaying((playing) =>
-                                                    playing === track.title ? null : playing
+                                                    playing === playbackId ? null : playing
                                                 )}
                                             />
                                         ) : (
                                             <p className="text-xs text-zinc-400 sm:text-right">
                                                 {status === "future"
                                                     ? `Available ${formatReleaseDate(effectiveReleaseDate)}`
-                                                    : "Release date TBD"}
+                                                    : status === "released" ? "Audio preview unavailable" : "Release date TBD"}
                                             </p>
                                         )}
                                     </div>

@@ -11,6 +11,7 @@ import type {
 } from "@/app/config/artists/types";
 import { CONTACT_EMAIL, SITE_URL, absoluteUrl } from "@/app/config/site";
 import { slugify } from "@/lib/utils";
+import { isCatalogSongReleased, isFutureCatalogRelease, musicReleaseDateIso, parseMusicReleaseDate } from "@/lib/public-catalog";
 
 export type SongPageData = {
     slug: string;
@@ -26,6 +27,8 @@ export type SongPageData = {
     tagline?: string;
     coverImage: string | StaticImageData;
     previewUrl: string;
+    lyrics?: string;
+    behindTheMusic?: string;
     lyricsTease?: string[];
     lyricsUrl?: string;
     quote?: string;
@@ -49,6 +52,8 @@ const FEATURED_RELEASE_NETWORKS = new Set([
     "tidal",
     "deezer",
     "shazam",
+    "anghami",
+    "iheart",
 ]);
 
 export function getImageSrc(src: string | StaticImageData) {
@@ -56,39 +61,28 @@ export function getImageSrc(src: string | StaticImageData) {
 }
 
 function parseReleaseDate(dateString?: string): Date | null {
-    if (!dateString) return null;
-
-    const slashDate = dateString.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-    if (slashDate) {
-        const [, month, day, year] = slashDate;
-        return new Date(Date.UTC(Number(year), Number(month) - 1, Number(day)));
-    }
-
-    const date = new Date(dateString);
-    return Number.isNaN(date.getTime()) ? null : date;
+    return parseMusicReleaseDate(dateString);
 }
 
 function toIsoDate(dateString?: string) {
-    return parseReleaseDate(dateString)?.toISOString().slice(0, 10);
-}
-
-function localIsoDate(date = new Date()) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-
-    return `${year}-${month}-${day}`;
+    return musicReleaseDateIso(dateString);
 }
 
 function isPublicSongPage(track: TrackData, album: AlbumData, now = new Date()) {
     const releaseDate = toIsoDate(getEffectiveReleaseDate(track, album));
-    if (releaseDate && releaseDate > localIsoDate(now)) return false;
+    if (track.publicSongId && !isCatalogSongReleased(releaseDate, now)) return false;
+    if (isFutureCatalogRelease(releaseDate, now)) return false;
 
     return Boolean(
+        track.publicSongId ||
         track.featured ||
         track.songServiceLinks?.length ||
         track.lyricsUrl
     );
+}
+
+export function getTrackSlug(track: TrackData) {
+    return track.publicSlug ?? slugify(track.title);
 }
 
 function getEffectiveReleaseDate(track: TrackData, album: AlbumData) {
@@ -100,7 +94,7 @@ function buildSongPageData(
     album: AlbumData,
     track: TrackData
 ): SongPageData {
-    const trackSlug = slugify(track.title);
+    const trackSlug = getTrackSlug(track);
     const featuredReleaseLinks = track.featured
         ? artist.socialLinks.filter((link) => FEATURED_RELEASE_NETWORKS.has(link.network))
         : undefined;
@@ -110,14 +104,16 @@ function buildSongPageData(
         slug: trackSlug,
         title: track.title,
         projectId: artist.id,
-        artist: artist.name,
-        artistFullName: artist.fullName,
+        artist: track.publicArtistName ?? artist.name,
+        artistFullName: track.publicArtistName ?? artist.fullName,
         homePath: artist.homePath,
         musicPathPrefix: artist.musicPathPrefix,
         genres: artist.seo.genres,
         theme: artist.theme,
         lyricsUrl: track.lyricsUrl,
-        subtitle: `${track.title} by ${artist.fullName}`,
+        lyrics: track.lyrics,
+        behindTheMusic: track.behindTheMusic,
+        subtitle: `${track.title} by ${track.publicArtistName ?? artist.fullName}`,
         tagline: album.title ? `From ${album.title}` : undefined,
         coverImage: track.songImg ?? album.coverSrc,
         previewUrl: track.previewSrc ?? track.audioSrc,
@@ -136,7 +132,7 @@ function buildSongPageData(
 export function getSongPageDataFromSlug(artist: ArtistConfig, slug: string) {
     for (const album of artist.albums) {
         for (const track of album.tracks) {
-            if (slugify(track.title) === slug) {
+            if (getTrackSlug(track) === slug) {
                 return isPublicSongPage(track, album)
                     ? buildSongPageData(artist, album, track)
                     : null;
@@ -237,7 +233,7 @@ export function getHomeStructuredData(artist: ArtistConfig) {
             track: album.tracks.filter((track) => isPublicSongPage(track, album)).map((track) => ({
                 "@type": "MusicRecording",
                 name: track.title,
-                url: absoluteUrl(getArtistSongPath(artist, slugify(track.title))),
+                url: absoluteUrl(getArtistSongPath(artist, getTrackSlug(track))),
             })),
         })),
         track: publicSongs.map((song) => ({
@@ -277,11 +273,10 @@ export function getSongStructuredData(song: SongPageData) {
                 byArtist: { "@id": artistId },
             }
             : undefined,
-        audio: {
+        audio: song.previewUrl ? {
             "@type": "AudioObject",
             contentUrl: absoluteUrl(song.previewUrl),
-            encodingFormat: "audio/mpeg",
-        },
+        } : undefined,
         sameAs: song.songServiceLinks?.map((link) => link.url),
         mainEntityOfPage: { "@type": "WebPage", "@id": songUrl },
     };

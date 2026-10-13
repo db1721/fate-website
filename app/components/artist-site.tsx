@@ -18,7 +18,15 @@ import { CurrentYear } from "@/app/config/utils";
 
 type ArtistCssProperties = CSSProperties & Record<`--artist-${string}`, string>;
 
-export function ArtistSite({ artist }: { artist: ArtistConfig }) {
+export function ArtistSite({ artist: catalogArtist }: { artist: ArtistConfig }) {
+    // Home-page widgets do not need full lyric/story bodies in their client props.
+    const artist = catalogArtist.catalogStatus ? {
+        ...catalogArtist,
+        albums: catalogArtist.albums.map((album) => ({
+            ...album,
+            tracks: album.tracks.map((track) => ({ ...track, lyrics: undefined, behindTheMusic: undefined })),
+        })),
+    } : catalogArtist;
     const featuredTrack = getCurrentFeaturedTrack(artist.featuredTracks);
     const socialFooterLinks = artist.socialLinks
         .filter((link) => ["facebook", "instagram", "youtube"].includes(link.network))
@@ -44,7 +52,7 @@ export function ArtistSite({ artist }: { artist: ArtistConfig }) {
             <ArtistPageTracking projectId={artist.id} artistName={artist.name} />
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(getHomeStructuredData(artist)) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(getHomeStructuredData(artist)).replace(/</g, "\\u003c") }}
             />
 
             <SiteHeader artist={artist} artists={ARTISTS} />

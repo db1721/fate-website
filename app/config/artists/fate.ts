@@ -77,9 +77,41 @@ export const FATE_ARTIST: ArtistConfig = {
         heroGlow: "rgba(14, 165, 233, 0.26)",
         secondaryGlow: "rgba(245, 179, 1, 0.14)",
     },
-    featuredTracks: fateInfo.FEATURED_TRACKS,
+    catalogRequired: true,
+    catalogEditorial: {
+        albums: [
+            {
+                albumTitle: "New Beginnings",
+                tagline: "The debut album from F.A.T.E.",
+                highlightSongSlug: "fight-against-the-enemy-friends",
+                description: "New Beginnings is the first full chapter from F.A.T.E.",
+            },
+            {
+                albumTitle: "Wake of Determination",
+                description: "The next chapter built around heavy riffs and determination.",
+            },
+        ],
+        features: [
+            {
+                songSlug: "fight-against-the-enemy-friends",
+                subtitle: "Featured Single from New Beginnings",
+                description: "A song about the people who stay when life gets heavy.",
+            },
+            {
+                songSlug: "brand-new-day",
+                subtitle: "Featured Single from Wake of Determination",
+                description: "A heavier next chapter built around resolve, momentum, and starting again.",
+            },
+            {
+                songSlug: "encompassing-defeat",
+                subtitle: "Featured Single from Wake of Determination",
+                description: "A darker turn built around pressure, collapse, and the decision to keep moving.",
+            },
+        ],
+    },
+    featuredTracks: [],
     mainArtistUrl: fateInfo.MAIN_BAND_PAGE,
     socialLinks: fateInfo.SOCIAL_LINKS,
-    albums: fateInfo.ALBUMS,
+    albums: [],
     pressPosts: fateInfo.BLOGS,
 };

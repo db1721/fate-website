@@ -5,10 +5,12 @@ import { Pause, Play } from "lucide-react";
 import {useAudioManager} from "@/app/context/audio-manager";
 import { trackInteraction } from "@/lib/track-interaction";
 import type { ArtistId } from "@/app/config/artists/types";
+import { clampAudioPreviewStart } from "@/lib/audio-preview";
 
 type AudioTrackProps = {
     id: string;
     src: string;
+    previewStartTime?: number;
     projectId?: ArtistId;
     autoPlay?: boolean;
     className?: string;
@@ -45,6 +47,7 @@ function getAudioDuration(el: HTMLAudioElement): number {
 export function AudioTrack({
                                id,
                                src,
+                               previewStartTime,
                                projectId = "fate",
                                autoPlay,
                                className,
@@ -56,6 +59,7 @@ export function AudioTrack({
     const containerRef = useRef<HTMLDivElement | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const hasTrackedPlayRef = useRef(false);
+    const hasAppliedStartRef = useRef(false);
     const {registerAudio, handlePlay} = useAudioManager();
 
     const [isPlaying, setIsPlaying] = useState(false);
@@ -90,12 +94,18 @@ export function AudioTrack({
         if (!el) return;
 
         hasTrackedPlayRef.current = false;
+        hasAppliedStartRef.current = false;
         let durationReady = false;
         const syncMetadata = () => {
             const nextDuration = getAudioDuration(el);
             if (nextDuration > 0) {
                 durationReady = true;
                 setDuration(nextDuration);
+                if (!hasAppliedStartRef.current && el.readyState >= 1) {
+                    el.currentTime = clampAudioPreviewStart(previewStartTime, nextDuration);
+                    hasAppliedStartRef.current = true;
+                    setCurrentTime(el.currentTime);
+                }
             }
         };
         const syncPlaybackPosition = () => {
@@ -155,7 +165,7 @@ export function AudioTrack({
             window.clearTimeout(metadataTimeout);
             observer?.disconnect();
         };
-    }, [src]);
+    }, [src, previewStartTime]);
 
     // optional autoplay (hero)
     useEffect(() => {
@@ -246,6 +256,7 @@ export function AudioTrack({
                 onCanPlay={syncDuration}
                 onLoadedMetadata={syncDuration}
                 onEnded={() => {
+                    hasAppliedStartRef.current = false;
                     setIsPlaying(false);
                     setCurrentTime(0);
                     onPause?.();

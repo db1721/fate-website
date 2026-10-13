@@ -19,6 +19,8 @@ export interface SocialIconsProps {
 }
 
 const CUSTOM_ICONS: Record<string, { src: string; label: string; service: string }> = {
+    iheart: { src: "/icons/iheart.svg", label: "iHeartRadio", service: "iheart" },
+    anghami: { src: "/icons/anghami.webp", label: "Anghami", service: "anghami" },
     amazon: { src: "/icons/amazon-music.png", label: "Amazon Music", service: "amazon_music" },
     pandora: { src: "/icons/pandora.png", label: "Pandora", service: "pandora_music" },
     tidal: { src: "/icons/tidal.jpg", label: "Tidal", service: "tidal" },

@@ -3,20 +3,14 @@ import type { Metadata } from "next";
 import MusicLandingPage from "@/app/components/music-landing-page";
 import {
     generateSongMetadata,
-    getPublicSongPages,
     getSongPageDataFromSlug,
     getSongStructuredData,
 } from "@/app/config/music-data";
 import { FATE_ARTIST } from "@/app/config/artists";
 import { loadLyricsFromUrl } from "@/lib/lyrics.server";
+import { loadArtistCatalog } from "@/lib/public-catalog.server";
 
-export const revalidate = 3600;
-
-export function generateStaticParams() {
-    return getPublicSongPages(FATE_ARTIST).map((song) => ({
-        slug: song.slug,
-    }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
     params,
@@ -24,7 +18,7 @@ export async function generateMetadata({
     params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
     const { slug } = await params;
-    const song = getSongPageDataFromSlug(FATE_ARTIST, slug);
+    const song = getSongPageDataFromSlug(await loadArtistCatalog(FATE_ARTIST), slug);
 
     if (!song) {
         return {};
@@ -39,19 +33,19 @@ export default async function SongPage({
     params: Promise<{ slug: string }>;
 }) {
     const { slug } = await params;
-    const song = getSongPageDataFromSlug(FATE_ARTIST, slug);
+    const song = getSongPageDataFromSlug(await loadArtistCatalog(FATE_ARTIST), slug);
 
     if (!song) {
         notFound();
     }
 
-    const lyrics = await loadLyricsFromUrl(song.lyricsUrl);
+    const lyrics = song.lyrics ?? await loadLyricsFromUrl(song.lyricsUrl);
 
     return (
         <>
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(getSongStructuredData(song)) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(getSongStructuredData(song)).replace(/</g, "\\u003c") }}
             />
             <MusicLandingPage song={song} lyrics={lyrics} />
         </>
