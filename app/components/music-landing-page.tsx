@@ -10,6 +10,7 @@ import type { SongPageData } from "@/app/config/music-data";
 import { trackMetaCustomEvent } from "@/lib/meta-pixel";
 import { trackInteraction } from "@/lib/track-interaction";
 import { clampAudioPreviewStart } from "@/lib/audio-preview";
+import { useAudioManager } from "@/app/context/audio-manager";
 
 function hexToRgba(hex: string, alpha: number) {
     const normalized = hex.replace("#", "");
@@ -44,6 +45,7 @@ function getAudioDuration(audio: HTMLAudioElement) {
 
 export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPageData; lyrics?: string }) {
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const { registerAudio } = useAudioManager();
     const lyricsContentRef = useRef<HTMLDivElement | null>(null);
     const hasAppliedStartRef = useRef(false);
     const hasTrackedPlayRef = useRef(false);
@@ -54,6 +56,12 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
     const [duration, setDuration] = useState(0);
     const [lyricsExpanded, setLyricsExpanded] = useState(false);
     const [lyricsMaxHeight, setLyricsMaxHeight] = useState("15rem");
+
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (!audio) return;
+        return registerAudio(audio);
+    }, [song.previewUrl, registerAudio]);
 
     const syncDuration = () => {
         const audio = audioRef.current;
@@ -166,7 +174,6 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
 
                 syncDuration();
                 await audio.play();
-                setIsPlaying(true);
 
                 if (!hasTrackedPlayRef.current) {
                     hasTrackedPlayRef.current = true;
@@ -178,7 +185,6 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
                 }
             } else {
                 audio.pause();
-                setIsPlaying(false);
                 track("song_preview_pause", {
                     song: song.slug,
                     project: song.projectId,
@@ -415,7 +421,14 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
                                 className="mt-4 h-1.5 w-full cursor-pointer"
                                 style={{ accentColor: song.theme.accentBright }}
                             />
-                            <audio ref={audioRef} src={song.previewUrl} preload="metadata" playsInline />
+                            <audio
+                                ref={audioRef}
+                                src={song.previewUrl}
+                                preload="metadata"
+                                playsInline
+                                onPlay={(event) => setIsPlaying(!event.currentTarget.paused)}
+                                onPause={() => setIsPlaying(false)}
+                            />
                         </div> : <p className="mt-4 text-center text-sm text-white/60">Audio preview is not currently published.</p>}
                     </div>
                 </div>

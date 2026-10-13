@@ -5,6 +5,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ARTIST_FULL_NAME, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/app/config/site";
 import { MetaPixel } from "@/app/components/meta-pixel";
+import { AudioManagerProvider } from "@/app/context/audio-manager";
 
 export const metadata: Metadata = {
     metadataBase: new URL(SITE_URL),
@@ -101,7 +102,7 @@ export default function RootLayout({
         >
         <Analytics />
         <MetaPixel />
-        {children}
+        <AudioManagerProvider>{children}</AudioManagerProvider>
         </body>
         </html>
     );

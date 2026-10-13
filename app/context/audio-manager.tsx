@@ -5,42 +5,46 @@ import {
     useContext,
     useRef,
     useCallback,
+    useMemo,
     ReactNode,
 } from 'react';
 
 type AudioManagerContextType = {
-    registerAudio: (id: string, el: HTMLAudioElement | null) => void;
-    handlePlay: (id: string) => void;
+    registerAudio: (el: HTMLAudioElement) => () => void;
 };
 
 const AudioManagerContext = createContext<AudioManagerContextType | null>(null);
 
 export function AudioManagerProvider({ children }: { children: ReactNode }) {
-    // Keep references to all audio elements by id
-    const audioMapRef = useRef<Record<string, HTMLAudioElement | null>>({});
-    const currentIdRef = useRef<string | null>(null);
+    const audioElementsRef = useRef(new Set<HTMLAudioElement>());
 
-    const registerAudio = useCallback((id: string, el: HTMLAudioElement | null) => {
-        audioMapRef.current[id] = el;
-    }, []);
+    const registerAudio = useCallback((el: HTMLAudioElement) => {
+        const elements = audioElementsRef.current;
+        elements.add(el);
 
-    const handlePlay = useCallback((id: string) => {
-        const currentId = currentIdRef.current;
+        const handlePlay = () => {
+            // A queued play event may arrive after this player was already paused.
+            if (el.paused) return;
 
-        // If another track is playing, pause + reset it
-        if (currentId && currentId !== id) {
-            const previousAudio = audioMapRef.current[currentId];
-            if (previousAudio && !previousAudio.paused) {
-                previousAudio.pause();
-                previousAudio.currentTime = 0;
+            for (const other of elements) {
+                if (other !== el && !other.paused) other.pause();
             }
-        }
+        };
 
-        currentIdRef.current = id;
+        el.addEventListener('play', handlePlay);
+        handlePlay();
+
+        return () => {
+            el.removeEventListener('play', handlePlay);
+            elements.delete(el);
+            el.pause();
+        };
     }, []);
+
+    const value = useMemo(() => ({ registerAudio }), [registerAudio]);
 
     return (
-        <AudioManagerContext.Provider value={{ registerAudio, handlePlay }}>
+        <AudioManagerContext.Provider value={value}>
             {children}
         </AudioManagerContext.Provider>
     );
@@ -49,8 +53,6 @@ export function AudioManagerProvider({ children }: { children: ReactNode }) {
 export function useAudioManager() {
     const ctx = useContext(AudioManagerContext);
 
-    return ctx ?? {
-        registerAudio: () => {},
-        handlePlay: () => {},
-    };
+    if (!ctx) throw new Error('useAudioManager must be used within AudioManagerProvider');
+    return ctx;
 }

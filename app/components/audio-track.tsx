@@ -60,7 +60,7 @@ export function AudioTrack({
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const hasTrackedPlayRef = useRef(false);
     const hasAppliedStartRef = useRef(false);
-    const {registerAudio, handlePlay} = useAudioManager();
+    const {registerAudio} = useAudioManager();
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [duration, setDuration] = useState(0);
@@ -84,10 +84,11 @@ export function AudioTrack({
         setCurrentTime(el.currentTime || 0);
     };
 
-    // register with audio manager
     useEffect(() => {
-        registerAudio(id, audioRef.current);
-    }, [id, registerAudio]);
+        const el = audioRef.current;
+        if (!el) return;
+        return registerAudio(el);
+    }, [src, registerAudio]);
 
     useEffect(() => {
         const el = audioRef.current;
@@ -185,7 +186,7 @@ export function AudioTrack({
         const el = audioRef.current;
         if (!el) return;
 
-        if (isPlaying) {
+        if (!el.paused) {
             el.pause();
         } else {
             if (el.preload === "none") {
@@ -232,10 +233,10 @@ export function AudioTrack({
                 src={src}
                 preload="none"
                 className="hidden"
-                onPlay={() => {
+                onPlay={(event) => {
+                    if (event.currentTarget.paused) return;
                     syncDuration();
                     setIsPlaying(true);
-                    handlePlay(id);
                     if (!hasTrackedPlayRef.current) {
                         hasTrackedPlayRef.current = true;
                         void trackInteraction({
