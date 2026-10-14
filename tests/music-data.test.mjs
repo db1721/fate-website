@@ -76,6 +76,22 @@ function loadMusicData(artists, now = NOW) {
 
 const jsonValue = (value) => JSON.parse(JSON.stringify(value));
 
+test("song pages keep the artist and title without repeated release copy", () => {
+    const source = readFileSync(new URL("../app/components/music-landing-page.tsx", import.meta.url), "utf8");
+    const file = ts.createSourceFile("music-landing-page.tsx", source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+    const rendered = [];
+    function visit(node) {
+        if (ts.isJsxExpression(node)) rendered.push(node.expression?.getText(file) ?? "");
+        ts.forEachChild(node, visit);
+    }
+    visit(file);
+    assert.ok(rendered.includes("song.artist"));
+    assert.ok(rendered.includes("song.title"));
+    for (const field of ["tagline", "releaseLabel", "subtitle"]) {
+        assert.equal(rendered.some((expression) => expression.includes(`song.${field}`)), false, field);
+    }
+});
+
 test("album players start at zero while featured players retain the saved preview time", () => {
     for (const [component, expectedStart] of [["discography", "0"], ["hero", "featuredTrack.previewStartTime"]]) {
         const source = readFileSync(new URL(`../app/components/${component}.tsx`, import.meta.url), "utf8");
@@ -93,6 +109,40 @@ test("album players start at zero while featured players retain the saved previe
             const start = player.attributes.properties.find((attribute) => ts.isJsxAttribute(attribute) && attribute.name.text === "previewStartTime");
             assert.equal(start?.initializer?.expression?.getText(file), expectedStart, `${component} playback start`);
         }
+    }
+});
+
+test("album descriptions render as paragraph-preserving React text, never HTML", () => {
+    const source = readFileSync(new URL("../app/components/discography.tsx", import.meta.url), "utf8");
+    const file = ts.createSourceFile("discography.tsx", source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+    const descriptions = [];
+    function visit(node) {
+        if (ts.isJsxElement(node) && node.children.some((child) => ts.isJsxExpression(child) && child.expression?.getText(file) === "activeAlbum.description")) descriptions.push(node);
+        ts.forEachChild(node, visit);
+    }
+    visit(file);
+    assert.equal(descriptions.length, 1);
+    const attributes = descriptions[0].openingElement.attributes.properties;
+    const className = attributes.find((attribute) => ts.isJsxAttribute(attribute) && attribute.name.text === "className")?.initializer?.text;
+    assert.match(className, /\bwhitespace-pre-line\b/);
+    assert.match(className, /\bbreak-words\b/);
+    assert.equal(attributes.some((attribute) => ts.isJsxAttribute(attribute) && attribute.name.text === "dangerouslySetInnerHTML"), false);
+});
+
+test("artist editorial configs no longer contain fallback album descriptions", () => {
+    for (const name of ["fate", "buried-in-ruin"]) {
+        const source = readFileSync(new URL(`../app/config/artists/${name}.ts`, import.meta.url), "utf8");
+        const file = ts.createSourceFile(`${name}.ts`, source, ts.ScriptTarget.Latest, true);
+        let albumCount = 0;
+        function visit(node) {
+            if (ts.isObjectLiteralExpression(node) && node.properties.some((property) => property.name?.getText(file) === "albumTitle")) {
+                albumCount += 1;
+                assert.equal(node.properties.some((property) => property.name?.getText(file) === "description"), false, name);
+            }
+            ts.forEachChild(node, visit);
+        }
+        visit(file);
+        assert.ok(albumCount > 0, `${name} retains unrelated album tagline/highlight configuration`);
     }
 });
 

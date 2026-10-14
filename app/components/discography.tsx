@@ -206,7 +206,7 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
                             {activeAlbum.title}
                         </h3>
                         {activeAlbum.description ? (
-                            <p className="mt-3 max-w-2xl text-sm leading-7 text-zinc-300">
+                            <p className="mt-3 max-w-2xl whitespace-pre-line break-words text-sm leading-7 text-zinc-300">
                                 {activeAlbum.description}
                             </p>
                         ) : null}
@@ -275,24 +275,34 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
                                 return (
                                     <div
                                         key={playbackId}
-                                        className="grid min-h-16 items-center gap-3 border-b border-white/10 py-3 sm:grid-cols-[minmax(0,1fr)_minmax(220px,320px)]"
+                                        className="group/track grid min-h-16 grid-cols-[64px_minmax(0,1fr)] items-center gap-x-3 border-b border-white/10 py-2.5 sm:grid-cols-[minmax(0,1fr)_minmax(220px,320px)] sm:gap-3 sm:py-3"
+                                        data-playing={currentlyPlaying === playbackId}
                                     >
-                                        <div className="flex min-w-0 items-center gap-3">
-                                            <span className="w-6 shrink-0 text-xs tabular-nums text-zinc-600">
+                                        <div className="relative col-start-1 row-span-2 row-start-1 aspect-square overflow-hidden rounded sm:hidden">
+                                            <Image
+                                                src={track.songImg ?? activeAlbum.coverSrc}
+                                                alt=""
+                                                fill
+                                                sizes="64px"
+                                                className="object-cover"
+                                            />
+                                        </div>
+                                        <div className="col-start-2 row-start-1 flex min-w-0 items-start gap-2 sm:col-start-1 sm:items-center sm:gap-3">
+                                            <span className="shrink-0 text-[11px] leading-5 tabular-nums text-zinc-400 sm:w-6 sm:text-xs sm:text-zinc-600">
                                                 {String(track.trackNumber ?? index + 1).padStart(2, "0")}
                                             </span>
                                             <div className="min-w-0">
                                                 {canOpenTrackPage ? (
                                                     <Link
                                                         href={getArtistSongPath(artist, getTrackSlug(track))}
-                                                        className="font-semibold text-zinc-100 transition-colors hover:text-[var(--artist-accent-bright)]"
+                                                        className="block break-words text-sm leading-5 font-semibold text-zinc-100 transition-colors group-data-[playing=true]/track:text-[var(--artist-accent-bright)] hover:text-[var(--artist-accent-bright)] sm:text-base sm:leading-normal"
                                                     >
                                                         {track.title}
                                                     </Link>
                                                 ) : (
-                                                    <span className="font-semibold text-zinc-100">{track.title}</span>
+                                                    <span className="block break-words text-sm leading-5 font-semibold text-zinc-100 group-data-[playing=true]/track:text-[var(--artist-accent-bright)] sm:text-base sm:leading-normal">{track.title}</span>
                                                 )}
-                                                <div className="mt-1 flex flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.14em]">
+                                                <div className="mt-1 hidden flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.14em] sm:flex">
                                                     {track.featured ? (
                                                         <span style={{ color: "var(--artist-accent-soft)" }}>Featured</span>
                                                     ) : null}
@@ -307,16 +317,18 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
                                             <AudioTrack
                                                 id={playbackId}
                                                 src={track.audioSrc}
+                                                trackTitle={track.title}
                                                 previewStartTime={0}
                                                 projectId={artist.id}
-                                                className="w-full"
+                                                compactOnMobile
+                                                className="col-start-2 row-start-2 w-full sm:row-start-1"
                                                 onPlay={() => setCurrentlyPlaying(playbackId)}
                                                 onPause={() => setCurrentlyPlaying((playing) =>
                                                     playing === playbackId ? null : playing
                                                 )}
                                             />
                                         ) : (
-                                            <p className="text-xs text-zinc-400 sm:text-right">
+                                            <p className="col-start-2 row-start-2 py-2 text-xs text-zinc-400 sm:row-start-1 sm:py-0 sm:text-right">
                                                 {status === "future"
                                                     ? `Available ${formatReleaseDate(effectiveReleaseDate)}`
                                                     : status === "released" ? "Audio preview unavailable" : "Release date TBD"}

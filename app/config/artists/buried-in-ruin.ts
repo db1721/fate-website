@@ -85,15 +85,11 @@ export const BURIED_IN_RUIN_ARTIST: ArtistConfig = {
                 albumTitle: "Monster You Created",
                 tagline: "Debut Album",
                 highlightSongSlug: "buried-in-ruin-created-a-monster",
-                description:
-                    "The first Buried In Ruin release opens the project with a stark black-and-white identity and a heavier, more confrontational sound.",
             },
             {
                 albumTitle: "You Deserve Better",
                 tagline: "New album",
                 highlightSongSlug: "buried-in-ruin-struggle",
-                description:
-                    "You Deserve Better turns inward, pairing modern metalcore weight with songs about isolation, survival, and finding the strength to push back.",
             },
         ],
         features: [

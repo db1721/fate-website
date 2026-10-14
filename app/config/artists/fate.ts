@@ -84,11 +84,6 @@ export const FATE_ARTIST: ArtistConfig = {
                 albumTitle: "New Beginnings",
                 tagline: "The debut album from F.A.T.E.",
                 highlightSongSlug: "fight-against-the-enemy-friends",
-                description: "New Beginnings is the first full chapter from F.A.T.E.",
-            },
-            {
-                albumTitle: "Wake of Determination",
-                description: "The next chapter built around heavy riffs and determination.",
             },
         ],
         features: [

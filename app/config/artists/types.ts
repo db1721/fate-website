@@ -89,7 +89,6 @@ export type ArtistConfig = {
         albums?: {
             albumTitle: string;
             tagline?: string;
-            description?: string;
             highlightSongSlug?: string;
         }[];
         features?: {

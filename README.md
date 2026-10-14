@@ -35,9 +35,11 @@ When both apps run locally, a copied `http://localhost:3000/api/music/public-cat
 
 The editable-slug **Website song link** (`/api/music/public-songs/<ownerId>/<slug>`) provides one song's data. For automatic discovery of all current and future songs, this site uses the artist feed instead; do not paste a single-song URL into these catalog settings. The artist feed's internal ID may retain an old band-name spelling without changing the displayed artist name or the app's editable song URLs.
 
-With a feed configured, the app supplies song titles, exact public slugs, artist names, albums, track order, artwork, release dates, optional feature dates, lyrics, streaming links, optional **Behind the Music** text, published main audio, and preview start times. The feed is authoritative for artist pages, discography, song pages, metadata, and the sitemap. New published songs no longer require per-song repository entries. Set a song or album release date in the app: undated catalog songs are labeled TBD and have no FATE song page, sitemap entry, or playable preview until dated.
+With a feed configured, the app supplies song titles, exact public slugs, artist names, albums and their descriptions, track order, artwork, release dates, optional feature dates, lyrics, streaming links, optional **Behind the Music** text, published main audio, and preview start times. The feed is authoritative for artist pages, discography, song pages, metadata, and the sitemap. New published songs no longer require per-song repository entries. Set a song or album release date in the app: undated catalog songs are labeled TBD and have no FATE song page, sitemap entry, or playable preview until dated.
 
-Only website branding, bios, artist-level social links, press posts, and promotional copy stay local. `catalogEditorial` in each artist config contains album copy and optional featured-song subtitles/descriptions, not song metadata or feature scheduling dates. Album titles are lookup keys; feature copy/highlights use the exact public song slug. If the app slug changes, update an optional editorial key to keep that copy attached. It never selects which song is featured.
+Only website branding, bios, artist-level social links, press posts, and promotional copy stay local. `catalogEditorial` in each artist config contains album taglines/highlights and optional featured-song subtitles/descriptions, not album descriptions, song metadata, or feature scheduling dates. Album titles are lookup keys; feature copy/highlights use the exact public song slug. If the app slug changes, update an optional editorial key to keep that copy attached. It never selects which song is featured.
+
+Edit **Album description** in the app's album details to update the release description on either artist's website. The optional `albums[].description` field in schema version 1 is plain text, up to 10,000 characters; paragraph breaks are preserved. Blank, missing, or malformed descriptions show no description and never restore hardcoded or previously loaded copy. Save in the app, then refresh the website to see the change; no website redeploy is required after this integration is deployed.
 
 Set an optional **Feature date** on each song in the app. Each artist independently features the released, publicly playable song with the newest feature date on or before today in `America/New_York`. Future feature dates wait until local midnight on that date, independently of the release date; future-release, undated-release, and songs without main audio remain ineligible. Blank or invalid feature dates are ignored. Clearing the field removes a song from feature selection. If no song is eligible, the normal no-feature hero is shown—there is no newest-release or local-schedule fallback. Equal feature dates use catalog `sortOrder`, then original feed order. Title, artwork, audio, and preview timing always come from the app. Save changes in the app; the next website page request reads them without a redeploy. Already-open pages must be refreshed to update their feature.
 
@@ -52,6 +54,23 @@ Run all importer tests with Node 22.18+:
 ```bash
 node --test tests/*.test.mjs
 ```
+
+## Interaction Notifications
+
+Song-page visits, lyric expansions, previews, and streaming/social clicks POST to
+`/api/track-interaction/`, which forwards them to Django at
+`NEXT_PUBLIC_DJANGO_API_URL/api/music/track-interaction/`. This setting is separate
+from the public catalog URLs. The current deployed API origin is
+`https://api.evolveelevatemedia.com`; local development can use a running Django
+server at `http://127.0.0.1:8000`. Changing a Vercel environment variable requires
+a new deployment before it affects the live site.
+
+Django saves events and sends emails for `lyrics_review`, `service_click`,
+`social_click`, and `preview_play`. Page visits are saved but do not send email.
+Email transport and recipients are configured in Django, not in this site's old
+Resend settings. A successful tracking response means Django acknowledged the
+request, not proof of inbox delivery. Failed requests are logged as failures, with
+no automatic retries that could duplicate notifications.
 
 ## Learn More
 

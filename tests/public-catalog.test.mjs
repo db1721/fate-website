@@ -20,7 +20,7 @@ const artist = {
 function feed() {
     return {
         schemaVersion: 1, artist: { id: "artist-1", name: "App Artist" },
-        albums: [{ id: "album-1", title: "Album", releaseDate: "2020-01-02", coverUrl: "https://assets.example.com/cover.jpg", sortOrder: 0 }],
+        albums: [{ id: "album-1", title: "Album", description: "  App album description.\n\nA second paragraph.  ", releaseDate: "2020-01-02", coverUrl: "https://assets.example.com/cover.jpg", sortOrder: 0 }],
         songs: [{ slug: "exact-publisher-slug", songId: "song-1", title: "Song", artistId: "artist-1", artist: "App Artist", albumId: "album-1", featureDate: "2020-02-01", trackNumber: 4, sortOrder: 0, lyrics: "First line\nSecond line", behindTheMusic: "  A true story.  ", mainAudioUrl: "/api/music/public-audio/by-id/owner/song-1", previewStartSeconds: 17.5, serviceLinks: [{ service: "apple_music", label: "Listen", url: "https://music.apple.com/song" }] }],
     };
 }
@@ -70,9 +70,54 @@ test("maps app data and exact slug while preserving branding and editorial choic
     assert.equal(result.featuredTracks[0].featureDate, "2020-02-01");
     assert.equal(result.featuredTracks[0].description, "Editorial feature description");
     assert.equal(result.albums[0].tagline, "Editorial album tagline");
-    assert.equal(result.albums[0].description, "Editorial album description");
+    assert.equal(result.albums[0].description, "App album description.\n\nA second paragraph.");
     assert.equal(result.albums[0].highlightTrack, song.title);
     assert.equal(artist.albums[0].tracks[0].audioSrc, "/old.mp3", "does not mutate static config");
+});
+
+test("FATE and Buried In Ruin independently take album descriptions from the app", () => {
+    for (const id of ["fate", "buried-in-ruin"]) {
+        const data = feed();
+        const description = `${id}: first paragraph.\n\nSecond paragraph.`;
+        data.albums[0].description = `  ${description}  `;
+        data.albums.push({ ...data.albums[0], id: "album-2", title: "Second album", description: "A different album description.", sortOrder: 1 });
+        data.songs.push({ ...data.songs[0], songId: "song-2", slug: "second-song", albumId: "album-2", sortOrder: 1 });
+        const initial = applyPublicCatalog({ ...artist, id }, data, sourceUrl);
+        assert.equal(initial.albums[0].description, description);
+        assert.equal(initial.albums[1].description, "A different album description.");
+        data.albums[0].description = `Updated ${id} album description.`;
+        const updated = applyPublicCatalog(initial, data, sourceUrl);
+        assert.equal(updated.albums[0].description, `Updated ${id} album description.`);
+        assert.equal(updated.albums[1].description, "A different album description.");
+        assert.equal(initial.albums[0].description, description, "does not mutate earlier catalog data");
+    }
+});
+
+test("blank, missing or malformed album descriptions never restore stale local or editorial text", () => {
+    for (const id of ["fate", "buried-in-ruin"]) {
+        for (const catalogRequired of [true, false]) {
+            const initial = applyPublicCatalog({ ...artist, id, catalogRequired }, feed(), sourceUrl);
+            for (const description of [undefined, null, "", "  \n\t ", 123, false, [], {}, "x".repeat(10_001)]) {
+                const data = feed();
+                if (description === undefined) delete data.albums[0].description;
+                else data.albums[0].description = description;
+                const result = applyPublicCatalog(initial, data, sourceUrl);
+                assert.equal(result.catalogStatus, "ready");
+                assert.equal(result.albums[0].tracks.length, 1, "optional bad copy must not remove valid songs");
+                assert.equal(result.albums[0].description, undefined, `${id}, required=${catalogRequired}: ${typeof description}`);
+                assert.equal(result.albums[0].tagline, "Editorial album tagline", "other editorial choices are preserved");
+                assert.equal(result.featuredTracks[0].description, "Editorial feature description");
+            }
+        }
+    }
+});
+
+test("album descriptions remain plain text and accept the API's maximum length", () => {
+    const data = feed();
+    data.albums[0].description = "<script>alert('text only')</script>\n\nA paragraph & more.";
+    assert.equal(applyPublicCatalog(artist, data, sourceUrl).albums[0].description, data.albums[0].description);
+    data.albums[0].description = "x".repeat(10_000);
+    assert.equal(applyPublicCatalog(artist, data, sourceUrl).albums[0].description.length, 10_000);
 });
 
 test("both artist catalogs accept automatic main audio without a per-song audio publishing flag", () => {

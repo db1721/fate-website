@@ -30,6 +30,11 @@ function optionalText(value: unknown): string | undefined {
     return typeof value === "string" && value.trim() ? value.trim() : undefined;
 }
 
+function albumDescription(value: unknown): string | undefined {
+    const description = optionalText(value);
+    return description && description.length <= 10_000 ? description : undefined;
+}
+
 function releaseDate(value: unknown): string | undefined {
     if (value === undefined || value === null || value === "") return undefined;
     if (typeof value !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(value)) throw new Error("Invalid catalog release date");
@@ -106,7 +111,7 @@ export function applyPublicCatalog(artist: ArtistConfig, payload: unknown, sourc
             releaseDate: date,
             coverSrc: publicUrl(album.coverUrl, sourceUrl) ?? artist.seo.image,
             tagline: editorialAlbum?.tagline ?? legacyAlbum?.tagline ?? (date ? undefined : "Release"),
-            description: editorialAlbum?.description ?? legacyAlbum?.description,
+            description: albumDescription(album.description),
             highlightTrack: legacyAlbum?.highlightTrack,
             tracks: [],
         });

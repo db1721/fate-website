@@ -11,18 +11,8 @@ import { trackMetaCustomEvent } from "@/lib/meta-pixel";
 import { trackInteraction } from "@/lib/track-interaction";
 import { clampAudioPreviewStart } from "@/lib/audio-preview";
 import { useAudioManager } from "@/app/context/audio-manager";
-
-function hexToRgba(hex: string, alpha: number) {
-    const normalized = hex.replace("#", "");
-    const value = normalized.length === 3
-        ? normalized.split("").map((character) => character + character).join("")
-        : normalized;
-    const red = Number.parseInt(value.slice(0, 2), 16);
-    const green = Number.parseInt(value.slice(2, 4), 16);
-    const blue = Number.parseInt(value.slice(4, 6), 16);
-
-    return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
-}
+import { artworkBackground } from "@/lib/artwork-palette";
+import { useArtworkPalette } from "@/lib/use-artwork-palette";
 
 function formatTime(seconds: number) {
     if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
@@ -44,6 +34,12 @@ function getAudioDuration(audio: HTMLAudioElement) {
 }
 
 export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPageData; lyrics?: string }) {
+    const imageSrc = typeof song.coverImage === "string" ? song.coverImage : song.coverImage.src;
+    const palette = useArtworkPalette(imageSrc, {
+        primary: song.theme.accent,
+        secondary: song.theme.accentBright,
+        dark: song.theme.background,
+    });
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const { registerAudio } = useAudioManager();
     const lyricsContentRef = useRef<HTMLDivElement | null>(null);
@@ -235,25 +231,20 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
 
     return (
         <main
-            className="relative min-h-screen overflow-hidden text-white"
-            style={{ backgroundColor: song.theme.background }}
+            className="relative isolate min-h-screen overflow-hidden text-white"
+            style={{ backgroundColor: palette.dark, backgroundImage: artworkBackground(palette) }}
         >
-            <div className="pointer-events-none absolute inset-0 -z-20">
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
                 <Image
                     src={song.coverImage}
                     unoptimized={typeof song.coverImage === "string" && song.coverImage.startsWith("https://")}
                     alt=""
                     fill
                     priority
-                    className="scale-110 object-cover opacity-[0.14] grayscale"
+                    sizes="100vw"
+                    className="scale-110 object-cover opacity-[0.14] blur-[80px]"
                 />
             </div>
-            <div
-                className="pointer-events-none absolute inset-0 -z-10"
-                style={{
-                    background: `linear-gradient(90deg, ${song.theme.background} 0%, ${hexToRgba(song.theme.background, 0.9)} 48%, ${hexToRgba(song.theme.accent, 0.24)} 100%), linear-gradient(180deg, ${hexToRgba(song.theme.background, 0.7)} 0%, ${song.theme.background} 100%)`,
-                }}
-            />
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:48px_48px] opacity-[0.05]" />
 
             <div className="relative z-20 mx-auto flex max-w-7xl px-4 pt-5 sm:px-8 lg:px-10">
@@ -277,15 +268,6 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
                     <h1 className="mt-4 max-w-3xl text-4xl font-black uppercase leading-[0.95] tracking-normal sm:text-6xl lg:text-7xl">
                         {song.title}
                     </h1>
-                    <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/50">
-                        {song.tagline ? <span>{song.tagline}</span> : null}
-                        {song.releaseLabel ? <span>{song.releaseLabel}</span> : null}
-                    </div>
-                    {song.subtitle ? (
-                        <p className="mt-5 max-w-2xl text-base leading-7 text-white/70 sm:text-lg">
-                            {song.subtitle}
-                        </p>
-                    ) : null}
 
                     <div className="mt-8 border-y border-white/15 py-6">
                         <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.26em] text-white/40">

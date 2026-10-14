@@ -1,7 +1,4 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 type InteractionBody = {
     song: string;
@@ -117,18 +114,7 @@ export async function POST(request: Request) {
             );
         }
 
-        const {
-            song,
-            project,
-            action,
-            service,
-            page,
-            userAgent,
-            referrer,
-            source,
-            medium,
-            campaign,
-        } = body;
+        const { song, action } = body ?? {};
 
         if (!song || !action) {
             return NextResponse.json(
@@ -143,97 +129,60 @@ export async function POST(request: Request) {
             );
         }
 
+        let trackingUrl: URL;
+        try {
+            const baseUrl = process.env.NEXT_PUBLIC_DJANGO_API_URL?.trim();
+            if (!baseUrl) throw new Error("Missing NEXT_PUBLIC_DJANGO_API_URL");
+            trackingUrl = new URL(`${baseUrl.replace(/\/+$/, "")}/api/music/track-interaction/`);
+            if (!["http:", "https:"].includes(trackingUrl.protocol) || trackingUrl.username || trackingUrl.password) {
+                throw new Error("Invalid NEXT_PUBLIC_DJANGO_API_URL");
+            }
+        } catch (error) {
+            console.error("Tracking backend is not configured", error);
+            return NextResponse.json({ ok: false, error: "Tracking backend is not configured" }, { status: 503 });
+        }
+
         const forwardedFor = request.headers.get("x-forwarded-for");
         const ip = forwardedFor
             ? forwardedFor.split(",")[0].trim()
             : request.headers.get("x-real-ip");
 
-        const sessionId = request.headers.get("cookie") || null;
         const geo = getGeoDetails(request, ip);
 
-        // Forward to Django so it gets saved
+        // Django saves the event and owns email delivery; do not send a duplicate here.
         const djangoResponse = await fetch(
-            `${process.env.NEXT_PUBLIC_DJANGO_API_URL}/api/music/track-interaction/`,
+            trackingUrl,
             {
                 method: "POST",
                 headers: getDjangoHeaders(geo),
-                body: JSON.stringify({
-                    ...body,
-                    sessionId,
-                }),
+                body: JSON.stringify(body),
+                signal: AbortSignal.timeout(15_000),
+                redirect: "error",
             }
         );
 
         const djangoText = await djangoResponse.text();
 
         if (!djangoResponse.ok) {
-            console.error("Django tracking failed", djangoText);
+            console.error("Django tracking failed", { song, action, status: djangoResponse.status, response: djangoText });
             return NextResponse.json(
                 {
-                    error: "Failed to save interaction in Django",
-                    details: djangoText,
+                    ok: false,
+                    error: "The tracking backend could not complete the interaction",
                 },
-                { status: djangoResponse.status }
+                { status: 502 }
             );
         }
 
-        // const now = new Date().toISOString();
-        //
-        // const subject =
-        //     action === "service_click"
-        //         ? `[FATE Tracking] ${song} → ${service ?? "unknown"}`
-        //         : action === "preview_play"
-        //             ? `[FATE Tracking] Preview played → ${song}`
-        //             : action === "lyrics_review"
-        //                 ? `[FATE Tracking] Lyrics expanded → ${song}`
-        //                 : `[FATE Tracking] Song page visited → ${song}`;
-        //
-        // const html = `
-        //   <div style="font-family: Arial, sans-serif; line-height: 1.5;">
-        //     <h2>New interaction</h2>
-        //     <p><strong>Song:</strong> ${song}</p>
-        //     <p><strong>Action:</strong> ${action}</p>
-        //     <p><strong>Service:</strong> ${service ?? "N/A"}</p>
-        //     <p><strong>Page:</strong> ${page ?? "N/A"}</p>
-        //     <p><strong>Referrer:</strong> ${referrer ?? "N/A"}</p>
-        //     <p><strong>Country:</strong> ${country}</p>
-        //     <p><strong>Time:</strong> ${now}</p>
-        //     <p><strong>User Agent:</strong> ${userAgent ?? "N/A"}</p>
-        //     <p><strong>IP:</strong> ${ip ?? "N/A"}</p>
-        //   </div>
-        // `;
-        //
-        // const resendResult = await resend.emails.send({
-        //     from: process.env.TRACKING_FROM_EMAIL!,
-        //     to: process.env.TRACKING_TO_EMAIL!,
-        //     subject,
-        //     html,
-        // });
-        //
-        // if (resendResult.error) {
-        //     console.error("Resend error", resendResult.error);
-        // }
-
-        return NextResponse.json({
-            ok: true,
-            debug: {
-                song,
-                project,
-                action,
-                service,
-                ip,
-                geo,
-                djangoResponse: djangoText,
-            },
-        });
+        return NextResponse.json({ ok: true });
     } catch (error) {
-        console.error("Unhandled track interaction error", error);
+        console.error("Tracking backend request failed", error);
         return NextResponse.json(
             {
-                error: "Unhandled server error",
-                details: error instanceof Error ? error.message : String(error),
+                ok: false,
+                error: "The tracking backend is unavailable",
             },
-            { status: 500 }
+            { status: 502 }
         );
     }
 }
