@@ -10,7 +10,7 @@ export const BURIED_IN_RUIN_ARTIST: ArtistConfig = {
     logo: "/artists/buried-in-ruin/logo.png?v=20260821",
     logoAlt: "Buried In Ruin",
     hero: {
-        eyebrow: "Out now",
+        eyebrow: "",
         description:
             "A heavier project built for crushing riffs, head banging melodies, and a lot more screaming",
         imagePosition: "center",

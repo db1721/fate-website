@@ -47,6 +47,13 @@ function getEffectiveReleaseDate(track: TrackData, albumReleaseDate?: string) {
     return track.releaseDate?.trim() || albumReleaseDate?.trim() || "";
 }
 
+function renderAlbumDescription(description: string) {
+    // Support single-asterisk emphasis while keeping all content escaped by React.
+    return description.split(/(?<![\\*])\*(?!\s)([^*\r\n]+?)(?<![\s\\])\*(?!\*)/g).map((part, index) =>
+        index % 2 === 1 ? <em key={index} className="italic">{part}</em> : part
+    );
+}
+
 type AlbumsSectionProps = {
     artist: ArtistConfig;
 };
@@ -207,7 +214,7 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
                         </h3>
                         {activeAlbum.description ? (
                             <p className="mt-3 max-w-2xl whitespace-pre-line break-words text-sm leading-7 text-zinc-300">
-                                {activeAlbum.description}
+                                {renderAlbumDescription(activeAlbum.description)}
                             </p>
                         ) : null}
 
