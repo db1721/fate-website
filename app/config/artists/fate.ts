@@ -12,8 +12,7 @@ export const FATE_ARTIST: ArtistConfig = {
     logoAlt: "F.A.T.E.",
     hero: {
         eyebrow: "Fight Against the Enemy",
-        description:
-            "Heavy melodic rock for the battles you carry quietly, built with driving guitars, anthemic hooks, and lyrics meant to be screamed back.",
+        description: "",
         image: "/images/dan-beck-hero.jpg",
         imagePosition: "58% center",
         secondaryCta: "Explore the music",

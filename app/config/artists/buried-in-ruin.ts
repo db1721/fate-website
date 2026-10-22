@@ -11,8 +11,7 @@ export const BURIED_IN_RUIN_ARTIST: ArtistConfig = {
     logoAlt: "Buried In Ruin",
     hero: {
         eyebrow: "",
-        description:
-            "A heavier project built for crushing riffs, head banging melodies, and a lot more screaming",
+        description: "",
         imagePosition: "center",
         secondaryCta: "Explore the music",
         noFeatureTitle: "More music is being forged",
@@ -20,14 +19,13 @@ export const BURIED_IN_RUIN_ARTIST: ArtistConfig = {
             "Stream Created A Monster now and return for the next Buried In Ruin release.",
     },
     about: {
-        title: "Heavier music for the things that refuse to stay buried",
+        title: "Heavier music for the things that need to be screamed",
         intro:
-            "Buried In Ruin is the heavier counterpart to F.A.T.E., created for darker stories, harsher textures, and songs that need more impact.",
+            "Buried In Ruin is the heavier counterpart to F.A.T.E., created for darker stories, harsher lessons, and songs that have heavier impact.",
         paragraphs: [
             "This project creates room for the riffs, rhythms, and emotions that belong at the most aggressive edge of my writing.",
             "The sound leans more into modern metalcore.",
-            "Buried In Ruin is not a replacement for F.A.T.E. It is the other side of the same creative life, with its own identity, catalog, visual language, and audience.",
-            "Created A Monster opens that story, and each release will push the project into heavier territory.",
+            "Buried In Ruin is the other side of F.A.T.E. where the angrier side of life boils over.",
         ],
         image: "/images/about-guitar-room.jpg",
         imagePosition: "36% center",
