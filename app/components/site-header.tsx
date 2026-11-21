@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { MobileNavigation } from "@/app/components/mobile-navigation";
+import { SectionLink } from "@/app/components/section-link";
 import type { ArtistConfig } from "@/app/config/artists/types";
 
 type ArtistMarkProps = {
@@ -55,15 +56,15 @@ type SiteHeaderProps = {
 export function SiteHeader({ artist, artists }: SiteHeaderProps) {
     const sections = [
         { id: "hero", label: "Home" },
-        { id: "about", label: "About" },
         { id: "albums", label: "Music" },
+        { id: "about", label: "About" },
         { id: "connect", label: "Connect" },
         ...(artist.pressPosts.length ? [{ id: "blogs", label: "Press" }] : []),
     ];
 
     return (
         <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-black/85 backdrop-blur-lg">
-            <div className="relative mx-auto grid min-h-16 max-w-7xl grid-cols-[1fr_auto] items-center px-4 sm:px-8 md:grid-cols-[1fr_auto_1fr] lg:px-10">
+            <div className="relative mx-auto grid min-h-(--artist-header-height) max-w-7xl grid-cols-[1fr_auto] items-center px-4 sm:px-8 md:grid-cols-[1fr_auto_1fr] lg:px-10">
                 <Link
                     href={`${artist.homePath}#hero`}
                     className="absolute left-1/2 flex -translate-x-1/2 items-center gap-3 md:static md:translate-x-0 md:justify-self-start"
@@ -104,23 +105,17 @@ export function SiteHeader({ artist, artists }: SiteHeaderProps) {
 
                 <nav className="hidden items-center justify-end gap-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-300 md:flex xl:gap-7 xl:text-xs">
                     {sections.map((section) => (
-                        <a
+                        <SectionLink
                             key={section.id}
                             href={`#${section.id}`}
                             className="transition-colors hover:text-[var(--artist-accent-bright)]"
                         >
                             {section.label}
-                        </a>
+                        </SectionLink>
                     ))}
                 </nav>
 
-                <details className="relative col-start-2 justify-self-end md:hidden">
-                    <summary
-                        className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-md border border-zinc-700 text-zinc-100 transition hover:border-zinc-500 [&::-webkit-details-marker]:hidden"
-                        aria-label="Toggle navigation menu"
-                    >
-                        <Menu className="h-5 w-5" />
-                    </summary>
+                <MobileNavigation>
                     <div className="absolute right-0 mt-3 w-64 rounded-md border border-white/15 bg-black/95 p-3 shadow-2xl">
                         <p className="px-2 pb-2 text-[9px] font-semibold uppercase tracking-[0.24em] text-zinc-600">
                             Choose artist
@@ -150,17 +145,17 @@ export function SiteHeader({ artist, artists }: SiteHeaderProps) {
 
                         <nav className="mt-3 flex flex-col border-t border-white/10 pt-2 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-300">
                             {sections.map((section) => (
-                                <a
+                                <SectionLink
                                     key={section.id}
                                     href={`#${section.id}`}
-                                    className="rounded px-3 py-2.5 transition-colors hover:bg-white/10 hover:text-[var(--artist-accent-bright)]"
+                                    className="flex min-h-11 items-center rounded px-3 py-2.5 transition-colors hover:bg-white/10 hover:text-[var(--artist-accent-bright)]"
                                 >
                                     {section.label}
-                                </a>
+                                </SectionLink>
                             ))}
                         </nav>
                     </div>
-                </details>
+                </MobileNavigation>
             </div>
         </header>
     );

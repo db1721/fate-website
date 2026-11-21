@@ -20,14 +20,13 @@ export function ConnectSection({ artist }: ConnectSectionProps) {
 
     return (
         <section
-            id="connect"
             data-reveal
             className="border-y border-white/10 px-4 py-14 sm:px-8 lg:px-16"
             style={{ backgroundColor: "var(--artist-background-alt)" }}
         >
             <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
                 <div>
-                    <h2 className="text-sm uppercase tracking-[0.28em] text-zinc-400">
+                    <h2 id="connect" tabIndex={-1} className="artist-section-heading text-sm uppercase tracking-[0.28em] text-zinc-400">
                         Listen and follow
                     </h2>
                     <p className="mt-3 text-2xl font-black uppercase tracking-wide text-zinc-50 sm:text-3xl">

@@ -1,12 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
-import { CalendarDays, ChevronLeft, ChevronRight, Disc3, Star } from "lucide-react";
+import { CalendarDays, Disc3, Pause, Play, Star } from "lucide-react";
 import { AudioTrack } from "@/app/components/audio-track";
+import { MobileDockedPlayer } from "@/app/components/mobile-docked-player";
+import { useDockedPlayback } from "@/app/components/use-docked-playback";
+import { SectionLink } from "@/app/components/section-link";
 import { getArtistSongPath } from "@/app/config/artists";
-import type { ArtistConfig, TrackData } from "@/app/config/artists/types";
+import type { AlbumData, ArtistConfig, TrackData } from "@/app/config/artists/types";
 import { getTrackSlug } from "@/app/config/music-data";
 import { isFutureCatalogRelease, parseMusicReleaseDate } from "@/lib/public-catalog";
 
@@ -56,22 +60,143 @@ function renderAlbumDescription(description: string) {
 
 type AlbumsSectionProps = {
     artist: ArtistConfig;
+    featuredAlbumId?: string;
 };
 
-export function AlbumsSection({ artist }: AlbumsSectionProps) {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [currentlyPlaying, setCurrentlyPlaying] = useState<string | null>(null);
-    const activeAlbum = artist.albums[activeIndex] ?? artist.albums[0];
+// Keep the selection on client-side trips to a track page and back.
+const browsedAlbums = new Map<ArtistConfig["id"], string>();
+
+const desktopQuery = "(min-width: 40rem)";
+function subscribeToLayout(update: () => void) {
+    const query = window.matchMedia(desktopQuery);
+    query.addEventListener("change", update);
+    return () => query.removeEventListener("change", update);
+}
+const desktopLayout = () => window.matchMedia(desktopQuery).matches;
+const serverLayout = () => false;
+
+type AlbumTrackListProps = {
+    album: AlbumData;
+    artist: ArtistConfig;
+    desktop: boolean;
+    dockHost: HTMLDivElement | null;
+};
+
+function AlbumTrackList({ album, artist, desktop, dockHost }: AlbumTrackListProps) {
+    const { audioRef, activeTrack, playing: dockPlaying, currentTime, duration, error, toggleTrack, toggle, seek, close } = useDockedPlayback(artist.id);
+    const [inlinePlayingId, setInlinePlayingId] = useState<string | null>(null);
+    const [expanded, setExpanded] = useState(false);
+    const lastTrigger = useRef<HTMLButtonElement | null>(null);
+    const selectedId = desktop ? inlinePlayingId : activeTrack?.id;
+    const tracks = useMemo(() => album.tracks.map(track => {
+        const date = getEffectiveReleaseDate(track, album.releaseDate);
+        return { track, date, status: getReleaseStatus(date) };
+    }), [album]);
+
+    function dismiss() {
+        setExpanded(false);
+        close();
+        const trigger = lastTrigger.current;
+        const focusTarget = trigger?.isConnected ? trigger : document.getElementById("albums");
+        focusTarget?.focus({ preventScroll: true });
+    }
+
+    return (
+        <div className="mt-5 sm:mt-8">
+            <h4 className="mb-2 text-lg font-bold text-white sm:hidden">Song previews</h4>
+            <div className="border-t border-white/15">
+                {tracks.map(({ track, date, status }, index) => {
+                    const id = track.publicSongId ?? track.title;
+                    const playable = status === "released" && Boolean(track.audioSrc);
+                    const selected = id === selectedId;
+                    const playing = selected && (desktop || dockPlaying);
+                    const titleClass = "block min-w-0 break-words py-3 text-sm font-semibold leading-5 text-zinc-100 group-data-[selected=true]/track:text-[var(--artist-accent-bright)] sm:py-2 sm:text-base";
+                    return (
+                        <div key={id} data-selected={selected} className="group/track grid min-h-12 grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 border-b border-white/10 sm:min-h-16 sm:grid-cols-[minmax(0,1fr)_minmax(220px,320px)] sm:gap-3 sm:py-3">
+                            <div className="flex min-w-0 items-center gap-3">
+                                <span className="w-6 shrink-0 text-xs tabular-nums text-zinc-400">{String(track.trackNumber ?? index + 1).padStart(2, "0")}</span>
+                                <div className="min-w-0">
+                                    {status === "released" && hasTrackPage(track) ? (
+                                        <Link href={getArtistSongPath(artist, getTrackSlug(track))} className={`${titleClass} hover:text-[var(--artist-accent-bright)] focus-visible:outline-2 focus-visible:outline-[var(--artist-accent-bright)]`}>
+                                            {track.title}
+                                        </Link>
+                                    ) : <span className={titleClass}>{track.title}</span>}
+                                    {desktop && (track.featured || playing) && (
+                                        <div className="flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.14em]">
+                                            {track.featured && <span className="text-[var(--artist-accent-soft)]">Featured</span>}
+                                            {playing && <span className="text-[var(--artist-accent-bright)]">Now playing</span>}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                            {playable && (desktop ? (
+                                <AudioTrack
+                                    id={id}
+                                    src={track.audioSrc}
+                                    trackTitle={track.title}
+                                    previewStartTime={0}
+                                    projectId={artist.id}
+                                    compactOnMobile
+                                    onPlay={() => setInlinePlayingId(id)}
+                                    onPause={() => setInlinePlayingId(previous => previous === id ? null : previous)}
+                                />
+                            ) : (
+                                <button
+                                    type="button"
+                                    aria-label={`${playing ? "Pause" : "Play"} ${track.title} preview`}
+                                    className="grid size-11 shrink-0 cursor-pointer place-items-center rounded-full text-zinc-100 group-data-[selected=true]/track:text-[var(--artist-accent-bright)] hover:bg-white/5 focus-visible:outline-2 focus-visible:outline-[var(--artist-accent-bright)]"
+                                    onClick={event => {
+                                        lastTrigger.current = event.currentTarget;
+                                        toggleTrack({ id, title: track.title, src: track.audioSrc, coverSrc: track.songImg ?? album.coverSrc });
+                                    }}
+                                >
+                                    {playing ? <Pause className="size-4" fill="currentColor" aria-hidden="true" /> : <Play className="size-4" fill="currentColor" aria-hidden="true" />}
+                                </button>
+                            ))}
+                            {!playable && <p className="col-span-2 pb-2 pl-9 text-xs text-zinc-400 sm:col-span-1 sm:p-0 sm:text-right">
+                                {status === "future" ? `Available ${formatReleaseDate(date)}` : status === "released" ? "Audio preview unavailable" : "Release date TBD"}
+                            </p>}
+                        </div>
+                    );
+                })}
+            </div>
+            {!desktop && <audio ref={audioRef} preload="none" />}
+            {activeTrack && dockHost && createPortal(
+                <MobileDockedPlayer
+                    trackTitle={activeTrack.title}
+                    artistName={artist.name}
+                    coverSrc={activeTrack.coverSrc}
+                    playing={dockPlaying}
+                    currentTime={currentTime}
+                    duration={duration}
+                    error={error}
+                    onToggle={toggle}
+                    onSeek={seek}
+                    onClose={dismiss}
+                    expanded={expanded}
+                    onExpandedChange={setExpanded}
+                />, dockHost
+            )}
+        </div>
+    );
+}
+
+export function AlbumsSection({ artist, featuredAlbumId }: AlbumsSectionProps) {
+    const [selectedAlbumId, setSelectedAlbumId] = useState(() => browsedAlbums.get(artist.id));
+    const [dockHost, setDockHost] = useState<HTMLDivElement | null>(null);
+    const desktop = useSyncExternalStore(subscribeToLayout, desktopLayout, serverLayout);
+    const activeAlbum = artist.albums.find((album) => album.id === selectedAlbumId)
+        ?? artist.albums.find((album) => album.id === featuredAlbumId)
+        ?? artist.albums[0];
 
     if (!activeAlbum) {
         return (
             <section
-                id="albums"
                 data-reveal
                 className="border-y border-white/10 px-4 py-20 sm:px-8 lg:px-16"
                 style={{ backgroundColor: "var(--artist-background-alt)" }}
             >
-                <div className="mx-auto max-w-5xl">
+                <div id="albums" tabIndex={-1} className="artist-section-heading mx-auto max-w-5xl">
                     <p className="text-xs font-semibold uppercase tracking-[0.28em] text-zinc-500">
                         {artist.musicSection.eyebrow}
                     </p>
@@ -100,19 +225,24 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
         : "tbd";
     const highlightSlug = highlightedTrack ? getTrackSlug(highlightedTrack) : null;
 
-    const prevAlbum = () => {
-        setCurrentlyPlaying(null);
-        setActiveIndex((index) => (index === 0 ? artist.albums.length - 1 : index - 1));
+    const selectAlbum = (albumId: string) => {
+        if (albumId === activeAlbum.id) return;
+        browsedAlbums.set(artist.id, albumId);
+        setSelectedAlbumId(albumId);
     };
 
-    const nextAlbum = () => {
-        setCurrentlyPlaying(null);
-        setActiveIndex((index) => (index === artist.albums.length - 1 ? 0 : index + 1));
-    };
+    const trackList = (
+        <AlbumTrackList
+            key={desktop ? activeAlbum.id : "docked"}
+            album={activeAlbum}
+            artist={artist}
+            desktop={desktop}
+            dockHost={dockHost}
+        />
+    );
 
-    return (
+    return (<>
         <section
-            id="albums"
             data-reveal
             className="relative overflow-hidden border-y border-white/10 px-4 py-20 sm:px-8 lg:px-16"
             style={{
@@ -128,8 +258,8 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
             />
 
             <div className="relative mx-auto max-w-6xl">
-                <div className="flex flex-col justify-between gap-7 md:flex-row md:items-end">
-                    <div className="max-w-2xl">
+                <div className="flex flex-col justify-between gap-7 lg:flex-row lg:items-end">
+                    <div id="albums" tabIndex={-1} className="artist-section-heading max-w-2xl">
                         <p className="text-xs font-semibold uppercase tracking-[0.28em] text-zinc-500">
                             {artist.musicSection.eyebrow}
                         </p>
@@ -142,80 +272,55 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
                     </div>
 
                     {artist.albums.length > 1 ? (
-                        <div className="flex items-center gap-2" aria-label="Release navigation">
-                            <button
-                                type="button"
-                                onClick={prevAlbum}
-                                aria-label="Previous release"
-                                className="flex h-11 w-11 items-center justify-center rounded-md border border-white/15 bg-white/5 text-white transition hover:border-white/35 hover:bg-white/10"
-                            >
-                                <ChevronLeft className="h-5 w-5" />
-                            </button>
-                            <div className="flex overflow-hidden rounded-md border border-white/15">
-                                {artist.albums.map((album, index) => (
-                                    <button
-                                        key={album.id}
-                                        type="button"
-                                        onClick={() => {
-                                            setCurrentlyPlaying(null);
-                                            setActiveIndex(index);
-                                        }}
-                                        aria-label={`Show ${album.title}`}
-                                        aria-current={index === activeIndex ? "true" : undefined}
-                                        className="h-11 min-w-11 border-r border-white/10 px-3 text-xs font-bold transition last:border-r-0"
-                                        style={index === activeIndex
-                                            ? {
-                                                backgroundColor: "var(--artist-accent-bright)",
-                                                color: "var(--artist-button-text)",
-                                            }
-                                            : { backgroundColor: "rgba(255,255,255,0.04)", color: "#d4d4d8" }}
-                                    >
-                                        {index + 1}
-                                    </button>
-                                ))}
-                            </div>
-                            <button
-                                type="button"
-                                onClick={nextAlbum}
-                                aria-label="Next release"
-                                className="flex h-11 w-11 items-center justify-center rounded-md border border-white/15 bg-white/5 text-white transition hover:border-white/35 hover:bg-white/10"
-                            >
-                                <ChevronRight className="h-5 w-5" />
-                            </button>
+                        <div role="group" aria-label="Choose a release" className="flex flex-wrap gap-2 lg:justify-end">
+                            {artist.albums.map((album) => (
+                                <button
+                                    key={album.id}
+                                    type="button"
+                                    onClick={() => selectAlbum(album.id)}
+                                    aria-pressed={album.id === activeAlbum.id}
+                                    className="min-h-11 max-w-full cursor-pointer break-words rounded-md border border-[var(--artist-border)] bg-[var(--artist-surface)] px-4 py-2 text-sm font-semibold text-[var(--artist-text)] transition-colors hover:border-[var(--artist-accent-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--artist-accent-bright)] aria-pressed:border-[var(--artist-accent-bright)] aria-pressed:bg-[var(--artist-accent-bright)] aria-pressed:text-[var(--artist-background)]"
+                                >
+                                    {album.title}
+                                </button>
+                            ))}
                         </div>
                     ) : null}
                 </div>
 
-                <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(240px,360px)_1fr] lg:gap-12">
+                <div className="mt-8 grid sm:mt-10 sm:gap-8 lg:grid-cols-[minmax(240px,360px)_1fr] lg:gap-12">
                     <div>
-                        <div className="relative aspect-square overflow-hidden rounded-md border border-white/15 bg-black">
+                        <div className="relative isolate aspect-[2/1] overflow-hidden rounded-md bg-black sm:aspect-square sm:border sm:border-white/15">
                             <Image
                                 src={activeAlbum.coverSrc}
                                 unoptimized={Boolean(artist.catalogStatus)}
                                 alt={`${activeAlbum.title} cover art`}
                                 fill
                                 sizes="(min-width: 1024px) 360px, 92vw"
-                                className="object-cover"
+                                className="object-cover object-[center_42%] sm:object-center"
                             />
+                            <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/95 via-black/35 to-transparent p-4 text-white sm:hidden">
+                                <h3 className="break-words text-3xl font-bold leading-tight tracking-tight">{activeAlbum.title}</h3>
+                                <p className="mt-1 text-sm text-zinc-200">{artist.name}{activeAlbum.year > 0 && ` · ${activeAlbum.year}`}</p>
+                            </div>
                         </div>
-                        {artist.albums.length > 1 ? (
-                            <p className="mt-3 text-center text-[10px] font-semibold uppercase tracking-[0.24em] text-zinc-600">
-                                Release {activeIndex + 1} of {artist.albums.length}
-                            </p>
-                        ) : null}
                     </div>
 
                     <div className="min-w-0">
-                        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
+                        <p className="hidden text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500 sm:block">
                             {activeAlbum.tagline ?? activeAlbum.year}
                         </p>
-                        <h3 className="mt-2 text-3xl font-black uppercase tracking-normal text-white sm:text-4xl">
+                        <h3 className="mt-2 hidden text-3xl font-black uppercase tracking-normal text-white sm:block sm:text-4xl">
                             {activeAlbum.title}
                         </h3>
+                        {!desktop && trackList}
                         {activeAlbum.description ? (
-                            <p className="mt-3 max-w-2xl whitespace-pre-line break-words text-sm leading-7 text-zinc-300">
-                                {renderAlbumDescription(activeAlbum.description)}
-                            </p>
+                            <>
+                                <h4 className="mt-6 text-lg font-bold sm:hidden">About this release</h4>
+                                <p className="mt-3 max-w-2xl whitespace-pre-line break-words text-sm leading-7 text-zinc-300">
+                                    {renderAlbumDescription(activeAlbum.description)}
+                                </p>
+                            </>
                         ) : null}
 
                         <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold uppercase tracking-[0.14em] text-zinc-400">
@@ -251,12 +356,12 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
                                         >
                                             Open {activeAlbum.highlightTrack}
                                         </Link>
-                                        <a
+                                        <SectionLink
                                             href="#connect"
                                             className="rounded-md border border-white/15 bg-white/5 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-zinc-100 transition hover:border-white/35 hover:bg-white/10"
                                         >
                                             Streaming platforms
-                                        </a>
+                                        </SectionLink>
                                     </>
                                 ) : (
                                     <span className="inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/5 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-zinc-300">
@@ -269,85 +374,12 @@ export function AlbumsSection({ artist }: AlbumsSectionProps) {
                             </div>
                         ) : null}
 
-                        <div className="mt-8 border-t border-white/15">
-                            {activeAlbum.tracks.map((track, index) => {
-                                const playbackId = track.publicSongId ?? track.title;
-                                const effectiveReleaseDate = getEffectiveReleaseDate(
-                                    track,
-                                    activeAlbum.releaseDate
-                                );
-                                const status = getReleaseStatus(effectiveReleaseDate);
-                                const canOpenTrackPage = status === "released" && hasTrackPage(track);
-
-                                return (
-                                    <div
-                                        key={playbackId}
-                                        className="group/track grid min-h-16 grid-cols-[64px_minmax(0,1fr)] items-center gap-x-3 border-b border-white/10 py-2.5 sm:grid-cols-[minmax(0,1fr)_minmax(220px,320px)] sm:gap-3 sm:py-3"
-                                        data-playing={currentlyPlaying === playbackId}
-                                    >
-                                        <div className="relative col-start-1 row-span-2 row-start-1 aspect-square overflow-hidden rounded sm:hidden">
-                                            <Image
-                                                src={track.songImg ?? activeAlbum.coverSrc}
-                                                alt=""
-                                                fill
-                                                sizes="64px"
-                                                className="object-cover"
-                                            />
-                                        </div>
-                                        <div className="col-start-2 row-start-1 flex min-w-0 items-start gap-2 sm:col-start-1 sm:items-center sm:gap-3">
-                                            <span className="shrink-0 text-[11px] leading-5 tabular-nums text-zinc-400 sm:w-6 sm:text-xs sm:text-zinc-600">
-                                                {String(track.trackNumber ?? index + 1).padStart(2, "0")}
-                                            </span>
-                                            <div className="min-w-0">
-                                                {canOpenTrackPage ? (
-                                                    <Link
-                                                        href={getArtistSongPath(artist, getTrackSlug(track))}
-                                                        className="block break-words text-sm leading-5 font-semibold text-zinc-100 transition-colors group-data-[playing=true]/track:text-[var(--artist-accent-bright)] hover:text-[var(--artist-accent-bright)] sm:text-base sm:leading-normal"
-                                                    >
-                                                        {track.title}
-                                                    </Link>
-                                                ) : (
-                                                    <span className="block break-words text-sm leading-5 font-semibold text-zinc-100 group-data-[playing=true]/track:text-[var(--artist-accent-bright)] sm:text-base sm:leading-normal">{track.title}</span>
-                                                )}
-                                                <div className="mt-1 hidden flex-wrap items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.14em] sm:flex">
-                                                    {track.featured ? (
-                                                        <span style={{ color: "var(--artist-accent-soft)" }}>Featured</span>
-                                                    ) : null}
-                                                    {currentlyPlaying === playbackId ? (
-                                                        <span style={{ color: "var(--artist-accent-bright)" }}>Now playing</span>
-                                                    ) : null}
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {status === "released" && track.audioSrc ? (
-                                            <AudioTrack
-                                                id={playbackId}
-                                                src={track.audioSrc}
-                                                trackTitle={track.title}
-                                                previewStartTime={0}
-                                                projectId={artist.id}
-                                                compactOnMobile
-                                                className="col-start-2 row-start-2 w-full sm:row-start-1"
-                                                onPlay={() => setCurrentlyPlaying(playbackId)}
-                                                onPause={() => setCurrentlyPlaying((playing) =>
-                                                    playing === playbackId ? null : playing
-                                                )}
-                                            />
-                                        ) : (
-                                            <p className="col-start-2 row-start-2 py-2 text-xs text-zinc-400 sm:row-start-1 sm:py-0 sm:text-right">
-                                                {status === "future"
-                                                    ? `Available ${formatReleaseDate(effectiveReleaseDate)}`
-                                                    : status === "released" ? "Audio preview unavailable" : "Release date TBD"}
-                                            </p>
-                                        )}
-                                    </div>
-                                );
-                            })}
-                        </div>
+                        {desktop && trackList}
                     </div>
                 </div>
             </div>
         </section>
-    );
+        {/* The section's reveal transform would otherwise pin the dock to the album. */}
+        <div ref={setDockHost} />
+    </>);
 }

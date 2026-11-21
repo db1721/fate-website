@@ -12,7 +12,7 @@ import { SiteHeader } from "@/app/components/site-header";
 import { ARTISTS } from "@/app/config/artists";
 import { getCurrentFeaturedTrack } from "@/app/config/artists/featured-track";
 import type { ArtistConfig } from "@/app/config/artists/types";
-import { getHomeStructuredData } from "@/app/config/music-data";
+import { getHomeStructuredData, getTrackSlug } from "@/app/config/music-data";
 import { CONTACT_EMAIL } from "@/app/config/site";
 import { CurrentYear } from "@/app/config/utils";
 
@@ -28,6 +28,9 @@ export function ArtistSite({ artist: catalogArtist }: { artist: ArtistConfig }) 
         })),
     } : catalogArtist;
     const featuredTrack = getCurrentFeaturedTrack(artist.featuredTracks);
+    const featuredAlbum = featuredTrack && artist.albums.find((album) => album.tracks.some((track) =>
+        featuredTrack.songSlug ? getTrackSlug(track) === featuredTrack.songSlug : track.title === featuredTrack.title
+    ));
     const socialFooterLinks = artist.socialLinks
         .filter((link) => ["facebook", "instagram", "youtube"].includes(link.network))
         .slice(0, 3);
@@ -59,14 +62,14 @@ export function ArtistSite({ artist: catalogArtist }: { artist: ArtistConfig }) 
 
             <main>
                 <HeroSection artist={artist} featuredTrack={featuredTrack} />
+                <AlbumsSection key={artist.id} artist={artist} featuredAlbumId={featuredAlbum?.id} />
                 <AboutSection artist={artist} />
-                <AlbumsSection artist={artist} />
                 <ConnectSection artist={artist} />
                 <BlogSection posts={artist.pressPosts} />
             </main>
 
             <footer
-                className="border-t px-4 py-7 sm:px-8 lg:px-16"
+                className="border-t px-4 pt-7 pb-[calc(1.75rem+var(--mobile-player-dock-height,0px))] sm:px-8 lg:px-16"
                 style={{
                     backgroundColor: "var(--artist-background-alt)",
                     borderColor: "var(--artist-border)",

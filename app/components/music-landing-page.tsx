@@ -9,29 +9,10 @@ import { SocialIcons } from "@/app/components/shared/socials";
 import type { SongPageData } from "@/app/config/music-data";
 import { trackMetaCustomEvent } from "@/lib/meta-pixel";
 import { trackInteraction } from "@/lib/track-interaction";
-import { clampAudioPreviewStart } from "@/lib/audio-preview";
+import { clampAudioPreviewStart, formatAudioTime, getAudioDuration } from "@/lib/audio-preview";
 import { useAudioManager } from "@/app/context/audio-manager";
 import { artworkBackground } from "@/lib/artwork-palette";
 import { useArtworkPalette } from "@/lib/use-artwork-palette";
-
-function formatTime(seconds: number) {
-    if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
-
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60).toString().padStart(2, "0");
-    return `${minutes}:${remainingSeconds}`;
-}
-
-function getAudioDuration(audio: HTMLAudioElement) {
-    if (Number.isFinite(audio.duration) && audio.duration > 0) return audio.duration;
-
-    if (audio.seekable.length > 0) {
-        const seekableEnd = audio.seekable.end(audio.seekable.length - 1);
-        if (Number.isFinite(seekableEnd) && seekableEnd > 0) return seekableEnd;
-    }
-
-    return 0;
-}
 
 export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPageData; lyrics?: string }) {
     const imageSrc = typeof song.coverImage === "string" ? song.coverImage : song.coverImage.src;
@@ -228,6 +209,7 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
     }
 
     const hasStreamingLinks = Boolean(song.songServiceLinks?.length);
+    const previewStart = clampAudioPreviewStart(song.previewStartTime, duration);
 
     return (
         <main
@@ -385,22 +367,28 @@ export default function MusicLandingPage({ song, lyrics = "" }: { song: SongPage
                         {song.previewUrl ? <div className="mt-4 rounded-md border border-white/15 bg-black/55 p-4 backdrop-blur">
                             <div className="flex items-center justify-between gap-4">
                                 <p className="text-xs font-black uppercase tracking-[0.18em] text-white/70">
-                                    {song.previewStartLabel ?? "Preview"}
+                                    {previewStart > 0
+                                        ? `${song.previewStartLabel ?? "Preview"} starts at ${formatAudioTime(previewStart)}`
+                                        : song.previewStartLabel ?? "Preview"}
                                 </p>
-                                <p className="shrink-0 text-xs tabular-nums text-white/55">
-                                    {formatTime(currentTime)} / {formatTime(duration)}
-                                </p>
+                                {duration > 0 && (
+                                    <p className="shrink-0 text-xs tabular-nums text-white/55">
+                                        {formatAudioTime(currentTime)} / {formatAudioTime(duration)}
+                                    </p>
+                                )}
                             </div>
                             <input
                                 type="range"
                                 aria-label={`Seek ${song.title}`}
+                                aria-valuetext={duration > 0 ? `${formatAudioTime(currentTime)} of ${formatAudioTime(duration)}` : undefined}
+                                disabled={duration <= 0}
                                 min={0}
-                                max={duration || 0}
+                                max={duration}
                                 step={0.1}
                                 value={currentTime}
                                 onChange={(event) => seek(Number(event.target.value))}
                                 onInput={(event) => seek(Number(event.currentTarget.value))}
-                                className="mt-4 h-1.5 w-full cursor-pointer"
+                                className="mt-4 h-1.5 w-full cursor-pointer disabled:cursor-default disabled:opacity-40"
                                 style={{ accentColor: song.theme.accentBright }}
                             />
                             <audio

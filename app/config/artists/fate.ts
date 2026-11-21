@@ -1,6 +1,8 @@
 import fateInfo from "@/app/config/fate-info";
 import type { ArtistConfig } from "@/app/config/artists/types";
 
+const tagline = "Heavy songs with a reason to fight back";
+
 export const FATE_ARTIST: ArtistConfig = {
     id: "fate",
     routeSlug: "",
@@ -12,7 +14,7 @@ export const FATE_ARTIST: ArtistConfig = {
     logoAlt: "F.A.T.E.",
     hero: {
         eyebrow: "Fight Against the Enemy",
-        description: "",
+        description: tagline,
         image: "/images/dan-beck-hero.jpg",
         imagePosition: "58% center",
         secondaryCta: "Explore the music",
@@ -20,7 +22,7 @@ export const FATE_ARTIST: ArtistConfig = {
         noFeatureDescription: "Follow F.A.T.E. for the next release and project update.",
     },
     about: {
-        title: "Heavy songs with a reason to fight back",
+        title: tagline,
         intro:
             "F.A.T.E. stands for Fight Against the Enemy: the pressure, fear, doubt, grief, and inner battles people carry long before anyone hears the song.",
         paragraphs: [

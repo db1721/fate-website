@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { AudioTrack } from "@/app/components/audio-track";
+import { SectionLink } from "@/app/components/section-link";
+import { AudioTrack, FeaturedPreviewButton, FeaturedPreviewGroup } from "@/app/components/audio-track";
 import { SocialIcons } from "@/app/components/shared/socials";
 import type { ArtistConfig, FeaturedTrack } from "@/app/config/artists/types";
 import { getArtistSongPath } from "@/app/config/artists";
@@ -80,7 +81,7 @@ export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
                 </div>
             ) : null}
 
-            <div className="relative z-10 grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[1fr_0.92fr] lg:gap-14">
+            <FeaturedPreviewGroup className="relative z-10 grid w-full max-w-6xl grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.92fr)] lg:gap-14">
                 <div className="space-y-7 text-center lg:text-left">
                     <div className="space-y-4">
                         <p
@@ -127,7 +128,9 @@ export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
                     </div>
 
                     <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-                        {featuredTrack && featuredPath ? (
+                        {featuredTrack && !isBuriedInRuin ? (
+                            <FeaturedPreviewButton title={featuredTrack.title} />
+                        ) : featuredTrack && featuredPath ? (
                             <Link
                                 href={featuredPath}
                                 className="rounded-full px-6 py-3 text-xs font-black uppercase tracking-[0.18em] shadow-[0_18px_55px_rgba(0,0,0,0.32)] transition hover:-translate-y-0.5"
@@ -139,7 +142,7 @@ export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
                                 Play {featuredTrack.title}
                             </Link>
                         ) : (
-                            <a
+                            <SectionLink
                                 href="#about"
                                 className="rounded-full px-6 py-3 text-xs font-black uppercase tracking-[0.18em] transition hover:-translate-y-0.5"
                                 style={{
@@ -148,14 +151,14 @@ export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
                                 }}
                             >
                                 Discover {artist.name}
-                            </a>
+                            </SectionLink>
                         )}
-                        <a
+                        <SectionLink
                             href="#albums"
                             className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-xs font-bold uppercase tracking-[0.18em] text-zinc-100 transition hover:-translate-y-0.5 hover:border-white/35 hover:bg-white/10"
                         >
                             {artist.hero.secondaryCta}
-                        </a>
+                        </SectionLink>
                     </div>
 
                     {heroLinks.length ? (
@@ -178,8 +181,8 @@ export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
                 >
                     {featuredTrack && featuredPath ? (
                         <>
-                            <div className="flex min-w-0 gap-4">
-                                <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-md border border-zinc-700 sm:h-36 sm:w-36">
+                            <div className="flex min-w-0 gap-3 sm:gap-4">
+                                <div className="relative aspect-square w-1/4 max-w-28 shrink-0 self-center overflow-hidden rounded-md border border-zinc-700 sm:w-36 sm:max-w-none">
                                     <Image
                                         src={featuredTrack.coverSrc}
                                         unoptimized={Boolean(artist.catalogStatus)}
@@ -195,19 +198,21 @@ export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
                                     <p className="text-xs uppercase tracking-[0.25em] text-zinc-500">
                                         {featuredTrack.subtitle}
                                     </p>
-                                    <h2 className="mt-1 text-2xl font-black uppercase tracking-wide text-zinc-50">
+                                    <h2 className="mt-1 break-words text-[clamp(1.125rem,6vw,1.5rem)] leading-tight font-black uppercase tracking-wide text-zinc-50 sm:text-2xl">
                                         {featuredTrack.title}
                                     </h2>
                                     <p className="mt-2 hidden text-sm leading-6 text-zinc-400 sm:block">
                                         {featuredTrack.description ?? "Hear the current featured preview."}
                                     </p>
-                                    <Link
-                                        href={featuredPath}
-                                        className="mt-4 hidden w-fit rounded-full px-5 py-2 text-xs font-bold uppercase tracking-[0.18em] text-white transition hover:brightness-125 sm:inline-flex"
-                                        style={{ backgroundColor: "var(--artist-accent)" }}
-                                    >
-                                        Preview and streaming links
-                                    </Link>
+                                    {isBuriedInRuin ? (
+                                        <Link
+                                            href={featuredPath}
+                                            className="mt-4 hidden w-fit rounded-full px-5 py-2 text-xs font-bold uppercase tracking-[0.18em] text-white transition hover:brightness-125 sm:inline-flex"
+                                            style={{ backgroundColor: "var(--artist-accent)" }}
+                                        >
+                                            Preview and streaming links
+                                        </Link>
+                                    ) : null}
                                 </div>
                             </div>
 
@@ -215,11 +220,20 @@ export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
                                 <AudioTrack
                                     id={`${featuredTrack.title}-feature`}
                                     src={featuredTrack.audioSrc}
+                                    trackTitle={`${featuredTrack.title} preview`}
                                     previewStartTime={featuredTrack.previewStartTime}
                                     projectId={artist.id}
                                     className="w-full justify-center"
                                 />
                             </div>
+                            {!isBuriedInRuin ? (
+                                <Link
+                                    href={featuredPath}
+                                    className="mt-1 inline-flex min-h-11 items-center rounded-sm text-sm font-semibold text-[var(--artist-accent-bright)] underline underline-offset-4 hover:text-[var(--artist-text)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--artist-accent-bright)]"
+                                >
+                                    Lyrics &amp; streaming links
+                                </Link>
+                            ) : null}
                         </>
                     ) : (
                         <div className="flex min-h-64 flex-col justify-end overflow-hidden rounded-md border border-white/10 bg-black/35 p-6">
@@ -239,7 +253,7 @@ export function HeroSection({ artist, featuredTrack }: HeroSectionProps) {
                         </div>
                     )}
                 </div>
-            </div>
+            </FeaturedPreviewGroup>
         </section>
     );
 }

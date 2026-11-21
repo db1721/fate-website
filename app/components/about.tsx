@@ -4,7 +4,6 @@ import type { ArtistConfig } from "@/app/config/artists/types";
 export function AboutSection({ artist }: { artist: ArtistConfig }) {
     return (
         <section
-            id="about"
             data-reveal
             className="relative overflow-hidden px-4 py-16 sm:px-8 lg:px-16"
             style={{
@@ -37,7 +36,7 @@ export function AboutSection({ artist }: { artist: ArtistConfig }) {
 
             <div className="relative z-10 mx-auto grid max-w-5xl gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
                 <div className="max-w-xl">
-                    <h2 className="text-sm uppercase tracking-[0.28em] text-zinc-400">About</h2>
+                    <h2 id="about" tabIndex={-1} className="artist-section-heading text-sm uppercase tracking-[0.28em] text-zinc-400">About</h2>
                     <p className="mt-4 text-2xl font-black uppercase tracking-wide text-zinc-50 sm:text-3xl">
                         {artist.about.title}
                     </p>

@@ -257,7 +257,33 @@
     transform: translateY(0);
 }
 
+.artist-section-heading {
+    scroll-margin-block-start: calc(var(--artist-header-height) + 1rem);
+}
+
+html {
+    scroll-padding-block-end: var(--mobile-player-dock-height, 0px);
+}
+
+.artist-section-heading:focus-visible {
+    outline: 2px solid var(--artist-accent-bright);
+    outline-offset: 4px;
+}
+
+/* Fragment navigation must land immediately, even before the section's reveal. */
+.reveal-ready [data-reveal]:has(.artist-section-heading:target) {
+    opacity: 1;
+    transform: none;
+    transition: none;
+}
+
+/* Short sections near the footer still need room to reach the fixed header. */
+main:has(.artist-section-heading:target) > section:last-child {
+    min-height: calc(100svh - var(--artist-header-height));
+}
+
 :root {
+  --artist-header-height: 4rem;
   --radius: 0.625rem;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.147 0.004 49.25);

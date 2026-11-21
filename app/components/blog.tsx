@@ -54,9 +54,8 @@ export default function BlogSection({
 
     return (
         <section
-            id={id}
             data-reveal
-            className="relative scroll-mt-24"
+            className="relative"
             style={{
                 backgroundImage:
                     "radial-gradient(circle at bottom, color-mix(in srgb, var(--artist-accent-bright) 14%, transparent) 0, transparent 34%), radial-gradient(circle at top, var(--artist-accent) 0, #000 58%)",
@@ -64,7 +63,7 @@ export default function BlogSection({
         >
             <div className="mx-auto max-w-6xl px-5 py-12 sm:px-8 sm:py-16">
                 <div className="max-w-2xl">
-                    <h2 className="text-sm uppercase tracking-[0.28em] text-zinc-400">
+                    <h2 id={id} tabIndex={-1} className="artist-section-heading text-sm uppercase tracking-[0.28em] text-zinc-400">
                         {eyebrow}
                     </h2>
                     <p className="mt-3 text-2xl font-black uppercase tracking-wide text-white sm:text-3xl">

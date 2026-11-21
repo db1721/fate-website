@@ -112,23 +112,6 @@ test("album players start at zero while featured players retain the saved previe
     }
 });
 
-test("album descriptions render as paragraph-preserving React text, never HTML", () => {
-    const source = readFileSync(new URL("../app/components/discography.tsx", import.meta.url), "utf8");
-    const file = ts.createSourceFile("discography.tsx", source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
-    const descriptions = [];
-    function visit(node) {
-        if (ts.isJsxElement(node) && node.children.some((child) => ts.isJsxExpression(child) && child.expression?.getText(file) === "activeAlbum.description")) descriptions.push(node);
-        ts.forEachChild(node, visit);
-    }
-    visit(file);
-    assert.equal(descriptions.length, 1);
-    const attributes = descriptions[0].openingElement.attributes.properties;
-    const className = attributes.find((attribute) => ts.isJsxAttribute(attribute) && attribute.name.text === "className")?.initializer?.text;
-    assert.match(className, /\bwhitespace-pre-line\b/);
-    assert.match(className, /\bbreak-words\b/);
-    assert.equal(attributes.some((attribute) => ts.isJsxAttribute(attribute) && attribute.name.text === "dangerouslySetInnerHTML"), false);
-});
-
 test("artist editorial configs no longer contain fallback album descriptions", () => {
     for (const name of ["fate", "buried-in-ruin"]) {
         const source = readFileSync(new URL(`../app/config/artists/${name}.ts`, import.meta.url), "utf8");

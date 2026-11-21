@@ -1,11 +1,11 @@
 'use client';
 
-import {useEffect, useRef, useState, type CSSProperties} from "react";
+import { createContext, useContext, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { Pause, Play } from "lucide-react";
 import {useAudioManager} from "@/app/context/audio-manager";
 import { trackInteraction } from "@/lib/track-interaction";
 import type { ArtistId } from "@/app/config/artists/types";
-import { clampAudioPreviewStart } from "@/lib/audio-preview";
+import { clampAudioPreviewStart, formatAudioTime, getAudioDuration } from "@/lib/audio-preview";
 
 type AudioTrackProps = {
     id: string;
@@ -14,7 +14,6 @@ type AudioTrackProps = {
     compactOnMobile?: boolean;
     previewStartTime?: number;
     projectId?: ArtistId;
-    autoPlay?: boolean;
     className?: string;
     maxWidth?: string;
     maxHeight?: string;
@@ -22,28 +21,51 @@ type AudioTrackProps = {
     onPause?: () => void;
 };
 
-function formatTime(seconds: number): string {
-    if (!isFinite(seconds) || seconds < 0) return "0:00";
-    const mins = Math.floor(seconds / 60);
-    const secs = Math.floor(seconds % 60)
-        .toString()
-        .padStart(2, "0");
-    return `${mins}:${secs}`;
+function usePlayerState() {
+    const audioRef = useRef<HTMLAudioElement>(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+    return { audioRef, isPlaying, setIsPlaying };
 }
 
-function getAudioDuration(el: HTMLAudioElement): number {
-    if (Number.isFinite(el.duration) && el.duration > 0) {
-        return el.duration;
+const FeaturedPreviewContext = createContext<ReturnType<typeof usePlayerState> | null>(null);
+
+export function FeaturedPreviewGroup({ children, className }: { children: ReactNode; className: string }) {
+    const player = usePlayerState();
+    return (
+        <FeaturedPreviewContext.Provider value={player}>
+            <div className={className}>{children}</div>
+        </FeaturedPreviewContext.Provider>
+    );
+}
+
+function togglePlayback(audio: HTMLAudioElement | null) {
+    if (!audio) return;
+    if (!audio.paused) {
+        audio.pause();
+        return;
     }
 
-    if (el.seekable.length > 0) {
-        const seekableEnd = el.seekable.end(el.seekable.length - 1);
-        if (Number.isFinite(seekableEnd) && seekableEnd > 0) {
-            return seekableEnd;
-        }
+    if (audio.preload === "none") {
+        audio.preload = "metadata";
+        audio.load();
     }
+    void audio.play().catch(() => {
+        // Native play/pause events keep both controls in sync if a play request is interrupted.
+    });
+}
 
-    return 0;
+export function FeaturedPreviewButton({ title }: { title: string }) {
+    const player = useContext(FeaturedPreviewContext);
+    if (!player) throw new Error("FeaturedPreviewButton requires FeaturedPreviewGroup");
+    return (
+        <button
+            type="button"
+            onClick={() => togglePlayback(player.audioRef.current)}
+            className="min-h-11 cursor-pointer rounded-full bg-[var(--artist-accent-bright)] px-6 py-3 text-xs font-black uppercase tracking-[0.18em] text-[var(--artist-button-text)] shadow-[0_18px_55px_rgba(0,0,0,0.32)] transition hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--artist-accent-bright)]"
+        >
+            {player.isPlaying ? "Pause" : "Play"} {title}
+        </button>
+    );
 }
 
 export function AudioTrack({
@@ -53,7 +75,6 @@ export function AudioTrack({
                                compactOnMobile = false,
                                previewStartTime,
                                projectId = "fate",
-                               autoPlay,
                                className,
                                maxWidth,
                                maxHeight,
@@ -61,14 +82,16 @@ export function AudioTrack({
                                onPause,
                            }: AudioTrackProps) {
     const containerRef = useRef<HTMLDivElement | null>(null);
-    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const localPlayer = usePlayerState();
+    const featuredPlayer = useContext(FeaturedPreviewContext);
+    const { audioRef, isPlaying, setIsPlaying } = featuredPlayer ?? localPlayer;
     const hasTrackedPlayRef = useRef(false);
     const hasAppliedStartRef = useRef(false);
     const {registerAudio} = useAudioManager();
 
-    const [isPlaying, setIsPlaying] = useState(false);
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
+    const previewStart = clampAudioPreviewStart(previewStartTime, duration);
 
     const syncDuration = () => {
         const el = audioRef.current;
@@ -92,7 +115,7 @@ export function AudioTrack({
         const el = audioRef.current;
         if (!el) return;
         return registerAudio(el);
-    }, [src, registerAudio]);
+    }, [src, registerAudio, audioRef]);
 
     useEffect(() => {
         const el = audioRef.current;
@@ -170,38 +193,7 @@ export function AudioTrack({
             window.clearTimeout(metadataTimeout);
             observer?.disconnect();
         };
-    }, [src, previewStartTime]);
-
-    // optional autoplay (hero)
-    useEffect(() => {
-        if (autoPlay && audioRef.current) {
-            audioRef.current
-                .play()
-                .then(() => {
-                    // audio actually started
-                })
-                .catch(() => {
-                    // autoplay blocked – ignore
-                });
-        }
-    }, [autoPlay]);
-
-    const togglePlay = () => {
-        const el = audioRef.current;
-        if (!el) return;
-
-        if (!el.paused) {
-            el.pause();
-        } else {
-            if (el.preload === "none") {
-                el.preload = "metadata";
-                el.load();
-            }
-            el.play().catch(() => {
-                // user gesture required etc.
-            });
-        }
-    };
+    }, [src, previewStartTime, audioRef, setIsPlaying]);
 
     const handleSeek = (value: number) => {
         const el = audioRef.current;
@@ -220,6 +212,7 @@ export function AudioTrack({
             ref={containerRef}
             className={`
         flex w-full max-w-full items-center text-[0.7rem] text-zinc-100
+        ${previewStart > 0 ? "flex-wrap" : ""}
         ${compactOnMobile
             ? "audio-track--compact gap-1 sm:gap-2 sm:rounded-md sm:border sm:border-zinc-700 sm:bg-black/70 sm:px-3 sm:py-2 sm:shadow-sm sm:backdrop-blur-sm"
             : "gap-2 rounded-md border border-zinc-700 bg-black/70 px-3 py-2 shadow-sm backdrop-blur-sm overflow-hidden"}
@@ -250,7 +243,12 @@ export function AudioTrack({
                     }
                     onPlay?.();
                 }}
-                onPause={() => {
+                onPause={(event) => {
+                    if (!event.currentTarget.paused) return;
+                    setIsPlaying(false);
+                    onPause?.();
+                }}
+                onError={() => {
                     setIsPlaying(false);
                     onPause?.();
                 }}
@@ -267,13 +265,18 @@ export function AudioTrack({
                 }}
             />
 
-            {/* Play / Pause button */}
+            {previewStart > 0 ? (
+                <p className="w-full text-xs text-[var(--artist-text-muted)]">
+                    Preview starts at {formatAudioTime(previewStart)}
+                </p>
+            ) : null}
+
             <button
                 type="button"
-                onClick={togglePlay}
+                onClick={() => togglePlayback(audioRef.current)}
                 className={`
           flex shrink-0 items-center justify-center rounded-full text-black
-          ${compactOnMobile ? "h-11 w-11 sm:h-7 sm:w-7" : "h-7 w-7"}
+          h-11 w-11 sm:h-7 sm:w-7
           hover:brightness-125 active:scale-95
           transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--artist-accent-bright)]
         `}
@@ -292,7 +295,8 @@ export function AudioTrack({
                 {/* progress bar */}
                 <input
                     aria-label={`Seek ${trackTitle ?? id}`}
-                    aria-valuetext={`${formatTime(currentTime)} of ${formatTime(duration)}`}
+                    aria-valuetext={duration > 0 ? `${formatAudioTime(currentTime)} of ${formatAudioTime(duration)}` : undefined}
+                    disabled={duration <= 0}
                     type="range"
                     min={0}
                     max={duration || 0}
@@ -302,7 +306,7 @@ export function AudioTrack({
                     onInput={(e) => handleSeek(Number(e.currentTarget.value))}
                     className="audio-track-seek
                       h-1 min-w-0 flex-1
-                      cursor-pointer
+                      cursor-pointer disabled:cursor-default disabled:opacity-30
                     accent-[var(--artist-accent-bright)]
                     "
                     style={compactOnMobile ? {
@@ -320,7 +324,7 @@ export function AudioTrack({
                             textAlign: "right",
                         }}
                     >
-                        {formatTime(currentTime)} / {formatTime(duration)}
+                        {duration > 0 ? `${formatAudioTime(currentTime)} / ${formatAudioTime(duration)}` : "—"}
                     </span>
 
 
