@@ -66,6 +66,7 @@ export type AlbumData = {
     releaseDate?: string;
     tagline?: string;
     highlightTrack?: string;
+    highlightSongSlug?: string;
     description?: string;
     coverSrc: ImageSource;
     tracks: TrackData[];

@@ -83,7 +83,7 @@ export function SocialIcons({
                             rel="noopener noreferrer"
                             aria-label={item.tooltip || customIcon.label}
                             title={item.tooltip || customIcon.label}
-                            className="relative flex items-center justify-center overflow-hidden rounded-full border border-zinc-700 bg-black transition hover:scale-110 hover:border-zinc-400"
+                            className={`relative flex items-center justify-center overflow-hidden rounded-full border border-zinc-700 transition hover:scale-110 hover:border-zinc-400 ${item.network === "instagram" ? "bg-white" : "bg-black"}`}
                             style={{ width: size, height: size }}
                             onClick={() => recordClick(customIcon.service)}
                         >

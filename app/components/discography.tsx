@@ -4,11 +4,10 @@ import { useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
-import { CalendarDays, Disc3, Pause, Play, Star } from "lucide-react";
+import { Pause, Play, Star } from "lucide-react";
 import { AudioTrack } from "@/app/components/audio-track";
 import { MobileDockedPlayer } from "@/app/components/mobile-docked-player";
 import { useDockedPlayback } from "@/app/components/use-docked-playback";
-import { SectionLink } from "@/app/components/section-link";
 import { getArtistSongPath } from "@/app/config/artists";
 import type { AlbumData, ArtistConfig, TrackData } from "@/app/config/artists/types";
 import { getTrackSlug } from "@/app/config/music-data";
@@ -88,6 +87,9 @@ function AlbumTrackList({ album, artist, desktop, dockHost }: AlbumTrackListProp
     const [expanded, setExpanded] = useState(false);
     const lastTrigger = useRef<HTMLButtonElement | null>(null);
     const selectedId = desktop ? inlinePlayingId : activeTrack?.id;
+    const highlightedTrack = album.tracks.find(track => album.highlightSongSlug
+        ? track.publicSlug === album.highlightSongSlug
+        : track.title === album.highlightTrack);
     const tracks = useMemo(() => album.tracks.map(track => {
         const date = getEffectiveReleaseDate(track, album.releaseDate);
         return { track, date, status: getReleaseStatus(date) };
@@ -111,6 +113,15 @@ function AlbumTrackList({ album, artist, desktop, dockHost }: AlbumTrackListProp
                     const selected = id === selectedId;
                     const playing = selected && (desktop || dockPlaying);
                     const titleClass = "block min-w-0 break-words py-3 text-sm font-semibold leading-5 text-zinc-100 group-data-[selected=true]/track:text-[var(--artist-accent-bright)] sm:py-2 sm:text-base";
+                    const title = <>
+                        {track.title}
+                        {track === highlightedTrack && (
+                            <span title="Featured song" className="ml-1.5 inline-block align-[-0.1em] text-[var(--artist-accent-soft)]">
+                                <Star aria-hidden="true" className="size-3.5" fill="currentColor" />
+                                <span className="sr-only"> (featured song)</span>
+                            </span>
+                        )}
+                    </>;
                     return (
                         <div key={id} data-selected={selected} className="group/track grid min-h-12 grid-cols-[minmax(0,1fr)_auto] items-center gap-x-2 border-b border-white/10 sm:min-h-16 sm:grid-cols-[minmax(0,1fr)_minmax(220px,320px)] sm:gap-3 sm:py-3">
                             <div className="flex min-w-0 items-center gap-3">
@@ -118,14 +129,11 @@ function AlbumTrackList({ album, artist, desktop, dockHost }: AlbumTrackListProp
                                 <div className="min-w-0">
                                     {status === "released" && hasTrackPage(track) ? (
                                         <Link href={getArtistSongPath(artist, getTrackSlug(track))} className={`${titleClass} hover:text-[var(--artist-accent-bright)] focus-visible:outline-2 focus-visible:outline-[var(--artist-accent-bright)]`}>
-                                            {track.title}
+                                            {title}
                                         </Link>
-                                    ) : <span className={titleClass}>{track.title}</span>}
-                                    {desktop && (track.featured || playing) && (
-                                        <div className="flex flex-wrap gap-2 text-[10px] font-semibold uppercase tracking-[0.14em]">
-                                            {track.featured && <span className="text-[var(--artist-accent-soft)]">Featured</span>}
-                                            {playing && <span className="text-[var(--artist-accent-bright)]">Now playing</span>}
-                                        </div>
+                                    ) : <span className={titleClass}>{title}</span>}
+                                    {desktop && playing && (
+                                        <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--artist-accent-bright)]">Now playing</span>
                                     )}
                                 </div>
                             </div>
@@ -211,19 +219,11 @@ export function AlbumsSection({ artist, featuredAlbumId }: AlbumsSectionProps) {
         );
     }
 
-    const albumReleaseDate = activeAlbum.releaseDate
-        ? formatReleaseDate(activeAlbum.releaseDate)
-        : null;
-    const highlightedTrack = activeAlbum.highlightTrack
-        ? activeAlbum.tracks.find((track) => track.title === activeAlbum.highlightTrack)
-        : undefined;
-    const highlightReleaseDate = highlightedTrack
-        ? getEffectiveReleaseDate(highlightedTrack, activeAlbum.releaseDate)
-        : "";
-    const highlightStatus = highlightedTrack
-        ? getReleaseStatus(highlightReleaseDate)
-        : "tbd";
-    const highlightSlug = highlightedTrack ? getTrackSlug(highlightedTrack) : null;
+    const albumDate = parseMusicReleaseDate(activeAlbum.releaseDate)?.toISOString().slice(0, 10)
+        ?? (activeAlbum.year > 0 ? String(activeAlbum.year) : undefined);
+    const albumByline = <>
+        {artist.name}{albumDate && <> · <time dateTime={albumDate}>{formatReleaseDate(albumDate)}</time></>}
+    </>;
 
     const selectAlbum = (albumId: string) => {
         if (albumId === activeAlbum.id) return;
@@ -301,18 +301,21 @@ export function AlbumsSection({ artist, featuredAlbumId }: AlbumsSectionProps) {
                             />
                             <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/95 via-black/35 to-transparent p-4 text-white sm:hidden">
                                 <h3 className="break-words text-3xl font-bold leading-tight tracking-tight">{activeAlbum.title}</h3>
-                                <p className="mt-1 text-sm text-zinc-200">{artist.name}{activeAlbum.year > 0 && ` · ${activeAlbum.year}`}</p>
+                                <p className="mt-1 text-sm text-zinc-200">{albumByline}</p>
                             </div>
                         </div>
                     </div>
 
                     <div className="min-w-0">
-                        <p className="hidden text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500 sm:block">
-                            {activeAlbum.tagline ?? activeAlbum.year}
-                        </p>
+                        {activeAlbum.tagline && (
+                            <p className="hidden text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500 sm:block">
+                                {activeAlbum.tagline}
+                            </p>
+                        )}
                         <h3 className="mt-2 hidden text-3xl font-black uppercase tracking-normal text-white sm:block sm:text-4xl">
                             {activeAlbum.title}
                         </h3>
+                        <p className="mt-1 hidden text-sm text-zinc-300 sm:block">{albumByline}</p>
                         {!desktop && trackList}
                         {activeAlbum.description ? (
                             <>
@@ -321,57 +324,6 @@ export function AlbumsSection({ artist, featuredAlbumId }: AlbumsSectionProps) {
                                     {renderAlbumDescription(activeAlbum.description)}
                                 </p>
                             </>
-                        ) : null}
-
-                        <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold uppercase tracking-[0.14em] text-zinc-400">
-                            {albumReleaseDate ? (
-                                <span className="inline-flex items-center gap-2">
-                                    <CalendarDays className="h-4 w-4" style={{ color: "var(--artist-accent-bright)" }} />
-                                    {albumReleaseDate}
-                                </span>
-                            ) : null}
-                            <span className="inline-flex items-center gap-2">
-                                <Disc3 className="h-4 w-4" style={{ color: "var(--artist-accent-bright)" }} />
-                                {activeAlbum.tracks.length} {activeAlbum.tracks.length === 1 ? "track" : "tracks"}
-                            </span>
-                            {activeAlbum.highlightTrack ? (
-                                <span className="inline-flex items-center gap-2" style={{ color: "var(--artist-accent-soft)" }}>
-                                    <Star className="h-4 w-4" />
-                                    Featured: {activeAlbum.highlightTrack}
-                                </span>
-                            ) : null}
-                        </div>
-
-                        {highlightSlug ? (
-                            <div className="mt-6 flex flex-wrap gap-3">
-                                {highlightStatus === "released" ? (
-                                    <>
-                                        <Link
-                                            href={getArtistSongPath(artist, highlightSlug)}
-                                            className="rounded-md px-5 py-2.5 text-xs font-black uppercase tracking-[0.16em] transition hover:-translate-y-0.5"
-                                            style={{
-                                                backgroundColor: "var(--artist-accent-bright)",
-                                                color: "var(--artist-button-text)",
-                                            }}
-                                        >
-                                            Open {activeAlbum.highlightTrack}
-                                        </Link>
-                                        <SectionLink
-                                            href="#connect"
-                                            className="rounded-md border border-white/15 bg-white/5 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-zinc-100 transition hover:border-white/35 hover:bg-white/10"
-                                        >
-                                            Streaming platforms
-                                        </SectionLink>
-                                    </>
-                                ) : (
-                                    <span className="inline-flex items-center gap-2 rounded-md border border-white/15 bg-white/5 px-5 py-2.5 text-xs font-bold uppercase tracking-[0.16em] text-zinc-300">
-                                        <CalendarDays className="h-4 w-4" style={{ color: "var(--artist-accent-bright)" }} />
-                                        {highlightStatus === "future"
-                                            ? `Available ${formatReleaseDate(highlightReleaseDate)}`
-                                            : "Release date TBD"}
-                                    </span>
-                                )}
-                            </div>
                         ) : null}
 
                         {desktop && trackList}

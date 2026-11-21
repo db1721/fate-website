@@ -48,8 +48,7 @@ function renderCatalog(albums, artistId = "fate", featuredAlbumId, desktop = fal
         "react/jsx-runtime": { ...jsxRuntime, jsx: captureButtons(jsxRuntime.jsx), jsxs: captureButtons(jsxRuntime.jsxs) },
         "next/image": { default: (props) => { images.push(props); return null; } },
         "next/link": { default: (props) => React.createElement("a", props) },
-        "@/app/components/section-link": loadComponent("section-link", {}),
-        "lucide-react": Object.fromEntries(["CalendarDays", "Disc3", "Pause", "Play", "Star"].map((name) => [name, () => null])),
+        "lucide-react": Object.fromEntries(["Pause", "Play", "Star"].map((name) => [name, () => null])),
         "@/app/components/audio-track": { AudioTrack: (props) => { players.push(props); return null; } },
         "@/app/components/mobile-docked-player": { MobileDockedPlayer: () => null },
         "@/app/components/use-docked-playback": {
@@ -99,6 +98,28 @@ test("album descriptions preserve paragraphs and emphasis while escaping publish
         description: "First paragraph.\n\n*Second* <script>.",
     }]);
     assert.match(html, /<p class="[^"]*\bwhitespace-pre-line\b[^"]*\bbreak-words\b[^"]*">First paragraph\.\n\n<em[^>]*>Second<\/em> &lt;script&gt;\.<\/p>/);
+});
+
+test("the album date follows the title, and only the album highlight gets a star in the song list", () => {
+    const album = {
+        id: "album", title: "New Beginnings", coverSrc: "/cover.jpg", year: 2026, releaseDate: "2026-05-08",
+        description: "Album notes.", highlightTrack: "Friends", highlightSongSlug: "friends",
+        tracks: [
+            track({ title: "Friends", publicSlug: "friends-live", publicSongId: "live", featured: true }),
+            track({ title: "Friends", publicSlug: "friends", publicSongId: "single" }),
+        ],
+    };
+    for (const desktop of [false, true]) {
+        const { html } = renderCatalog([album], "fate", undefined, desktop);
+        assert.match(html, /New Beginnings<\/h3><p[^>]*>[^<]*<time dateTime="2026-05-08">May 8, 2026<\/time>/i);
+        assert.match(html, /href="\/music\/friends"[^>]*>Friends<span title="Featured song"/);
+        assert.match(html, /href="\/music\/friends-live"[^>]*>Friends<\/a>/);
+        assert.doesNotMatch(html, /Open Friends|Streaming platforms|Featured:|2 tracks/);
+    }
+    const yearOnly = renderCatalog([{ ...album, releaseDate: undefined }]).html;
+    assert.match(yearOnly, /<time dateTime="2026">2026<\/time>/i);
+    const undated = renderCatalog([{ ...album, releaseDate: undefined, year: 0 }]).html;
+    assert.doesNotMatch(undated, /<time\b/);
 });
 
 test("mobile rows share an unloaded player and select each track with its public ID, audio and artwork", () => {

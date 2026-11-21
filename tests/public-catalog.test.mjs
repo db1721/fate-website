@@ -72,6 +72,7 @@ test("maps app data and exact slug while preserving branding and editorial choic
     assert.equal(result.albums[0].tagline, "Editorial album tagline");
     assert.equal(result.albums[0].description, "App album description.\n\nA second paragraph.");
     assert.equal(result.albums[0].highlightTrack, song.title);
+    assert.equal(result.albums[0].highlightSongSlug, song.publicSlug);
     assert.equal(artist.albums[0].tracks[0].audioSrc, "/old.mp3", "does not mutate static config");
 });
 
@@ -191,11 +192,22 @@ test("editorial features and highlights do not silently match a different song b
     data.songs[0].slug = "replacement-song";
     const result = applyPublicCatalog(artist, data, sourceUrl);
     assert.equal(result.albums[0].highlightTrack, undefined);
+    assert.equal(result.albums[0].highlightSongSlug, undefined);
     assert.equal(result.featuredTracks.length, 1, "a public playable replacement can still be automatically featured");
     assert.equal(result.featuredTracks[0].songSlug, "replacement-song");
     assert.equal(result.featuredTracks[0].subtitle, "Album");
     assert.equal(result.featuredTracks[0].description, undefined);
     assert.equal(result.featuredTracks[0].featureDate, "2020-02-01");
+});
+
+test("a same-title song featured in the hero keeps its own identity apart from the album highlight", () => {
+    const data = feed();
+    data.songs.unshift({ ...data.songs[0], songId: "another-recording", slug: "another-recording", featureDate: "2021-02-01" });
+    const result = applyPublicCatalog(artist, data, sourceUrl);
+    const [album] = result.albums;
+    assert.equal(album.highlightTrack, "Song");
+    assert.equal(album.highlightSongSlug, "exact-publisher-slug");
+    assert.equal(result.featuredTracks[0].songSlug, "another-recording");
 });
 
 test("features the newest eligible feature date, not the newest release date", () => {

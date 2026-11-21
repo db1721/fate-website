@@ -163,7 +163,7 @@ export function applyPublicCatalog(artist: ArtistConfig, payload: unknown, sourc
         const highlight = editorialAlbum?.highlightSongSlug
             ? album.tracks.find((track) => track.publicSlug === editorialAlbum.highlightSongSlug)
             : album.tracks.find((track) => track.title === album.highlightTrack);
-        return { ...album, highlightTrack: highlight?.title };
+        return { ...album, highlightTrack: highlight?.title, highlightSongSlug: highlight?.publicSlug };
     });
     const featureChoices = publishedTracks.flatMap((track) => {
         if (!track.featureDate || !track.audioSrc || !isCatalogSongReleased(track.releaseDate, now)) return [];
