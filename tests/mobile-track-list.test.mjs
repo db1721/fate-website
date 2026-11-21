@@ -23,6 +23,7 @@ function loadComponent(name, imports) {
         require(name) {
             if (name === "react") return React;
             if (name === "react/jsx-runtime") return jsxRuntime;
+            if (name.endsWith(".module.css")) return { default: {} };
             if (Object.hasOwn(imports, name)) return imports[name];
             throw new Error(`Unexpected test import: ${name}`);
         },

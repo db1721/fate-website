@@ -1,0 +1,320 @@
+.hero {
+    --hero-ground: #101316;
+    --hero-foreground: #eef0f1;
+    --hero-muted: #b9c0c5;
+    --hero-line: #383e43;
+    --hero-action: #edb632;
+    --hero-action-text: #14130f;
+    position: relative;
+    padding-top: 64px;
+    background: var(--hero-ground);
+    color: var(--hero-foreground);
+    isolation: isolate;
+    scroll-margin-top: 64px;
+}
+
+.hero ::selection {
+    background: var(--hero-action);
+    color: var(--hero-action-text);
+}
+
+.ruin {
+    --hero-ground: #120e0e;
+    --hero-foreground: #f1ece4;
+    --hero-muted: #c8bcb7;
+    --hero-line: #4b3b38;
+    --hero-action: #b62430;
+    --hero-action-text: #fff5f1;
+}
+
+.stage {
+    position: relative;
+    min-height: clamp(29rem, calc(100svh - 12rem), 44rem);
+    overflow: hidden;
+}
+
+.visual {
+    position: absolute;
+    inset: 0 0 0 43%;
+}
+
+.visual::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--hero-ground), transparent 30%),
+        linear-gradient(0deg, var(--hero-ground), transparent 28%);
+}
+
+.image {
+    object-fit: cover;
+}
+
+.fate .image {
+    filter: grayscale(1) brightness(0.7) contrast(1.08);
+}
+
+.ruin .visual {
+    left: 38%;
+}
+
+.ruin .image {
+    filter: brightness(0.75) saturate(0.8);
+}
+
+.ruin .visual::after {
+    background: linear-gradient(90deg, var(--hero-ground), #120e0e99 26%, transparent 65%),
+        linear-gradient(0deg, var(--hero-ground), transparent 35%);
+}
+
+.stageInner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: inherit;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding: 3rem clamp(1.5rem, 5vw, 5rem);
+}
+
+.copy {
+    width: 53%;
+    min-width: 0;
+}
+
+.artistName {
+    margin: 0;
+    font-size: 3rem;
+}
+
+.logo {
+    display: block;
+    width: min(100%, 29rem);
+    height: auto;
+}
+
+.artistFullName {
+    margin-top: 1rem;
+    color: var(--hero-muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.release {
+    margin-top: clamp(2.5rem, 5vw, 4.5rem);
+    max-width: 32rem;
+}
+
+.trackTitle {
+    margin: 0;
+    max-width: 18ch;
+    font-size: clamp(1.8rem, 3vw, 3rem);
+    font-weight: 550;
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+}
+
+.releaseSubtitle {
+    margin-top: 0.85rem;
+    color: var(--hero-muted);
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+.description {
+    margin-top: 1rem;
+    max-width: 43ch;
+    color: var(--hero-muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    text-wrap: pretty;
+}
+
+.ruin .stageInner {
+    align-items: stretch;
+}
+
+.ruin .copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 58%;
+}
+
+.ruin .logo {
+    width: 13.75rem;
+    filter: brightness(1.65);
+}
+
+.ruin .release {
+    max-width: none;
+    margin-top: 2.5rem;
+}
+
+.ruin .trackTitle {
+    max-width: 12ch;
+    font-size: clamp(3.25rem, 7.2vw, 6rem);
+    font-weight: 650;
+    line-height: 0.98;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+}
+
+.rail {
+    position: relative;
+    border-top: 1px solid var(--hero-line);
+    border-bottom: 1px solid var(--hero-line);
+    background: var(--hero-ground);
+}
+
+.railInner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(1.5rem, 3vw, 3rem);
+    max-width: 1440px;
+    min-height: 8rem;
+    margin-inline: auto;
+    padding: 1.5rem clamp(1.5rem, 5vw, 5rem);
+}
+
+.railEmpty {
+    grid-template-columns: 1fr;
+}
+
+.links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1.5rem;
+}
+
+.link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    gap: 0.75rem;
+    color: var(--hero-foreground);
+    font-size: 0.8rem;
+    text-decoration: underline;
+    text-decoration-color: var(--hero-line);
+    text-underline-offset: 6px;
+    transition: color 160ms, text-decoration-color 160ms;
+}
+
+.link:hover {
+    color: var(--hero-muted);
+    text-decoration-color: currentColor;
+}
+
+.link:focus-visible {
+    outline: 2px solid var(--hero-foreground);
+    outline-offset: 6px;
+}
+
+@media (min-width: 1600px) {
+    .visual {
+        right: max(0px, calc((100vw - 1600px) / 2));
+    }
+}
+
+@media (max-width: 1023px) {
+    .railInner {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .links {
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 767px) {
+    .stage {
+        min-height: 0;
+    }
+
+    .visual,
+    .ruin .visual {
+        inset: 0 0 auto 15%;
+        height: 25rem;
+    }
+
+    .visual::after,
+    .ruin .visual::after {
+        background: linear-gradient(0deg, var(--hero-ground), transparent 60%);
+    }
+
+    .stageInner {
+        padding: 15rem 1.5rem 2rem;
+    }
+
+    .copy,
+    .ruin .copy {
+        width: 100%;
+    }
+
+    .logo {
+        width: 16.25rem;
+    }
+
+    .artistFullName {
+        margin-top: 0.5rem;
+        font-size: 0.65rem;
+        letter-spacing: 0.14em;
+    }
+
+    .release {
+        margin-top: 2rem;
+    }
+
+    .trackTitle {
+        font-size: clamp(1.85rem, 7.5vw, 2.5rem);
+    }
+
+    .description {
+        display: none;
+    }
+
+    .ruin .stageInner {
+        padding-top: 18rem;
+    }
+
+    .ruin .identity {
+        position: absolute;
+        top: 1.75rem;
+        left: 1.5rem;
+    }
+
+    .ruin .logo {
+        width: 9.375rem;
+    }
+
+    .ruin .release {
+        margin-top: 0;
+    }
+
+    .ruin .trackTitle {
+        font-size: clamp(3rem, 13vw, 4.5rem);
+    }
+
+    .railInner {
+        min-height: 0;
+        padding: 1rem 1.5rem;
+    }
+
+    .link {
+        font-size: 0.75rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .link {
+        transition: none;
+    }
+}

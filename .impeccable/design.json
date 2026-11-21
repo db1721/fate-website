@@ -1,0 +1,310 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-02T19:26:09Z",
+  "title": "Design System: F.A.T.E. / Buried In Ruin — Hero Surfaces",
+  "extensions": {
+    "colorMeta": {
+      "fate-ground": {
+        "role": "neutral",
+        "displayName": "Charcoal",
+        "tonalRamp": [
+          "oklch(15% 0.0017 248.25)",
+          "oklch(26% 0.0042 248.25)",
+          "oklch(38% 0.0063 248.25)",
+          "oklch(49% 0.0075 248.25)",
+          "oklch(61% 0.0077 248.25)",
+          "oklch(72% 0.0070 248.25)",
+          "oklch(84% 0.0052 248.25)",
+          "oklch(95% 0.0029 248.25)"
+        ]
+      },
+      "fate-foreground": {
+        "role": "neutral",
+        "displayName": "Silver",
+        "tonalRamp": [
+          "oklch(15% 0.0006 228.78)",
+          "oklch(26% 0.0014 228.78)",
+          "oklch(38% 0.0021 228.78)",
+          "oklch(49% 0.0024 228.78)",
+          "oklch(61% 0.0025 228.78)",
+          "oklch(72% 0.0023 228.78)",
+          "oklch(84% 0.0017 228.78)",
+          "oklch(95% 0.0009 228.78)"
+        ]
+      },
+      "fate-muted": {
+        "role": "neutral",
+        "displayName": "Cool Silver",
+        "tonalRamp": [
+          "oklch(15% 0.0023 238.55)",
+          "oklch(26% 0.0057 238.55)",
+          "oklch(38% 0.0086 238.55)",
+          "oklch(49% 0.0101 238.55)",
+          "oklch(61% 0.0104 238.55)",
+          "oklch(72% 0.0094 238.55)",
+          "oklch(84% 0.0070 238.55)",
+          "oklch(95% 0.0039 238.55)"
+        ]
+      },
+      "fate-line": {
+        "role": "neutral",
+        "displayName": "Graphite Line",
+        "tonalRamp": [
+          "oklch(15% 0.0026 243.14)",
+          "oklch(26% 0.0064 243.14)",
+          "oklch(38% 0.0096 243.14)",
+          "oklch(49% 0.0114 243.14)",
+          "oklch(61% 0.0118 243.14)",
+          "oklch(72% 0.0106 243.14)",
+          "oklch(84% 0.0079 243.14)",
+          "oklch(95% 0.0044 243.14)"
+        ]
+      },
+      "fate-action": {
+        "role": "primary",
+        "displayName": "Studio Amber",
+        "tonalRamp": [
+          "oklch(15% 0.0334 84.20)",
+          "oklch(26% 0.0819 84.20)",
+          "oklch(38% 0.1233 84.20)",
+          "oklch(49% 0.1459 84.20)",
+          "oklch(61% 0.1505 84.20)",
+          "oklch(72% 0.1357 84.20)",
+          "oklch(84% 0.1010 84.20)",
+          "oklch(95% 0.0563 84.20)"
+        ]
+      },
+      "fate-action-text": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0018 95.48)",
+          "oklch(26% 0.0043 95.48)",
+          "oklch(38% 0.0065 95.48)",
+          "oklch(49% 0.0077 95.48)",
+          "oklch(61% 0.0080 95.48)",
+          "oklch(72% 0.0072 95.48)",
+          "oklch(84% 0.0054 95.48)",
+          "oklch(95% 0.0030 95.48)"
+        ]
+      },
+      "ruin-ground": {
+        "role": "neutral",
+        "displayName": "Carbon",
+        "tonalRamp": [
+          "oklch(15% 0.0015 17.85)",
+          "oklch(26% 0.0037 17.85)",
+          "oklch(38% 0.0055 17.85)",
+          "oklch(49% 0.0066 17.85)",
+          "oklch(61% 0.0068 17.85)",
+          "oklch(72% 0.0061 17.85)",
+          "oklch(84% 0.0045 17.85)",
+          "oklch(95% 0.0025 17.85)"
+        ]
+      },
+      "ruin-foreground": {
+        "role": "neutral",
+        "displayName": "Bone",
+        "tonalRamp": [
+          "oklch(15% 0.0026 79.78)",
+          "oklch(26% 0.0065 79.78)",
+          "oklch(38% 0.0097 79.78)",
+          "oklch(49% 0.0115 79.78)",
+          "oklch(61% 0.0119 79.78)",
+          "oklch(72% 0.0107 79.78)",
+          "oklch(84% 0.0080 79.78)",
+          "oklch(95% 0.0044 79.78)"
+        ]
+      },
+      "ruin-muted": {
+        "role": "neutral",
+        "displayName": "Dust",
+        "tonalRamp": [
+          "oklch(15% 0.0034 44.15)",
+          "oklch(26% 0.0083 44.15)",
+          "oklch(38% 0.0125 44.15)",
+          "oklch(49% 0.0148 44.15)",
+          "oklch(61% 0.0153 44.15)",
+          "oklch(72% 0.0138 44.15)",
+          "oklch(84% 0.0102 44.15)",
+          "oklch(95% 0.0057 44.15)"
+        ]
+      },
+      "ruin-line": {
+        "role": "neutral",
+        "displayName": "Oxide Line",
+        "tonalRamp": [
+          "oklch(15% 0.0051 30.52)",
+          "oklch(26% 0.0126 30.52)",
+          "oklch(38% 0.0190 30.52)",
+          "oklch(49% 0.0224 30.52)",
+          "oklch(61% 0.0231 30.52)",
+          "oklch(72% 0.0209 30.52)",
+          "oklch(84% 0.0155 30.52)",
+          "oklch(95% 0.0087 30.52)"
+        ]
+      },
+      "ruin-action": {
+        "role": "primary",
+        "displayName": "Restrained Scarlet",
+        "tonalRamp": [
+          "oklch(15% 0.0398 22.85)",
+          "oklch(26% 0.0977 22.85)",
+          "oklch(38% 0.1472 22.85)",
+          "oklch(49% 0.1741 22.85)",
+          "oklch(61% 0.1796 22.85)",
+          "oklch(72% 0.1619 22.85)",
+          "oklch(84% 0.1205 22.85)",
+          "oklch(95% 0.0671 22.85)"
+        ]
+      },
+      "ruin-action-text": {
+        "role": "neutral",
+        "displayName": "Pale Chalk",
+        "tonalRamp": [
+          "oklch(15% 0.0027 43.28)",
+          "oklch(26% 0.0065 43.28)",
+          "oklch(38% 0.0098 43.28)",
+          "oklch(49% 0.0116 43.28)",
+          "oklch(61% 0.0120 43.28)",
+          "oklch(72% 0.0108 43.28)",
+          "oklch(84% 0.0080 43.28)",
+          "oklch(95% 0.0045 43.28)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "release-display": {
+        "displayName": "Buried In Ruin Release Display",
+        "purpose": "Uppercase release title in this artist home hero only."
+      },
+      "release-title": {
+        "displayName": "F.A.T.E. Release Title",
+        "purpose": "Live featured release title in the F.A.T.E. home hero."
+      },
+      "body": {
+        "displayName": "Hero Description",
+        "purpose": "Supporting hero description, hidden at the mobile breakpoint."
+      },
+      "release-subtitle": {
+        "displayName": "Release Context",
+        "purpose": "Catalog-provided release subtitle."
+      },
+      "playback-label": {
+        "displayName": "Playback Action",
+        "purpose": "Text labels for the hero preview action."
+      },
+      "rail-link": {
+        "displayName": "Listening Link",
+        "purpose": "Explore music links and the basis for playback feedback text."
+      },
+      "time": {
+        "displayName": "Audio Timing",
+        "purpose": "Monospaced tabular playback and duration values."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "hero-interaction-duration",
+        "value": "160ms",
+        "purpose": "Playback color and navigation color/underline transitions; removed under reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "rail-stacks-max",
+        "value": "1023px"
+      },
+      {
+        "name": "mobile-hero-max",
+        "value": "767px"
+      },
+      {
+        "name": "wide-image-bound-min",
+        "value": "1600px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "F.A.T.E. Preview Action",
+      "kind": "button",
+      "refersTo": "play-fate",
+      "description": "Solid amber user-initiated hero preview action; text changes with playback state.",
+      "html": "<button type=\"button\" class=\"ds-play-fate\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z\"/></svg><span>Play preview</span></button>",
+      "css": ".ds-play-fate{display:inline-flex;align-items:center;justify-content:center;min-height:48px;min-width:10.5rem;gap:0.75rem;padding:0.75rem 1.125rem;border:1px solid transparent;border-radius:2px;background:#edb632;color:#14130f;cursor:pointer;font-family:var(--font-geist-sans),sans-serif;font-size:0.85rem;font-weight:650;transition:background-color 160ms,color 160ms}.ds-play-fate:hover{background:#eef0f1;color:#101316}.ds-play-fate:focus-visible{outline:2px solid #eef0f1;outline-offset:5px}@media(max-width:767px){.ds-play-fate{width:100%}}@media(prefers-reduced-motion:reduce){.ds-play-fate{transition:none}}"
+    },
+    {
+      "name": "Buried In Ruin Preview Action",
+      "kind": "button",
+      "refersTo": "play-ruin",
+      "description": "Scarlet variant of the same hero playback control.",
+      "html": "<button type=\"button\" class=\"ds-play-ruin\"><svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z\"/></svg><span>Play preview</span></button>",
+      "css": ".ds-play-ruin{display:inline-flex;align-items:center;justify-content:center;min-height:48px;min-width:10.5rem;gap:0.75rem;padding:0.75rem 1.125rem;border:1px solid transparent;border-radius:2px;background:#b62430;color:#fff5f1;cursor:pointer;font-family:var(--font-geist-sans),sans-serif;font-size:0.85rem;font-weight:650;transition:background-color 160ms,color 160ms}.ds-play-ruin:hover{background:#f1ece4;color:#120e0e}.ds-play-ruin:focus-visible{outline:2px solid #f1ece4;outline-offset:5px}@media(max-width:767px){.ds-play-ruin{width:100%}}@media(prefers-reduced-motion:reduce){.ds-play-ruin{transition:none}}"
+    },
+    {
+      "name": "Hero Seek and Timing",
+      "kind": "input",
+      "refersTo": "hero-seek",
+      "description": "Native seek input with a thin visual track and 44px target; shown in the F.A.T.E. palette. The preview is a static visual sample, not an audio player.",
+      "html": "<div class=\"ds-timeline\"><input class=\"ds-seek\" type=\"range\" min=\"0\" max=\"100\" value=\"34\" aria-label=\"Seek preview\"/><span class=\"ds-time\">0:34 / 1:40</span></div>",
+      "css": ".ds-timeline{display:flex;align-items:center;min-width:0;gap:1rem;background:#101316;color:#eef0f1}.ds-seek{appearance:none;-webkit-appearance:none;flex:1;min-width:0;height:44px;margin:0;border-radius:2px;background:transparent;color:#edb632;cursor:pointer}.ds-seek:focus-visible{outline:2px solid #eef0f1;outline-offset:5px}.ds-seek:disabled{cursor:default;opacity:0.55}.ds-seek::-webkit-slider-runnable-track{height:3px;background:linear-gradient(to right,#edb632 0% 34%,#383e43 34% 100%)}.ds-seek::-moz-range-track{height:3px;background:linear-gradient(to right,#edb632 0% 34%,#383e43 34% 100%)}.ds-seek::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:9px;height:15px;margin-top:-6px;border:0;border-radius:1px;background:#eef0f1}.ds-seek::-moz-range-thumb{width:9px;height:15px;border:0;border-radius:1px;background:#eef0f1}.ds-time{flex-shrink:0;color:#b9c0c5;font-family:var(--font-geist-mono),monospace;font-size:0.7rem;font-variant-numeric:tabular-nums;white-space:nowrap;min-width:9.5ch;text-align:right}"
+    },
+    {
+      "name": "Listening Navigation",
+      "kind": "nav",
+      "refersTo": "rail-link",
+      "description": "Underlined exploration links with small vector arrows; shown in the F.A.T.E. palette.",
+      "html": "<nav class=\"ds-links\" aria-label=\"Explore music\"><a class=\"ds-link\" href=\"#release\">Lyrics &amp; streaming<svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 7h10v10M7 17 17 7\"/></svg></a></nav>",
+      "css": ".ds-links{display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem 1.5rem;background:#101316}.ds-link{display:inline-flex;align-items:center;justify-content:space-between;min-height:44px;gap:0.75rem;color:#eef0f1;font-family:var(--font-geist-sans),sans-serif;font-size:0.8rem;text-decoration:underline;text-decoration-color:#383e43;text-underline-offset:6px;transition:color 160ms,text-decoration-color 160ms}.ds-link:hover{color:#b9c0c5;text-decoration-color:currentColor}.ds-link:focus-visible{outline:2px solid #eef0f1;outline-offset:6px}@media(max-width:1023px){.ds-links{justify-content:space-between}}@media(max-width:767px){.ds-link{font-size:0.75rem}}@media(prefers-reduced-motion:reduce){.ds-link{transition:none}}"
+    },
+    {
+      "name": "Playback Error",
+      "kind": "custom",
+      "refersTo": "playback-error",
+      "description": "In-flow audio failure message; shown in the F.A.T.E. palette.",
+      "html": "<p class=\"ds-playback-error\" role=\"alert\">Audio couldn’t load. Try again or open Lyrics &amp; streaming.</p>",
+      "css": ".ds-playback-error{grid-column:1/-1;max-width:65ch;margin:0;background:#101316;color:#eef0f1;font-family:var(--font-geist-sans),sans-serif;font-size:0.8rem;line-height:1.6}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Precise studio / restrained industrial",
+    "overview": "This record covers only the artist home heroes in app/components/hero.tsx and the hero appearance of AudioTrack. It captures the implemented precise studio character of F.A.T.E. and restrained industrial character of Buried In Ruin. It does not establish a replacement system for the header, catalog, song pages, default audio player, or other incumbent surfaces.\n\nReal artist marks, the existing F.A.T.E. portrait, and authoritative published release art carry the identity. Flat playback controls and an integrated listening rail provide functional precision; image crops and ground-colored fades supply depth. This record is extracted from source and does not assert visual review signoff.",
+    "keyCharacteristics": [
+      "Two local artist palettes with shared functional roles.",
+      "Authentic imagery and recognizable artist marks.",
+      "Flat rectangular controls, visible focus, and real timing."
+    ],
+    "rules": [
+      {
+        "name": "The Local Palette Rule",
+        "body": "Apply these palette roles only inside the hero and its playback rail. Preserve incumbent artist theme tokens and other surfaces outside this scope.",
+        "section": "colors"
+      },
+      {
+        "name": "The Artist Mark Rule",
+        "body": "Preserve the existing image logos as the artist identity; release titles remain live Geist text.",
+        "section": "typography"
+      },
+      {
+        "name": "The Flat Listening Rule",
+        "body": "Hero playback uses the page ground, border rules, and solid action color without a separate glass card or glow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do preserve the existing portrait, artist marks, and catalog-owned release art.",
+      "Do keep these tokens local to the hero and hero playback appearance.",
+      "Do retain visible focus, text playback states, and full-height touch targets.",
+      "Do preserve live track titles, timing, preview offsets, and coordinated playback."
+    ],
+    "donts": [
+      "Don't apply this scoped redesign to the rest of the site without a separate request.",
+      "Don't add a floating glass or glow player wrapper to these heroes.",
+      "Don't replace authoritative release art with generated artwork.",
+      "Don't promote hero-specific composition or identity text into a universal page template."
+    ]
+  }
+}
+

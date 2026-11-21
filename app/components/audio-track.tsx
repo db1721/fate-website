@@ -1,17 +1,19 @@
 'use client';
 
-import {useEffect, useRef, useState, type CSSProperties} from "react";
+import {useEffect, useId, useRef, useState, type CSSProperties} from "react";
 import { Pause, Play } from "lucide-react";
 import {useAudioManager} from "@/app/context/audio-manager";
 import { trackInteraction } from "@/lib/track-interaction";
 import type { ArtistId } from "@/app/config/artists/types";
 import { clampAudioPreviewStart } from "@/lib/audio-preview";
+import styles from "./audio-track.module.css";
 
 type AudioTrackProps = {
     id: string;
     src: string;
     trackTitle?: string;
     compactOnMobile?: boolean;
+    appearance?: "default" | "hero";
     previewStartTime?: number;
     projectId?: ArtistId;
     autoPlay?: boolean;
@@ -51,6 +53,7 @@ export function AudioTrack({
                                src,
                                trackTitle,
                                compactOnMobile = false,
+                               appearance = "default",
                                previewStartTime,
                                projectId = "fate",
                                autoPlay,
@@ -64,11 +67,15 @@ export function AudioTrack({
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const hasTrackedPlayRef = useRef(false);
     const hasAppliedStartRef = useRef(false);
+    const playRequestRef = useRef(0);
+    const errorId = useId();
+    const isHero = appearance === "hero";
     const {registerAudio} = useAudioManager();
 
     const [isPlaying, setIsPlaying] = useState(false);
     const [duration, setDuration] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
+    const [playbackStatus, setPlaybackStatus] = useState<"idle" | "loading" | "error">("idle");
 
     const syncDuration = () => {
         const el = audioRef.current;
@@ -100,6 +107,7 @@ export function AudioTrack({
 
         hasTrackedPlayRef.current = false;
         hasAppliedStartRef.current = false;
+        playRequestRef.current++;
         let durationReady = false;
         const syncMetadata = () => {
             const nextDuration = getAudioDuration(el);
@@ -117,10 +125,6 @@ export function AudioTrack({
             syncMetadata();
             setCurrentTime(el.currentTime || 0);
         };
-
-        setIsPlaying(false);
-        setDuration(0);
-        setCurrentTime(0);
 
         el.addEventListener("loadedmetadata", syncMetadata);
         el.addEventListener("durationchange", syncMetadata);
@@ -190,15 +194,23 @@ export function AudioTrack({
         const el = audioRef.current;
         if (!el) return;
 
-        if (!el.paused) {
+        if (!el.paused || playbackStatus === "loading") {
+            playRequestRef.current++;
             el.pause();
+            setPlaybackStatus("idle");
         } else {
-            if (el.preload === "none") {
+            if (el.preload === "none" || playbackStatus === "error") {
+                hasAppliedStartRef.current = false;
                 el.preload = "metadata";
                 el.load();
             }
-            el.play().catch(() => {
-                // user gesture required etc.
+            const request = ++playRequestRef.current;
+            setPlaybackStatus("loading");
+            el.play().catch((error: unknown) => {
+                if (request !== playRequestRef.current) return;
+                setPlaybackStatus(error instanceof DOMException && error.name === "AbortError"
+                    ? "idle"
+                    : "error");
             });
         }
     };
@@ -218,7 +230,7 @@ export function AudioTrack({
     return (
         <div
             ref={containerRef}
-            className={`
+            className={isHero ? `${styles.heroPlayer} ${className ?? ""}` : `
         flex w-full max-w-full items-center text-[0.7rem] text-zinc-100
         ${compactOnMobile
             ? "audio-track--compact gap-1 sm:gap-2 sm:rounded-md sm:border sm:border-zinc-700 sm:bg-black/70 sm:px-3 sm:py-2 sm:shadow-sm sm:backdrop-blur-sm"
@@ -251,8 +263,21 @@ export function AudioTrack({
                     onPlay?.();
                 }}
                 onPause={() => {
+                    playRequestRef.current++;
                     setIsPlaying(false);
+                    setPlaybackStatus("idle");
                     onPause?.();
+                }}
+                onPlaying={() => setPlaybackStatus("idle")}
+                onWaiting={() => {
+                    if (!audioRef.current?.paused) setPlaybackStatus("loading");
+                }}
+                onError={() => setPlaybackStatus("error")}
+                onEmptied={() => {
+                    setIsPlaying(false);
+                    setDuration(0);
+                    setCurrentTime(0);
+                    setPlaybackStatus("idle");
                 }}
                 onTimeUpdate={syncCurrentTime}
                 onDurationChange={syncDuration}
@@ -261,8 +286,10 @@ export function AudioTrack({
                 onLoadedMetadata={syncDuration}
                 onEnded={() => {
                     hasAppliedStartRef.current = false;
+                    playRequestRef.current++;
                     setIsPlaying(false);
                     setCurrentTime(0);
+                    setPlaybackStatus("idle");
                     onPause?.();
                 }}
             />
@@ -271,24 +298,33 @@ export function AudioTrack({
             <button
                 type="button"
                 onClick={togglePlay}
-                className={`
+                className={isHero ? styles.play : `
           flex shrink-0 items-center justify-center rounded-full text-black
           ${compactOnMobile ? "h-11 w-11 sm:h-7 sm:w-7" : "h-7 w-7"}
           hover:brightness-125 active:scale-95
           transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--artist-accent-bright)]
         `}
-                aria-label={`${isPlaying ? "Pause" : "Play"}${trackTitle ? ` ${trackTitle}` : ""}`}
+                aria-label={isHero
+                    ? `${playbackStatus === "loading" ? "Cancel loading" : isPlaying ? "Pause preview of" : "Play preview of"} ${trackTitle ?? id}`
+                    : `${isPlaying ? "Pause" : "Play"}${trackTitle ? ` ${trackTitle}` : ""}`}
+                aria-busy={isHero && playbackStatus === "loading" ? true : undefined}
+                aria-describedby={isHero && playbackStatus === "error" ? errorId : undefined}
                 title={`${isPlaying ? "Pause" : "Play"}${trackTitle ? ` ${trackTitle}` : ""}`}
             >
-                <span
+                {isHero ? (
+                    <>
+                        {isPlaying ? <Pause size={16} fill="currentColor" aria-hidden="true" /> : <Play size={16} fill="currentColor" aria-hidden="true" />}
+                        <span>{playbackStatus === "loading" ? "Loading audio…" : playbackStatus === "error" ? "Try preview again" : isPlaying ? "Pause preview" : "Play preview"}</span>
+                    </>
+                ) : <span
                     className="flex h-7 w-7 items-center justify-center rounded-full"
                     style={{ backgroundColor: "var(--artist-accent-bright, #60a5fa)" }}
                 >
                     {isPlaying ? <Pause className="h-3.5 w-3.5" fill="currentColor" /> : <Play className="h-3.5 w-3.5" fill="currentColor" />}
-                </span>
+                </span>}
             </button>
 
-            <div className="flex min-w-0 flex-1 items-center gap-2">
+            <div className={isHero ? styles.timeline : "flex min-w-0 flex-1 items-center gap-2"}>
                 {/* progress bar */}
                 <input
                     aria-label={`Seek ${trackTitle ?? id}`}
@@ -298,14 +334,15 @@ export function AudioTrack({
                     max={duration || 0}
                     step={0.1}
                     value={currentTime}
+                    disabled={isHero && !duration}
                     onChange={(e) => handleSeek(Number(e.target.value))}
                     onInput={(e) => handleSeek(Number(e.currentTarget.value))}
-                    className="audio-track-seek
+                    className={isHero ? styles.seek : `audio-track-seek
                       h-1 min-w-0 flex-1
                       cursor-pointer
                     accent-[var(--artist-accent-bright)]
-                    "
-                    style={compactOnMobile ? {
+                    `}
+                    style={compactOnMobile || isHero ? {
                         "--audio-progress": `${duration > 0 ? Math.min(100, Math.max(0, currentTime / duration * 100)) : 0}%`,
                     } as CSSProperties : undefined}
                 />
@@ -313,19 +350,19 @@ export function AudioTrack({
                 {/* time + playing indicator */}
                 <div className="flex shrink-0 items-center gap-1">
                     <span
-                        className="whitespace-nowrap text-[0.65rem] text-zinc-300"
+                        className={isHero ? styles.time : "whitespace-nowrap text-[0.65rem] text-zinc-300"}
                         style={{
                             fontVariantNumeric: "tabular-nums", // all digits same width
                             minWidth: "9.5ch",
                             textAlign: "right",
                         }}
                     >
-                        {formatTime(currentTime)} / {formatTime(duration)}
+                        {formatTime(currentTime)} / {isHero && !duration ? "—:—" : formatTime(duration)}
                     </span>
 
 
                     {/* F.A.T.E mini equalizer */}
-                    <div aria-hidden="true" className={`${compactOnMobile ? "hidden sm:flex" : "flex"} items-end gap-[2px] w-4 justify-end`}>
+                    {!isHero ? <div aria-hidden="true" className={`${compactOnMobile ? "hidden sm:flex" : "flex"} items-end gap-[2px] w-4 justify-end`}>
                         {isPlaying ? (
                             <>
                                 <span className="fate-bar origin-bottom" style={{animationDelay: "0s"}}/>
@@ -339,9 +376,15 @@ export function AudioTrack({
                                 <span className="h-[6px] w-[2px] rounded-full bg-zinc-600/70"/>
                             </>
                         )}
-                    </div>
+                    </div> : null}
                 </div>
             </div>
+
+            {isHero && playbackStatus === "error" ? (
+                <p id={errorId} role="alert" className={styles.message}>
+                    Audio couldn’t load. Try again or open Lyrics &amp; streaming.
+                </p>
+            ) : null}
 
         </div>
     );
