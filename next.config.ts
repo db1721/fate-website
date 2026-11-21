@@ -26,6 +26,7 @@ const nextConfig: NextConfig = {
         NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     },
     experimental: {
+        agentUpgrade: "security",
         optimizePackageImports: ["lucide-react"],
     },
 };
